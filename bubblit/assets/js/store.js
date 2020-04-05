@@ -6,11 +6,11 @@ export default createStore(function (state, action) {
             mode: 'lobby',
             lobby: {
                 roomList: [
-                    { id: 0, title: '1st Room', host: 'kynel', isPrivate: true, limit: 10, current: 6 },
-                    { id: 1, title: '2st Room', host: 'REA', isPrivate: false, limit: 12, current: 2 },
-                    { id: 2, title: '3st Room', host: 'Ano', isPrivate: true, limit: 3, current: 3 },
-                    { id: 3, title: '4st Room', host: 'kynel', isPrivate: false, limit: 2, current: 2 },
-                    { id: 4, title: '5st Room', host: 'REA', isPrivate: false, limit: 3, current: 1 },
+                    { id: 0, title: '1st Room', host: 'kynel', isPrivate: 'O', limit: 10, current: 6 },
+                    { id: 1, title: '2st Room', host: 'REA', isPrivate: 'X', limit: 12, current: 2 },
+                    { id: 2, title: '3st Room', host: 'Ano', isPrivate: 'O', limit: 3, current: 3 },
+                    { id: 3, title: '4st Room', host: 'kynel', isPrivate: 'X', limit: 2, current: 2 },
+                    { id: 4, title: '5st Room', host: 'REA', isPrivate: 'X', limit: 3, current: 1 },
                 ],
             },
             chatRoom: {
@@ -29,5 +29,9 @@ export default createStore(function (state, action) {
 
         }
         return state;
+    }
+    if (action.type === 'ENTER_CHAT') {
+        console.log(action.title);
+        return { ...state, mode: action.title }
     }
 }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
