@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
-class Hello extends React.Component {
+class Board extends React.Component {
 
     render() {
         return (
@@ -12,4 +12,4 @@ class Hello extends React.Component {
     }
 }
 
-export default Hello
+export default Board
