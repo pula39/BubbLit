@@ -25,7 +25,7 @@ import Board from './Component/Board'
 
 // This code starts up the React app when it runs in a browser. It sets up the routing
 // configuration and injects the app into a DOM element.
-ReactDOM.render(<ChatTestModule />, document.getElementById('react-app'))
+ReactDOM.render(<ChatTestModule />, document.getElementById('react-juno'))
 ReactDOM.render(
     <Provider store={store}>
         <Board />
