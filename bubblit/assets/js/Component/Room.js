@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Input } from 'semantic-ui-react'
+import { Divider, Input, Button } from 'semantic-ui-react'
 
 export default class Chat extends Component {
     constructor(props) {
@@ -42,6 +42,11 @@ export default class Chat extends Component {
                         }.bind(this)
                     }}
                 ></Input>
+                <p></p>
+                <Button onClick={function (e, data) {
+                    this.props.exitRoom();
+                }.bind(this)}
+                >Exit Room</Button>
             </div >
         )
     }

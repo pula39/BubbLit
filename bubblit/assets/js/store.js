@@ -30,10 +30,12 @@ export default createStore(function (state, action) {
         return state;
     }
     if (action.type === 'ENTER_CHAT') {
-        console.log(action.title);
         return { ...state, mode: action.title }
     }
     if (action.type === 'CHAT') {
         return { ...state, chatDB: state.chatDB.concat(action.data) }
+    }
+    if (action.type === 'EXIT') {
+        return { ...state, mode: 'lobby' }
     }
 }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

@@ -12,8 +12,10 @@ function mapReduxStateToReactProps(state) {
 function mapReduxDispatchToReactProps(dispatch) {
     return {
         onClick: function (data, id, time) {
-            console.log('clicked!!')
-            dispatch({ type: 'CHAT', data: data, id: id, time: time })
+            dispatch({ type: 'CHAT', data: data, id: id, time: time });
+        },
+        exitRoom: function () {
+            dispatch({ type: 'EXIT' });
         }
     }
 }
