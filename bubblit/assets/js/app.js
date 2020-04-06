@@ -19,8 +19,14 @@ import "phoenix_html"
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import ChatTestModule from './chatTestModule'
-
+import { Provider } from 'react-redux'
+import store from './store'
+import Board from './Component/Board'
 
 // This code starts up the React app when it runs in a browser. It sets up the routing
 // configuration and injects the app into a DOM element.
-ReactDOM.render(<ChatTestModule />, document.getElementById('react-app'))
+ReactDOM.render(<ChatTestModule />, document.getElementById('react-juno'))
+ReactDOM.render(
+    <Provider store={store}>
+        <Board />
+    </Provider>, document.getElementById('react-app'))
