@@ -24,7 +24,7 @@ class Board extends Component {
             return <Lobby></Lobby>;
         }
         else {
-            return 'else!!';
+            return 'Enter Chatting ROOM!';
         }
     }
 
