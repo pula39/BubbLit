@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Grid, Divider } from 'semantic-ui-react'
 import store from '../store'
 import Lobby from '../Container/Lobby'
+import Room from '../Container/Room'
 
 class Board extends Component {
 
@@ -24,7 +25,7 @@ class Board extends Component {
             return <Lobby></Lobby>;
         }
         else {
-            return 'Enter Chatting ROOM!';
+            return <Room></Room>;
         }
     }
 

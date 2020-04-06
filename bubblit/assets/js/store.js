@@ -17,21 +17,23 @@ export default createStore(function (state, action) {
                 chat: '',
                 id: '',
                 time: '',
-                showID: 'ALL',
+                showID: '',
                 character: [
                     'https://react.semantic-ui.com/images/avatar/small/rachel.png',
                     'https://react.semantic-ui.com/images/avatar/small/lindsay.png',
                     'https://react.semantic-ui.com/images/avatar/small/matthew.png',
                     'https://react.semantic-ui.com/images/avatar/small/veronika.jpg'
                 ],
-                chatDB: []
             },
-
+            chatDB: ['first chat', 'second chat', 'third chat']
         }
         return state;
     }
     if (action.type === 'ENTER_CHAT') {
         console.log(action.title);
         return { ...state, mode: action.title }
+    }
+    if (action.type === 'CHAT') {
+        return { ...state, chatDB: state.chatDB.concat(action.data) }
     }
 }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
