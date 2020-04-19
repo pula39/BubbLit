@@ -27,7 +27,9 @@ export default class ChatModule extends Component {
     render() {
         return (
             <div>
-                {this.chatRenderer()}
+                <div>
+                    {this.chatRenderer()}
+                </div>
                 <Input
                     name='ChatInput'
                     onChange={function (e) {

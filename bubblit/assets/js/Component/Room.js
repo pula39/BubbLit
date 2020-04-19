@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Divider, Input, Button } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import ChatModule from './ChatModule'
+import ShareSpace from './ShareSpace'
 
 export default class Chat extends Component {
     constructor(props) {
@@ -26,13 +27,22 @@ export default class Chat extends Component {
     }
 
     render() {
+        var i = 6;
         return (
             <div>
                 <h2>Room '{this.props.mode}'</h2>
-                <ChatModule
-                    chatDB={this.props.chatDB}
-                    onClick={this.props.onClick}
-                ></ChatModule>
+                <Grid divided>
+                    <Grid.Column width={i}>
+                        <ShareSpace></ShareSpace>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <ChatModule
+                            chatDB={this.props.chatDB}
+                            onClick={this.props.onClick}
+                        ></ChatModule>
+                    </Grid.Column>
+                </Grid>
+
             </div >
         )
     }
