@@ -27,6 +27,7 @@ export default class Chat extends Component {
     }
 
     render() {
+        // 이부분에 드래그시 크기변경로직 넣을 예정
         var i = 6;
         return (
             <div>
@@ -39,6 +40,7 @@ export default class Chat extends Component {
                         <ChatModule
                             chatDB={this.props.chatDB}
                             onClick={this.props.onClick}
+                            exitRoom={this.props.exitRoom}
                         ></ChatModule>
                     </Grid.Column>
                 </Grid>
