@@ -17,8 +17,6 @@ export default class Chat extends Component {
     }
 
     render() {
-        // 이부분에 드래그시 탭크기변경로직 넣을 예정
-        var width = '10';
         return (
             <div>
                 <h2>Room '{this.props.mode}'</h2>
@@ -26,11 +24,11 @@ export default class Chat extends Component {
                     <ResizableBox
                         width={500}
                         height={800}
-                        className="shareSpaceResizable"
                         minConstraints={[300, 800]}
                         maxConstraints={[900, 800]}
+                        resizeHandles={['e']}
                     >
-                        <Grid.Column className='shareSpace' width={width}>
+                        <Grid.Column className='shareSpace'>
                             <ShareSpace></ShareSpace>
                         </Grid.Column>
                     </ResizableBox>
