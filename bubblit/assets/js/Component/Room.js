@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react'
+import { Resizable, ResizableBox } from 'react-resizable';
 import ChatModule from './ChatModule'
 import ShareSpace from './ShareSpace'
+import '../../css/resizableBox.css'
+import '../../css/room.css'
+
 
 export default class Chat extends Component {
     constructor(props) {
@@ -12,30 +16,25 @@ export default class Chat extends Component {
         }
     }
 
-    chatRenderer() {
-        var i = 0;
-        var content = [];
-        while (i < this.props.chatDB.length) {
-            content.push(
-                <p>
-                    {this.props.chatDB[i]}
-                </p>
-            )
-            i += 1;
-        }
-        return content
-    }
-
     render() {
-        // 이부분에 드래그시 크기변경로직 넣을 예정
-        var i = 6;
+        // 이부분에 드래그시 탭크기변경로직 넣을 예정
+        var width = '10';
         return (
             <div>
                 <h2>Room '{this.props.mode}'</h2>
                 <Grid divided>
-                    <Grid.Column width={i}>
-                        <ShareSpace></ShareSpace>
-                    </Grid.Column>
+                    <ResizableBox
+                        width={500}
+                        height={800}
+                        className="shareSpaceResizable"
+                        minConstraints={[300, 800]}
+                        maxConstraints={[900, 800]}
+                    >
+                        <Grid.Column className='shareSpace' width={width}>
+                            <ShareSpace></ShareSpace>
+                        </Grid.Column>
+                    </ResizableBox>
+
                     <Grid.Column>
                         <ChatModule
                             chatDB={this.props.chatDB}
@@ -45,6 +44,10 @@ export default class Chat extends Component {
                     </Grid.Column>
                 </Grid>
 
+                <ResizableBox width={200} height={200}
+                    minConstraints={[100, 100]} maxConstraints={[300, 300]}>
+                    <span>For Test</span>
+                </ResizableBox>
             </div >
         )
     }
