@@ -84,7 +84,10 @@ export default class ChatModule extends Component {
             <div>
                 {this.chatboxRenderer()}
 
-                <div className='input'>
+                <Rnd
+                    className='input'
+                    position={{ x: 0, y: 870 }}
+                >
                     <Input
                         name='ChatInput'
                         onChange={function (e) {
@@ -105,7 +108,7 @@ export default class ChatModule extends Component {
                         this.props.exitRoom();
                     }.bind(this)}
                     >Exit Room</Button>
-                </div>
+                </Rnd>
             </div >
         )
     }
