@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Divider, Input, Button } from 'semantic-ui-react'
+import { Rnd } from "react-rnd"
+import '../../css/chatModule.css'
 
 export default class ChatModule extends Component {
     constructor(props) {
@@ -7,6 +9,11 @@ export default class ChatModule extends Component {
         this.state = {
             userID: 1,
             chatData: '',
+            // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
+            width: { 'first': 400, 'second': 400, 'third': 400, 'fourth': 400, 'fifth': 400, 'sixth': 400 },
+            height: { 'first': 250, 'second': 250, 'third': 250, 'fourth': 250, 'fifth': 250, 'sixth': 250 },
+            x: { 'first': 0, 'second': 450, 'third': 0, 'fourth': 450, 'fifth': 0, 'sixth': 450 },
+            y: { 'first': 0, 'second': 0, 'third': 300, 'fourth': 300, 'fifth': 600, 'sixth': 600 },
         }
     }
 
@@ -24,35 +31,82 @@ export default class ChatModule extends Component {
         return content
     }
 
+    chatboxRenderer() {
+        var content = [];
+        var classNames = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth']
+        classNames.forEach(name => {
+            content.push(
+                <Rnd className='chatarea'
+                    size={{ width: this.state.width[name], height: this.state.height[name] }}
+                    minWidth='200' minHeight='200'
+                    maxWidth='500' maxHeight='300'
+                    position={{ x: this.state.x[name], y: this.state.y[name] }}
+                    // 지금 그리드 자체에 문제가 있음
+                    // resizeGrid={[10, 10]}
+                    // dragGrid={[15, 15]}
+
+                    // 아랫부분 동작 원리를 알기위해 장황한 코딩을 했으나, 추후 수정예정임돠
+                    onDragStop={(e, d) => {
+                        var tempx = this.state.x;
+                        var tempy = this.state.y;
+                        tempx[name] = d.x;
+                        tempy[name] = d.y;
+                        this.setState({ x: tempx, y: tempy });
+                    }}
+                    onResizeStop={(e, direction, ref, delta, position) => {
+                        var tempw = this.state.width;
+                        var temph = this.state.height;
+                        var tempx = this.state.x;
+                        var tempy = this.state.y;
+                        tempw[name] = ref.style.width;
+                        temph[name] = ref.style.height;
+                        tempx[name] = position.x;
+                        tempy[name] = position.y;
+                        this.setState({
+                            width: tempw,
+                            height: temph,
+                            x: tempx,
+                            y: tempy
+                        });
+                    }}
+                >
+                    <div className={name}>
+                        {name} user
+                    </div>
+                </Rnd>
+            )
+        })
+        return content
+    }
+
     render() {
         return (
             <div>
-                <div>
-                    {this.chatRenderer()}
-                </div>
-                <Input
-                    name='ChatInput'
-                    onChange={function (e) {
-                        this.setState({ chatData: e.target.value })
+                {this.chatboxRenderer()}
+
+                <div className='input'>
+                    <Input
+                        name='ChatInput'
+                        onChange={function (e) {
+                            this.setState({ chatData: e.target.value })
+                        }.bind(this)}
+                        action={{
+                            icon: 'arrow up',
+                            onClick: function (e, data) {
+                                this.props.onClick(this.state.chatData, this.state.userID, Date());
+                                //this.setState({ chatData: '' });
+                                //var input = document.getElementsByName('chatInput');
+                                //input[0].value = ''; //e, data를 활용하여 초기화하는 방법이 있을것같음. 추후 수정
+                            }.bind(this)
+                        }}
+                    ></Input>
+                    <p></p>
+                    <Button onClick={function (e, data) {
+                        this.props.exitRoom();
                     }.bind(this)}
-                    action={{
-                        icon: 'arrow up',
-                        onClick: function (e, data) {
-                            this.props.onClick(this.state.chatData, this.state.userID, Date());
-                            //this.setState({ chatData: '' });
-                            //var input = document.getElementsByName('chatInput');
-                            //input[0].value = ''; //e, data를 활용하여 초기화하는 방법이 있을것같음. 추후 수정
-                        }.bind(this)
-                    }}
-                ></Input>
-                <p></p>
-                <Button onClick={function (e, data) {
-                    this.props.exitRoom();
-                }.bind(this)}
-                >Exit Room</Button>
-            </div>
+                    >Exit Room</Button>
+                </div>
+            </div >
         )
     }
-
-
 }

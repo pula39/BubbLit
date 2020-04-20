@@ -22,7 +22,7 @@ export default class Chat extends Component {
                 <h2>Room '{this.props.mode}'</h2>
                 <Grid divided>
                     <ResizableBox
-                        width={500}
+                        width={800}
                         height={800}
                         minConstraints={[300, 800]}
                         maxConstraints={[900, 800]}
