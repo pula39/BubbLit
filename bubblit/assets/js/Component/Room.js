@@ -41,11 +41,6 @@ export default class Chat extends Component {
                         ></ChatModule>
                     </Grid.Column>
                 </Grid>
-
-                <ResizableBox width={200} height={200}
-                    minConstraints={[100, 100]} maxConstraints={[300, 300]}>
-                    <span>For Test</span>
-                </ResizableBox>
             </div >
         )
     }
