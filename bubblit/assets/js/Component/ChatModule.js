@@ -39,7 +39,7 @@ export default class ChatModule extends Component {
                 <Rnd className='chatarea'
                     size={{ width: this.state.width[name], height: this.state.height[name] }}
                     minWidth='200' minHeight='200'
-                    maxWidth='500' maxHeight='300'
+                    maxWidth='800' maxHeight='500'
                     position={{ x: this.state.x[name], y: this.state.y[name] }}
                     // 지금 그리드 자체에 문제가 있음
                     // resizeGrid={[10, 10]}
