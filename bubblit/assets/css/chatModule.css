@@ -1,0 +1,55 @@
+.chatarea {
+    font-size: x-large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 27%;
+    height: 25%;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.first {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.second {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.third {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.fourth {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.fifth {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.fifth {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.sixth {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
+.input {
+    top:110%;
+    position: absolute;
+}
