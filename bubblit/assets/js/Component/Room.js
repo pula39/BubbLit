@@ -34,7 +34,7 @@ export default class Chat extends Component {
                 <Grid divided>
                     <ResizableBox
                         width={this.state.windowWidth * 0.4}
-                        height={this.state.windowHeight * 0.4}
+                        height={this.state.windowHeight * 0.8}
                         minConstraints={[300, 800]}
                         maxConstraints={[900, 800]}
                         resizeHandles={['e']}
