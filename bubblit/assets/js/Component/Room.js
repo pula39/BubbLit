@@ -12,7 +12,6 @@ export default class Chat extends Component {
         super(props);
         this.state = {
             userID: 1,
-            chatData: '',
             windowWidth: 0,
             windowHeight: 0
         }

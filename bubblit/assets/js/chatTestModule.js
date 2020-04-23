@@ -188,7 +188,6 @@ class ChatTestModule extends React.Component {
                                 return <font key={i}>{msg}<br></br></font>
                             })} </div>
                     </div >
-
                 </div >
             </div >
         )
