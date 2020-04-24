@@ -12,25 +12,34 @@ export default class Chat extends Component {
         super(props);
         this.state = {
             userID: 1,
-            chatData: '',
+            windowWidth: 0,
+            windowHeight: 0
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight
+        })
+    }
+
+    // ResizableBox에 초기 사이즈(width, height)는 숫자만 받음 => %값으로 줄 수 없음.
+    // 따라서, window 창 크기를 계산해서 직접 %를 계산해서 줘야 할듯.
     render() {
         return (
             <div>
                 <h2>Room '{this.props.mode}'</h2>
                 <Grid divided>
                     <ResizableBox
-                        width={800}
-                        height={800}
+                        width={this.state.windowWidth * 0.4}
+                        height={this.state.windowHeight * 0.8}
                         minConstraints={[300, 800]}
                         maxConstraints={[900, 800]}
                         resizeHandles={['e']}
                     >
-                        <Grid.Column className='shareSpace'>
-                            <ShareSpace></ShareSpace>
-                        </Grid.Column>
+                        <ShareSpace></ShareSpace>
+
                     </ResizableBox>
 
                     <Grid.Column>

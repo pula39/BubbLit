@@ -7,28 +7,12 @@ export default class ChatModule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: 1,
-            chatData: '',
-            // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
+                // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
             width: { 'first': 400, 'second': 400, 'third': 400, 'fourth': 400, 'fifth': 400, 'sixth': 400 },
             height: { 'first': 250, 'second': 250, 'third': 250, 'fourth': 250, 'fifth': 250, 'sixth': 250 },
             x: { 'first': 0, 'second': 450, 'third': 0, 'fourth': 450, 'fifth': 0, 'sixth': 450 },
             y: { 'first': 0, 'second': 0, 'third': 300, 'fourth': 300, 'fifth': 600, 'sixth': 600 },
         }
-    }
-
-    chatRenderer() {
-        var i = 0;
-        var content = [];
-        while (i < this.props.chatDB.length) {
-            content.push(
-                <p>
-                    {this.props.chatDB[i]}
-                </p>
-            )
-            i += 1;
-        }
-        return content
     }
 
     chatboxRenderer() {
@@ -83,26 +67,10 @@ export default class ChatModule extends Component {
         return (
             <div>
                 {this.chatboxRenderer()}
-
                 <Rnd
                     className='input'
                     position={{ x: 0, y: 870 }}
                 >
-                    <Input
-                        name='ChatInput'
-                        onChange={function (e) {
-                            this.setState({ chatData: e.target.value })
-                        }.bind(this)}
-                        action={{
-                            icon: 'arrow up',
-                            onClick: function (e, data) {
-                                this.props.onClick(this.state.chatData, this.state.userID, Date());
-                                //this.setState({ chatData: '' });
-                                //var input = document.getElementsByName('chatInput');
-                                //input[0].value = ''; //e, data를 활용하여 초기화하는 방법이 있을것같음. 추후 수정
-                            }.bind(this)
-                        }}
-                    ></Input>
                     <p></p>
                     <Button onClick={function (e, data) {
                         this.props.exitRoom();

@@ -4,7 +4,7 @@ import store from '../store'
 import Lobby from '../Container/Lobby'
 import Room from '../Container/Room'
 
-class Board extends Component {
+class Home extends Component {
 
     constructor(props) {
         super(props);
@@ -40,4 +40,4 @@ class Board extends Component {
     }
 }
 
-export default Board
+export default Home

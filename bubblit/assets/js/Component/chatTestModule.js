@@ -2,8 +2,8 @@ import React from 'react'
 import socket from './socket'
 import { Presence } from 'phoenix'
 // import { List } from 'semantic-ui-react'
-import Cat from '../static/images/cat.jpg'
-import '../css/chatPrototype.css'
+import Cat from './../../static/images/cat.jpg'
+import './../../css/chatPrototype.css'
 
 // 모듈 테스트용 입력 창
 
@@ -16,9 +16,16 @@ class ChatTestModule extends React.Component {
             chooseChannel: "",
             channel: "",
             inputMessage: "",
+            nickname: "",
             participants: [],
             received: [[], [], [], [], [], []]
         }
+    }
+
+    handleNickname(event) {
+        this.setState({
+            nickname: event.target.value
+        })
     }
 
     handleInputMessageSubmit(event) {
@@ -26,7 +33,7 @@ class ChatTestModule extends React.Component {
         if (this.state.inputMessage == "") {
             return
         }
-        this.state.channel.push("new_msg", { body: this.state.inputMessage })
+        this.state.channel.push("new_msg", { body: this.state.inputMessage, nickname: this.state.nickname })
         this.setState({
             inputMessage: ""
         })
@@ -54,7 +61,7 @@ class ChatTestModule extends React.Component {
                 .receive("ok", () => alert("기존 채널을 떠납니다!"))
         }
         this.setState({
-            channel: socket.channel(channelName)
+            channel: socket.channel(channelName, { nickname: this.state.nickname })
         }, () => {
             // 이해를 돕기 위한 console.log 분리
             let cur_channel = this.state.channel.join()
@@ -66,18 +73,6 @@ class ChatTestModule extends React.Component {
                     this.state.channel.on("presence_state", state => {
                         presences = Presence.syncState(presences, state)
                     })
-                    this.state.channel.on("bubble_history", resp => {
-                        console.log("버블히스토리납시오")
-                        console.dir(resp.history)
-                        var changes = { 'participants': this.state.participants, 'received': { ...this.state.received } }
-                        resp.history.forEach(history => {
-                            let user_id = history['user_id']
-                            let msg = history['content']
-
-                            changes = this.addNewMessageToChangesInplace(this.state, user_id, msg)
-                        })
-                        this.setState(changes)
-                    })
                 })
                 .receive("error", resp => { console.log("Unable to join", resp) })
 
@@ -87,43 +82,44 @@ class ChatTestModule extends React.Component {
                 // this.setState({
                 //     received: payload['body']
                 // })
-
-                var changes = { 'participants': this.state.participants, 'received': { ...this.state.received } }
-
-                let user_id = payload['user_id']
+                let nickname = payload['nickname']
                 let msg = payload['body']
+                // 오류가 나면 콜백을 넣어야 할 듯?
+                if (!this.state.participants.includes(nickname)) {
+                    this.setState({
+                        participants: this.state.participants.concat(nickname)
+                    })
+                }
 
-                changes = this.addNewMessageToChangesInplace(this.state, user_id, msg)
+                let find_nickname = (element) => {
+                    return element == nickname
+                }
 
-                this.setState(changes)
+                let user_idx = this.state.participants.findIndex(find_nickname)
+                let modified_received = this.state.received
+                if (modified_received[user_idx].length >= 5) {
+                    modified_received[user_idx].shift();
+                }
+
+                modified_received[user_idx].push(msg)
+                this.setState({
+                    received: modified_received
+                })
             })
 
         })
-
     }
-    addNewMessageToChangesInplace(changes, user_id, msg) {
-        let notInChanges = (changes.hasOwnProperty('participants') && changes['participants'].includes(user_id)) == false;
-        if (notInChanges) {
-            changes.participants = changes.participants.concat(user_id)
-        }
 
-        let find_user_id = (element) => {
-            return element == user_id
-        }
-
-        let user_idx = changes.participants.findIndex(find_user_id)
-        let modified_received = changes.received
-        if (modified_received[user_idx].length >= 5) {
-            modified_received[user_idx].shift();
-        }
-
-        changes.received[user_idx] = modified_received[user_idx].concat(msg)
-
-        return changes
-    }
     render() {
         return (
             <div className='roomarea'>
+                <h2> 닉네임 입력. 반드시 닉네임 먼저 쓰고 아래 두개 할 것.</h2>
+                <input
+                    className="input"
+                    type="text"
+                    value={this.state.nickname}
+                    onChange={this.handleNickname.bind(this)}
+                />
                 <form onSubmit={this.handleChooseChannelSubmit.bind(this)}>
                     <h2>채팅방 이름 작성</h2>
                     <input className="input"
@@ -157,9 +153,6 @@ class ChatTestModule extends React.Component {
                 </form>
                 <br />
                 <div className="proto-area">
-                    <div className="image-area">
-                        <img src={Cat} alt="이미지" />
-                    </div>
                     <div className="chat-area">
                         <div className="first-chatter chatting">
                             <h3>{this.state.participants[0]}</h3>
@@ -188,6 +181,7 @@ class ChatTestModule extends React.Component {
                                 return <font key={i}>{msg}<br></br></font>
                             })} </div>
                     </div >
+
                 </div >
             </div >
         )

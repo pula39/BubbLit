@@ -21,7 +21,7 @@ import * as ReactDOM from 'react-dom'
 import ChatTestModule from './chatTestModule'
 import { Provider } from 'react-redux'
 import store from './store'
-import Board from './Component/Board'
+import Home from './Component/Home'
 
 // This code starts up the React app when it runs in a browser. It sets up the routing
 // configuration and injects the app into a DOM element.
@@ -29,5 +29,5 @@ import Board from './Component/Board'
 
 ReactDOM.render(
     <Provider store={store}>
-        <Board />
+        <Home />
     </Provider>, document.getElementById('react-app'))
