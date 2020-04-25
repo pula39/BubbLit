@@ -14,7 +14,63 @@ export default class ChatModule extends Component {
             x: { 'first': 0, 'second': 450, 'third': 0, 'fourth': 450, 'fifth': 0, 'sixth': 450 },
             y: { 'first': 0, 'second': 0, 'third': 300, 'fourth': 300, 'fifth': 600, 'sixth': 600 },
         }
+        console.log('channelInitializer called');
+        this.channelInitializer();
+    channelInitializer() {
+        let joined = this.props.channel.join();
+        // join 할때 처리
+        joined
+            .receive('ok', response => {
+                alert('channel join!');
+                console.log(response);
+                console.log('joined successfully at ' + response)
+                // bubble_history 받을때 처리
+                this.props.channel.on('bubble_history', payload => {
+                    var changes = { 'participants': this.props.participants, 'contents': { ...this.props.contents } };
+                    console.log(payload);
+                    payload.history.reverse().forEach(history => {
+                        let user_id = history['user_id'];
+                        let msg = history['content'];
+                        changes = this.addMessageInChanges(changes, user_id, msg);
+                    })
+                    //여기에서 보내는 함수 호출함
+                    this.props.sendChanges(changes);
+                })
+            })
+            .receive('error', response => { console.log('Unable to join', response) })
+        // new_msg 받을때 처리
+        this.props.channel.on("new_msg", payload => {
+            var changes = { 'participants': this.props.participants, 'contents': { ...this.props.contents } };
+            let user_id = payload['user_id'];
+            let msg = payload['body'];
+            changes = this.addMessageInChanges(changes, user_id, msg);
+            this.props.sendChanges(changes);
+        })
+        //this.props.channel.push('new_msg', { body: '테스트 메세지임니담', nickname: 'tester' });
     }
+
+    // chatTestModule 함수 가져와서 사용
+    addMessageInChanges(changes, user_id, msg) {
+        let notInChanges = (changes.hasOwnProperty('participants') && (changes['participants'].includes(user_id)) == false);
+        if (notInChanges) {
+            changes.participants = changes.participants.concat(user_id)
+        }
+
+        let find_user_id = (element) => {
+            return element == user_id
+        }
+
+        let user_idx = changes.participants.findIndex(find_user_id)
+        let modified_contents = changes.contents;
+        if (modified_contents[user_idx].length >= 5) {
+            modified_contents[user_idx].shift();
+        }
+
+        changes.contents[user_idx] = modified_contents[user_idx].concat(msg)
+
+        return changes
+    }
+
 
     chatboxRenderer() {
         var content = [];

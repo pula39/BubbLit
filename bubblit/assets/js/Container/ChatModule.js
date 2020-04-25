@@ -5,6 +5,9 @@ function mapReduxStateToReactProps(state) {
     return {
         channel: state.channel,
         userName: state.userName
+        userName: state.userName,
+        contents: state.contents,
+        participants: state.participants,
     }
 }
 
