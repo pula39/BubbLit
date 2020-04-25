@@ -65,26 +65,6 @@ export default class ChatModule extends Component {
     }
 
     render() {
-        let joined = this.props.channel.join();
-        console.log(joined);
-        joined
-            .receive('ok', response => {
-                console.log(response);
-                console.log('joined successfully at ' + response)
-            })
-            .receive('error', response => { console.log('Unable to join', response) })
-        this.props.channel.on('bubble_history', payload => {
-            console.dir(payload.history);
-        })
-        this.props.channel.on("new_msg", payload => {
-            console.log(payload);
-            let nickname = payload['nickname'];
-            let msg = payload['body'];
-            console.log(msg);
-            console.log(userid);
-        })
-        this.props.channel.push('new_msg', { body: 'testMSG', nickname: this.props.userName });
-
         return (
             <div>
                 {this.chatboxRenderer()}
