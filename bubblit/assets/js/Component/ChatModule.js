@@ -7,15 +7,16 @@ export default class ChatModule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
-            width: { 'first': 400, 'second': 400, 'third': 400, 'fourth': 400, 'fifth': 400, 'sixth': 400 },
-            height: { 'first': 250, 'second': 250, 'third': 250, 'fourth': 250, 'fifth': 250, 'sixth': 250 },
-            x: { 'first': 0, 'second': 450, 'third': 0, 'fourth': 450, 'fifth': 0, 'sixth': 450 },
-            y: { 'first': 0, 'second': 0, 'third': 300, 'fourth': 300, 'fifth': 600, 'sixth': 600 },
+            width: [400, 400, 400, 400, 400, 400],
+            height: [250, 250, 250, 250, 250, 250],
+            x: [0, 450, 0, 450, 0, 450],
+            y: [0, 0, 300, 300, 600, 600],
         }
         console.log('channelInitializer called');
         this.channelInitializer();
+    }
+
     channelInitializer() {
         let joined = this.props.channel.join();
         // join 할때 처리
@@ -73,15 +74,17 @@ export default class ChatModule extends Component {
 
 
     chatboxRenderer() {
-        var content = [];
-        var classNames = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth']
-        classNames.forEach(name => {
-            content.push(
+        var message = [];
+        var classNames = this.props.participants;
+        for (var i = 0; i < classNames.length; i++) {
+            var temp = i;
+            //classNames.forEach(name => {
+            message.push(
                 <Rnd className='chatarea'
-                    size={{ width: this.state.width[name], height: this.state.height[name] }}
+                    size={{ width: this.state.width[temp], height: this.state.height[temp] }}
                     minWidth='200' minHeight='200'
                     maxWidth='800' maxHeight='500'
-                    position={{ x: this.state.x[name], y: this.state.y[name] }}
+                    position={{ x: this.state.x[temp], y: this.state.y[temp] }}
                     // 지금 그리드 자체에 문제가 있음
                     // resizeGrid={[10, 10]}
                     // dragGrid={[15, 15]}
@@ -90,8 +93,8 @@ export default class ChatModule extends Component {
                     onDragStop={(e, d) => {
                         var tempx = this.state.x;
                         var tempy = this.state.y;
-                        tempx[name] = d.x;
-                        tempy[name] = d.y;
+                        tempx[temp] = d.x;
+                        tempy[temp] = d.y;
                         this.setState({ x: tempx, y: tempy });
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
@@ -99,10 +102,10 @@ export default class ChatModule extends Component {
                         var temph = this.state.height;
                         var tempx = this.state.x;
                         var tempy = this.state.y;
-                        tempw[name] = ref.style.width;
-                        temph[name] = ref.style.height;
-                        tempx[name] = position.x;
-                        tempy[name] = position.y;
+                        tempw[temp] = ref.style.width;
+                        temph[temp] = ref.style.height;
+                        tempx[temp] = position.x;
+                        tempy[temp] = position.y;
                         this.setState({
                             width: tempw,
                             height: temph,
@@ -111,13 +114,18 @@ export default class ChatModule extends Component {
                         });
                     }}
                 >
-                    <div className={name}>
-                        {name} user
+                    <div className='general'>
+                        <h2>user_id: {i}</h2>
+                        <div>
+                            {this.props.contents[temp].map((msg, i) => {
+                                return <div key={i}>{msg}<br></br></div>
+                            })}
+                        </div>
                     </div>
                 </Rnd>
             )
-        })
-        return content
+        }
+        return message
     }
 
     render() {
@@ -130,9 +138,19 @@ export default class ChatModule extends Component {
                 >
                     <p></p>
                     <Button onClick={function (e, data) {
-                        this.props.exitRoom();
+                        this.props.exitRoom(this.props.channel);
                     }.bind(this)}
                     >Exit Room</Button>
+                </Rnd>
+                <Rnd
+                    className='input'
+                    position={{ x: 0, y: 920 }}
+                >
+                    <p></p>
+                    <Button onClick={function (e, data) {
+                        this.props.chattest(this.props.channel);
+                    }.bind(this)}
+                    >CHAT TEST</Button>
                 </Rnd>
             </div >
         )
