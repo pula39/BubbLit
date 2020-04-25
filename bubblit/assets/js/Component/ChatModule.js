@@ -7,7 +7,8 @@ export default class ChatModule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
+
+            // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
             width: { 'first': 400, 'second': 400, 'third': 400, 'fourth': 400, 'fifth': 400, 'sixth': 400 },
             height: { 'first': 250, 'second': 250, 'third': 250, 'fourth': 250, 'fifth': 250, 'sixth': 250 },
             x: { 'first': 0, 'second': 450, 'third': 0, 'fourth': 450, 'fifth': 0, 'sixth': 450 },
@@ -64,6 +65,23 @@ export default class ChatModule extends Component {
     }
 
     render() {
+        let joined = this.props.channel.join();
+        console.log(joined);
+        joined
+            .receive('ok', response => {
+                console.log(response);
+                console.log('joined successfully at ' + response)
+            })
+            .receive('error', response => { console.log('Unable to join', response) })
+        this.props.channel.on("new_msg", payload => {
+            console.log(payload);
+            let nickname = payload['nickname'];
+            let msg = payload['body'];
+            console.log(msg);
+            console.log(userid);
+        })
+        this.props.channel.push('new_msg', { body: 'testMSG', nickname: this.props.userName });
+
         return (
             <div>
                 {this.chatboxRenderer()}
