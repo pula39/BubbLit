@@ -15,7 +15,7 @@ export default class Lobby extends Component {
             }
             else {
                 active.push(<Button action={{ index: i }} onClick={function (e, data) {
-                    this.props.onClick(_roomList[data.action.index].title);
+                    this.props.enterRoom(_roomList[data.action.index].title);
                 }.bind(this)}>join</Button>)
             }
             content.push(

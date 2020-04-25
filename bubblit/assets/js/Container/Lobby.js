@@ -9,7 +9,7 @@ function mapReduxStateToReactProps(state) {
 
 function mapReduxDispatchToReactProps(dispatch) {
     return {
-        onClick: function (title) {
+        enterRoom: function (title) {
             dispatch({ type: 'ENTER_CHAT', title: title })
         }
     }
