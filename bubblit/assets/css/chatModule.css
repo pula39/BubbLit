@@ -7,6 +7,12 @@
     border-radius: 5px;
 }
 
+.general {
+    top:10%;
+    left:10%;
+    position: absolute;
+}
+
 .first {
     top:10%;
     left:10%;
