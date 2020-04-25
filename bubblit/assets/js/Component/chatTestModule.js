@@ -72,7 +72,6 @@ class ChatTestModule extends React.Component {
                     })
                 })
                 .receive("error", resp => { console.log("Unable to join", resp) })
-
             this.state.channel.on("new_msg", payload => {
                 // console.log(payload)
                 // this.setState({
