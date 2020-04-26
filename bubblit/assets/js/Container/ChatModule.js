@@ -20,8 +20,8 @@ function mapReduxDispatchToReactProps(dispatch) {
             channel.leave().receive('ok', () => alert('left channel'));
             dispatch({ type: 'EXIT' })
         },
-        chattest: function (channel) {
-            channel.push('new_msg', { body: '테스트메세지2입니당' });
+        sendChat: function (channel, msg) {
+            channel.push('new_msg', { body: msg });
         }
     }
 }

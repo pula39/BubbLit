@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Input, Button } from 'semantic-ui-react'
+import { Divider, Input, Button, Icon, Form } from 'semantic-ui-react'
 import { Rnd } from "react-rnd"
 import '../../css/chatModule.css'
 
@@ -12,6 +12,7 @@ export default class ChatModule extends Component {
             height: [250, 250, 250, 250, 250, 250],
             x: [0, 450, 0, 450, 0, 450],
             y: [0, 0, 300, 300, 600, 600],
+            inputMessage: '',
         }
         console.log('channelInitializer called');
         this.channelInitializer();
@@ -119,7 +120,7 @@ export default class ChatModule extends Component {
                         <h2>user_id: {i}</h2>
                         <div>
                             {this.props.contents[temp].map((msg, i) => {
-                                return <div key={i}>{msg}<br></br></div>
+                                return <div className='message' key={i}>{msg}<br></br></div>
                             })}
                         </div>
                     </div>
@@ -129,30 +130,41 @@ export default class ChatModule extends Component {
         return message
     }
 
+    sendChat() {
+        if (this.state.inputMessage == '')
+            return
+        this.props.sendChat(this.props.channel, this.state.inputMessage);
+        this.setState({
+            inputMessage: ''
+        })
+    }
+
+    handleInputMessage(event) {
+        this.setState({
+            inputMessage: event.target.value
+        })
+    }
+
     render() {
         return (
             <div>
                 {this.chatboxRenderer()}
-                <Rnd
-                    className='input'
-                    position={{ x: 0, y: 870 }}
-                >
-                    <p></p>
-                    <Button onClick={function (e, data) {
-                        this.props.exitRoom(this.props.channel);
-                    }.bind(this)}
-                    >Exit Room</Button>
-                </Rnd>
-                <Rnd
-                    className='input'
-                    position={{ x: 0, y: 920 }}
-                >
-                    <p></p>
-                    <Button onClick={function (e, data) {
-                        this.props.chattest(this.props.channel);
-                    }.bind(this)}
-                    >CHAT TEST</Button>
-                </Rnd>
+                <div >
+                    <Rnd enableResizing='false' size={{ width: '400', height: '30' }}>
+                        <Form onSubmit={function (e, data) { this.sendChat() }.bind(this)}>
+                            <Form.Input
+                                action={{ icon: 'chat' }}
+                                placeholder='drag here to move inputspace!!'
+                                value={this.state.inputMessage}
+                                onChange={this.handleInputMessage.bind(this)}
+                            ></Form.Input>
+                        </Form>
+                        <Button onClick={function (e, data) {
+                            this.props.exitRoom(this.props.channel);
+                        }.bind(this)}
+                        >Exit Room</Button>
+                    </Rnd>
+                </div>
             </div >
         )
     }
