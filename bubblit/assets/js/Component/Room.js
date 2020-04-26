@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { Resizable, ResizableBox } from 'react-resizable';
-import ChatModule from './ChatModule'
+import ChatModule from '../Container/ChatModule'
 import ShareSpace from './ShareSpace'
 import '../../css/resizableBox.css'
 import '../../css/room.css'
@@ -43,11 +43,7 @@ export default class Chat extends Component {
                     </ResizableBox>
 
                     <Grid.Column>
-                        <ChatModule
-                            chatDB={this.props.chatDB}
-                            onClick={this.props.onClick}
-                            exitRoom={this.props.exitRoom}
-                        ></ChatModule>
+                        <ChatModule></ChatModule>
                     </Grid.Column>
                 </Grid>
             </div >

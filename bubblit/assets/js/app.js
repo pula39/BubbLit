@@ -18,7 +18,6 @@ import "phoenix_html"
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import ChatTestModule from './chatTestModule'
 import { Provider } from 'react-redux'
 import store from './store'
 import Home from './Component/Home'

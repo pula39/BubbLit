@@ -4,7 +4,6 @@ import { Presence } from 'phoenix'
 // import { List } from 'semantic-ui-react'
 import Cat from './../../static/images/cat.jpg'
 import './../../css/chatPrototype.css'
-
 // 모듈 테스트용 입력 창
 
 
@@ -21,13 +20,11 @@ class ChatTestModule extends React.Component {
             received: [[], [], [], [], [], []]
         }
     }
-
     handleNickname(event) {
         this.setState({
             nickname: event.target.value
         })
     }
-
     handleInputMessageSubmit(event) {
         event.preventDefault();
         if (this.state.inputMessage == "") {
@@ -75,8 +72,6 @@ class ChatTestModule extends React.Component {
                     })
                 })
                 .receive("error", resp => { console.log("Unable to join", resp) })
-
-
             this.state.channel.on("new_msg", payload => {
                 // console.log(payload)
                 // this.setState({
