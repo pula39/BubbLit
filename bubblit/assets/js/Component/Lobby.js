@@ -6,16 +6,18 @@ export default class Lobby extends Component {
     render() {
         var content = [];
         var _props = this.props;
-        var _roomList = this.props.lobby.roomList;
+        var _roomList = this.props.roomList;
         var i = 0;
         while (i < _roomList.length) {
             var active = [];
             if (_roomList[i].current >= _roomList[i].limit) {
-                active.push(<Button loading>Loading</Button>)
+                active.push(<Button active='false'>full</Button>)
             }
             else {
                 active.push(<Button action={{ index: i }} onClick={function (e, data) {
-                    this.props.enterRoom(_roomList[data.action.index].title);
+                    // 방정보 갱신은 나중에 하자
+                    //_roomList[data.action.index].current += 1;
+                    this.props.enterRoom(_roomList[data.action.index].title, _roomList);
                 }.bind(this)}>join</Button>)
             }
             content.push(

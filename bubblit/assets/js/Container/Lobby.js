@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 
 function mapReduxStateToReactProps(state) {
     return {
-        lobby: state.lobby
+        roomList: state.roomList
     }
 }
 
 function mapReduxDispatchToReactProps(dispatch) {
     return {
-        enterRoom: function (title) {
-            dispatch({ type: 'ENTER_CHAT', title: title })
+        enterRoom: function (title, roomlist) {
+            dispatch({ type: 'ENTER_CHAT', title: title, roomlist: roomlist })
         }
     }
 }
