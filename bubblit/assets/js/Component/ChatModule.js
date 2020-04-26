@@ -77,7 +77,7 @@ export default class ChatModule extends Component {
         var message = [];
         var classNames = this.props.participants;
         for (var i = 0; i < classNames.length; i++) {
-            var temp = i;
+            let temp = i;
             //classNames.forEach(name => {
             message.push(
                 <Rnd className='chatarea'
@@ -91,6 +91,7 @@ export default class ChatModule extends Component {
 
                     // 아랫부분 동작 원리를 알기위해 장황한 코딩을 했으나, 추후 수정예정임돠
                     onDragStop={(e, d) => {
+                        console.log(temp);
                         var tempx = this.state.x;
                         var tempy = this.state.y;
                         tempx[temp] = d.x;
