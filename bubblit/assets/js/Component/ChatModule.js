@@ -66,10 +66,10 @@ export default class ChatModule extends Component {
 
         let user_idx = changes.participants.findIndex(find_user_id)
         let modified_contents = changes.contents;
-        if (modified_contents[user_idx].length >= 5) {
-            //스크롤바 테스트를 위해 잠시 지워둠
-            //modified_contents[user_idx].shift();
-        }
+        // if (modified_contents[user_idx].length >= 5) {
+        //     //스크롤바 테스트를 위해 잠시 지워둠
+        //     //modified_contents[user_idx].shift();
+        // }
 
         changes.contents[user_idx] = modified_contents[user_idx].concat(msg)
 
