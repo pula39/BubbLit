@@ -20,10 +20,7 @@ export default class ChatBox extends Component {
     }
 
     handleUpdate() {
-        //console.log(this.scrollbarRef.current.scrollToBottom());
         this.scrollbarRef.current.scrollToBottom()
-        //this.scrollBar.scrollToBottom()
-        //this.scrollbarRef.scrollbar.scrollToBottom()
     }
 
     render() {
@@ -69,13 +66,6 @@ export default class ChatBox extends Component {
                             className='scrollbar'
                             ref={this.scrollbarRef}
                             onUpdate={this.handleUpdate.bind(this)}
-                            //onUpdate={() => {
-                            //this.scrollBar.scrollToBottom();
-                            //const scrollbar = document.getElementsByClassName('scrollbar');
-                            //console.log(scrollbar[this.props.temp]);
-                            //scrollbar[this.props.temp].scrollTop(100);
-                            //scrollbar[this.props.temp].scrollbar.scrollToBottom();
-                            //}}
                             style={{ height: this.state.height[this.props.temp] - 50 }}>
                             {this.props.contents[this.props.temp].map((msg, i) => {
                                 return <div className='message' key={i}>{msg}<br></br></div>
