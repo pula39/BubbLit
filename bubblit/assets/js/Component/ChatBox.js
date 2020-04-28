@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Input, Button, Icon, Form } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import { Rnd } from "react-rnd"
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import '../../css/chatModule.css'
@@ -20,13 +20,23 @@ export default class ChatBox extends Component {
     }
 
     handleUpdate() {
-        this.scrollbarRef.current.scrollToBottom()
+        if (this.scrollbarRef.current === null)
+            return
+        else {
+            this.scrollbarRef.current.scrollTop(10000);
+        }
+        //this.forceUpdate();
+        //this.scrollbarRef.current.scrollToBottom()
+
+
     }
 
     render() {
         return (
             <div>
-                <Rnd className='chatarea'
+                <Rnd
+                    onChange={this.handleUpdate()}
+                    className='chatarea'
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
                     minWidth='200' minHeight='200'
                     maxWidth='800' maxHeight='500'
@@ -37,6 +47,7 @@ export default class ChatBox extends Component {
 
                     // 아랫부분 동작 원리를 알기위해 장황한 코딩을 했으나, 추후 수정예정임돠
                     onDragStop={(e, d) => {
+                        e.preventDefault();
                         var tempx = this.state.x;
                         var tempy = this.state.y;
                         tempx[this.props.temp] = d.x;
@@ -44,6 +55,7 @@ export default class ChatBox extends Component {
                         this.setState({ x: tempx, y: tempy });
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
+                        e.preventDefault();
                         var tempw = this.state.width;
                         var temph = this.state.height;
                         var tempx = this.state.x;
@@ -66,14 +78,17 @@ export default class ChatBox extends Component {
                             className='scrollbar'
                             ref={this.scrollbarRef}
                             onUpdate={this.handleUpdate.bind(this)}
+                            //onChange={this.handleUpdate.bind(this)}
+
+                            autoHide={true}
                             style={{ height: this.state.height[this.props.temp] - 50 }}>
                             {this.props.contents[this.props.temp].map((msg, i) => {
-                                return <div className='message' key={i}>{msg}<br></br></div>
+                                return <Container key={i} style={{ margin: 5, padding: 0 }} className='message'>{msg}<br></br></Container>
                             })}
                         </Scrollbars>
                     </div>
                 </Rnd >
-            </div>
+            </div >
         )
     }
 }

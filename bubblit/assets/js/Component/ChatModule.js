@@ -89,23 +89,20 @@ export default class ChatModule extends Component {
         }
         return message
     }
-    handleUpdate() {
-        //console.log(this.scrollbarRef.current.scrollToBottom());
-        //this.scrollbarRef.current.scrollToBottom()
-        //this.scrollBar.scrollToBottom()
-        this.scrollbarRef.scrollbar.scrollToBottom()
-    }
-    sendChat() {
+
+    sendChat(e) {
         if (this.state.inputMessage == '')
             return
         this.props.sendChat(this.props.channel, this.state.inputMessage);
         this.setState({
+            ...this.state,
             inputMessage: ''
         })
     }
 
     handleInputMessage(event) {
         this.setState({
+            ...this.state,
             inputMessage: event.target.value
         })
     }
