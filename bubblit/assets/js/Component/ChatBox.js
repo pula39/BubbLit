@@ -33,10 +33,28 @@ export default class ChatBox extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.addAllLength(prevProps.contents) === this.addAllLength(this.props.contents))
+        if (this.addAllLength(prevProps.contents[this.props.temp])
+            === this.addAllLength(this.props.contents[this.props.temp]))
             return;
-        //console.log('chatbox did updated!');
+        console.log('chatbox' + this.props.temp + 'updated!');
         this.handleUpdate();
+        this.focusHandler();
+    }
+
+    colorChangerByNum(num, element) {
+        // num 0~5 -> 채팅창 색상   6 -> white
+        let color = ['#F5A9A9', '#F2F5A9', '#A9F5A9', '#CEE3F6', '#F6CEEC', '#E6E6E6', '#FFFFFF'];
+        element.style.backgroundColor = color[num];
+    }
+
+    focusHandler() {
+        var element = document.getElementsByClassName("chatarea")[this.props.temp];
+        console.log(element);
+        this.colorChangerByNum(this.props.temp, element);
+        setTimeout(function () {
+            console.log('시간초 지남');
+            this.colorChangerByNum(6, element);
+        }.bind(this), 300)
     }
 
     handleUpdate() {
@@ -52,6 +70,8 @@ export default class ChatBox extends Component {
             <div>
                 <Rnd
                     className='chatarea'
+                    //bounds='.general'
+                    style={{ backgroundColor: '#FFFFFF', paddingLeft: '2', paddingRight: '2' }}
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
                     minWidth='200' minHeight='200'
                     maxWidth='800' maxHeight='500'
@@ -95,7 +115,12 @@ export default class ChatBox extends Component {
                             autoHide={true}
                             style={{ height: this.state.height[this.props.temp] - 50 }}>
                             {this.props.contents[this.props.temp].map((msg, i) => {
-                                return <Container key={i} style={{ margin: 5, padding: 0 }} className='message'>{msg}<br></br></Container>
+                                return <Container
+                                    key={i}
+                                    style={{ margin: 5, padding: 0, backgroundColor: '#FFFFFF' }}
+                                    className='message'>
+                                    {msg}
+                                    <br></br></Container>
                             })}
                         </Scrollbars>
                     </div>

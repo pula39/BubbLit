@@ -4,6 +4,15 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border: 2px solid black;
     border-radius: 5px;
+    transition: background-color 0.1s;
+}
+
+.highlight{
+    background-image: URL('../static/images/cocoro.gif');
+}
+
+.highlightend{
+    background-image: URL('');
 }
 
 .message {
