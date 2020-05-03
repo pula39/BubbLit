@@ -22,6 +22,7 @@ export default class ChatBox extends Component {
     componentDidMount() {
         //console.log('new chatbox rendered!');
         this.handleUpdate();
+        this.blurAllMessage();
     }
 
     addAllLength(contents) {
@@ -39,6 +40,50 @@ export default class ChatBox extends Component {
         console.log('chatbox' + this.props.temp + 'updated!');
         this.handleUpdate();
         this.focusHandler();
+        this.blurCurrentSendMessage();
+    }
+
+    // blur를 class값을 추가해서 바꿔줫는데 기존 style값을 바꿔줘도 댈듯.. 일단 그냥 놔둠
+    blurAllMessage() {
+        let timer = setTimeout(function () {
+            let messages = document.getElementsByClassName("message");
+            for (var message of messages) {
+                message.classList.add('blur');
+            }
+        }.bind(this), 100)
+        timer;
+    }
+
+    blurCurrentSendMessage() {
+        let messages = document.getElementsByClassName("message");
+        let lastIdx = this.props.contents[this.props.temp].length - 1;
+
+        console.log(messages);
+        console.log(this.props.temp);
+        for (let i = 0; i < this.props.temp; i++) {
+            lastIdx += this.props.contents[i].length
+        }
+
+        let lastMessage = messages[lastIdx];
+
+
+        let timer = setTimeout(function () {
+            lastMessage.classList.add('blur');
+        }.bind(this), 13000)
+        timer;
+        //if (this.state.isTimerRunning == true)
+        //    clearTimeout(timer);
+        //this.setState({ isTimerRunning: true });
+
+
+        //let messages = document.getElementsByClassName("message");
+        //let lastMessage = messages[messages.length - 1];
+        //lastMessage.classList.add('blur');
+
+        //let messages = document.getElementsByClassName("message");
+        //for (var message of messages) {
+        //    message.classList.add('blur');
+        //}
     }
 
     colorChangerByNum(num, element) {
@@ -48,11 +93,10 @@ export default class ChatBox extends Component {
     }
 
     focusHandler() {
-        var element = document.getElementsByClassName("chatarea")[this.props.temp];
-        console.log(element);
+        let element = document.getElementsByClassName("chatarea")[this.props.temp];
+        //console.log(element);
         this.colorChangerByNum(this.props.temp, element);
         setTimeout(function () {
-            console.log('시간초 지남');
             this.colorChangerByNum(6, element);
         }.bind(this), 300)
     }

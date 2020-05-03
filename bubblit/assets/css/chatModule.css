@@ -11,8 +11,12 @@
     background-image: URL('../static/images/cocoro.gif');
 }
 
-.highlightend{
+/*.highlightend{
     background-image: URL('');
+}*/
+
+.blur{
+    opacity: 0.3;
 }
 
 .message {
