@@ -40,6 +40,7 @@ export default class ChatModule extends Component {
                         let user_id = history['user_id'];
                         let msg = history['content'];
                         this.addMessageInChanges(changes, user_id, msg);
+                        this.props.setHistory(payload);
                     })
 
                     changes['users'] = payload.users;
@@ -59,6 +60,12 @@ export default class ChatModule extends Component {
                     let msg = payload['body'];
                     this.addMessageInChanges(changes, user_id, msg);
                     this.props.sendChanges(changes);
+
+                    //새 메세지를 받을때마다 history state update
+                    let history_payload = {id: this.props.history.bubble_history.length + 1, content: payload.body, user_id: payload.user_id, inserted_at: payload.inserted_at};
+                    let new_history = {...this.props.history};
+                    new_history.bubble_history = new_history.bubble_history.concat(history_payload);
+                    this.props.appendHistory(new_history);
                 })
             })
             .receive('error', response => { console.log('Unable to join', response) })

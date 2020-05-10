@@ -24,6 +24,7 @@ export default createStore(function (state, action) {
             current_room_id: 0,
 
             //ChatModule
+            history: {},
             contents: [[], [], [], [], [], []],
             participants: []
         }
@@ -52,5 +53,13 @@ export default createStore(function (state, action) {
     if (action.type === 'EXIT') {
         //channel 구독해지 및 state 초기화
         return { ...state, mode: 'lobby', channel: '', contents: [[], [], [], [], []], participants: [] }
+    }
+    if (action.type === 'SET_HISTORY') {
+        //history 값을 변경
+        return { ...state, history: action.history }
+    }
+    if (action.type === 'INSERT_HISTORY') {
+        //history 값을 업데이트
+        return { ...state, history: action.history }
     }
 }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

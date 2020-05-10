@@ -8,6 +8,7 @@ function mapReduxStateToReactProps(state) {
         users: state.users,
         contents: state.contents,
         participants: state.participants,
+        history: state.history,
     }
 }
 
@@ -23,6 +24,12 @@ function mapReduxDispatchToReactProps(dispatch) {
         },
         sendChat: function (channel, msg) {
             channel.push('new_msg', { body: msg });
+        },
+        setHistory: function (history) {
+            dispatch({ type : 'SET_HISTORY', history: history });
+        },
+        appendHistory: function (new_history) {
+            dispatch({ type : 'INSERT_HISTORY', history: new_history});
         }
     }
 }

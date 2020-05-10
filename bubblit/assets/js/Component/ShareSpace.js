@@ -4,6 +4,7 @@ import Cat from '../../static/images/cat.jpg'
 import YoutubePanel from './ShareSpaceComponent/youtube'
 import DocsPanel from './ShareSpaceComponent/googledocs'
 import ImagePanel from './ShareSpaceComponent/shareimage'
+import LogPanel from './ShareSpaceComponent/LogPanel'
 import './../../css/shareSpace.css'
 
 export default class ShareSpace extends Component {
@@ -77,7 +78,8 @@ export default class ShareSpace extends Component {
                 menuItem: 'Docs', render: () => <Tab.Pane className="sharespace-tab"><DocsPanel /></Tab.Pane>
             },
             {
-                menuItem: 'Log', render: () => <Tab.Pane className="sharespace-tab">ChatLog</Tab.Pane>
+                menuItem: 'Log', render: () => <Tab.Pane className="sharespace-tab"><LogPanel 
+                    history={this.props.history }/></Tab.Pane>
             },
             {
                 menuItem: 'IMG', render: () => <Tab.Pane className="sharespace-tab"><ImagePanel

@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 function mapReduxStateToReactProps(state) {
     return {
         current_room_id: state.current_room_id,
-        channel: state.channel
+        channel: state.channel,
+        history: state.history,
     }
 }
 
