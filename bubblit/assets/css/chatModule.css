@@ -2,8 +2,9 @@
     font-size: x-large;
     line-height: 120%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 2px solid black;
-    border-radius: 5px;
+    border: 2px solid gray;
+    border-right: 6px solid gray;
+    border-bottom: 6px solid gray;
     transition: background-color 0.1s;
 }
 

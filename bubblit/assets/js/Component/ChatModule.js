@@ -161,6 +161,7 @@ export default class ChatModule extends Component {
                 <div>
                     <Rnd enableResizing="False"
                         size={{ width: '400', height: '30' }}
+                        bounds='window'
                         position={{ x: this.state.chatInputboxX, y: this.state.chatInputboxY }}
                         onDragStop={(e, d) => {
                             this.setState({ chatInputboxX: d.x, chatInputboxY: d.y });

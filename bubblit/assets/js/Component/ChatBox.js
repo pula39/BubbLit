@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container } from 'semantic-ui-react'
-import { Rnd } from "react-rnd"
+import { Rnd } from 'react-rnd'
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import '../../css/chatModule.css'
 
@@ -114,7 +114,7 @@ export default class ChatBox extends Component {
             <div>
                 <Rnd
                     className='chatarea'
-                    //bounds='.general'
+                    bounds='window'
                     style={{ backgroundColor: '#FFFFFF', paddingLeft: '2', paddingRight: '2' }}
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
                     minWidth='200' minHeight='200'
@@ -151,21 +151,24 @@ export default class ChatBox extends Component {
                         });
                     }}
                 >
-                    <div className='general'>
-                        <h2>{this.props.name}</h2>
+                    <div className='general'
+                    style={{marginLeft: 10}}>
+                        <strong>{this.props.name}</strong>
                         <Scrollbars
                             className='scrollbar'
                             ref={this.scrollbarRef}
                             autoHide={true}
-                            style={{ height: this.state.height[this.props.temp] - 50 }}>
-                            {this.props.contents[this.props.temp].map((msg, i) => {
-                                return <Container
-                                    key={i}
-                                    style={{ margin: 5, padding: 0, backgroundColor: '#FFFFFF' }}
-                                    className='message'>
-                                    {msg}
-                                    <br></br></Container>
-                            })}
+                            style={{ height: this.state.height[this.props.temp] - 43 }}>
+                                <div style={{marginTop:20}}>
+                                {this.props.contents[this.props.temp].map((msg, i) => {
+                                    return <div
+                                        key={i}
+                                        style={{ marginTop: 0, marginLeft:0, marginRight:0, marginBottom:0, padding: 0, backgroundColor: '#FFFFFF' }}
+                                        className='message'>
+                                        {msg}
+                                        </div>
+                                })}
+                                </div>
                         </Scrollbars>
                     </div>
                 </Rnd >
