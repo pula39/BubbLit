@@ -88,7 +88,10 @@ defmodule Bubblit.Room.Monitor do
 
       true ->
         new_users = [user_id | user_list]
+        Util.log("user_list #{inspect(user_list)} -> #{inspect(new_users)}")
+
         new_room = Bubblit.Db.update_room(state.room_record, %{users: new_users})
+
         state = put_in(state.room_record, new_room) |> refresh_user(user_id, user)
 
         {{:ok, ret}, state}
@@ -96,7 +99,7 @@ defmodule Bubblit.Room.Monitor do
   end
 
   def refresh_user(state, user_id, user) do
-    refresh_users(state, user_id, user) |> refresh_room_user(user_id)
+    refresh_users(state, user_id, user)
   end
 
   defp refresh_users(state, user_id, user) do
@@ -106,27 +109,6 @@ defmodule Bubblit.Room.Monitor do
       Util.log("add new user information to monitor #{user_id}")
       users = Map.put(state[:users], user_id, user)
       Map.put(state, :users, users)
-    end
-  end
-
-  defp refresh_room_user(state, user_id) do
-    user_list = Map.get(state, [:room_record, :users], [])
-
-    cond do
-      user_id in user_list ->
-        state
-
-      length(user_list) >= 6 ->
-        Util.log_error(
-          "room#{state.room_record.id} user_id #{user_id} try add user but user max #{user_list}"
-        )
-
-        state
-
-      true ->
-        new_users = [user_id | user_list]
-        new_room = Bubblit.Db.update_room(state.room_record, %{users: new_users})
-        put_in(state.room_record, new_room)
     end
   end
 
