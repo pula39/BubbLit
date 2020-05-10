@@ -25,7 +25,7 @@ export default class ShareSpace extends Component {
         // 실제 store 구독은 각 pane 컴포넌트별로 해야 할 듯. props는 바뀌어선 안 되는 거니까...
         console.log(this.props.channel)
         if (this.props.channel != null) {
-            this.props.channel.on('room_history', payload => {
+            this.props.channel.on('room_after_join', payload => {
                 var change = {}
 
                 for (var tab_action_type in payload.tab_action_history) {

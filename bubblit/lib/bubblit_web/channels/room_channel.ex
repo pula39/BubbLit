@@ -54,7 +54,7 @@ defmodule BubblitWeb.RoomChannel do
 
     push(socket, "presence_state", Presence.list(socket))
 
-    push(socket, "room_history", after_join_dic)
+    push(socket, "room_after_join", after_join_dic)
 
     broadcast!(socket, "user_join", %{user_name: user.name, user_id: user_id})
 
@@ -65,7 +65,7 @@ defmodule BubblitWeb.RoomChannel do
   def handle_in("new_msg", %{"body" => body}, socket) do
     room_id = socket.assigns.room_record.id
     user_id = socket.assigns.user_id
-    d = DateTime.utc_now |> DateTime.to_string()
+    d = DateTime.utc_now() |> DateTime.to_string()
 
     Bubblit.Room.Monitor.add_message(room_id, user_id, body)
 
