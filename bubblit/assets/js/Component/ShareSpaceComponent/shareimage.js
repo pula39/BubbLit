@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Gluejar } from '@charliewilco/gluejar'
 import axios from 'axios'
+import { uploadFileRequest } from './upload_file_request'
 
 export default class ImagePanel extends Component {
     // 웹에서 이미지 링크 업로드 or/and 서버에 직접 업로드??
@@ -38,8 +39,21 @@ export default class ImagePanel extends Component {
         })
             .then(function (response) {
                 console.dir(response);
-                let a = response.data;
-                console.log(a)
+                let blob = response.data;
+                console.log(blob)
+
+                if (blob == null || blob == undefined) {
+                    console.log("blob is null")
+                    return;
+                }
+
+                uploadFileRequest(blob)
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
             })
             .catch(function (error) {
                 console.log(error);

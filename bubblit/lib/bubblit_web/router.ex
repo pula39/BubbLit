@@ -48,6 +48,8 @@ defmodule BubblitWeb.Router do
     pipe_through [:api, BubblitWeb.Plugs.Auth, :put_user_token]
 
     resources "/room/make", RoomController, except: [:index, :show]
+
+    post "/room/upload_photo", RoomController, :photo
   end
 
   defp put_user_token(conn, _) do
