@@ -30,12 +30,10 @@ defmodule BubblitWeb.Router do
 
     delete "/logout", SessionController, :delete
 
-    # 왠진 모르겠는데 이게 없으면 그냥 index가 안되더라...
     get "/", PageController, :index
 
-    # 왠진 모르겠는데 이게 없으면 그냥 index가 안되더라...
-    get "/main", PageController, :index
-
+    # 리액트 싱글 페이지 라우팅 작동 안되서 만든 임시코드
+    get "/room", PageController, :f__k_react
     # get "/*path", PageController, :index
   end
 
