@@ -36,9 +36,9 @@ export default class ChatModule extends Component {
                 console.log(response);
                 console.log('joined successfully at ' + response)
                 // bubble_history 받을때 처리
-                this.props.channel.on('room_history', payload => {
+                this.props.channel.on('room_after_join', payload => {
                     var changes = { 'participants': this.props.participants, 'contents': { ...this.props.contents } };
-                    console.log('room_history', payload);
+                    console.log('room_after_join', payload);
                     payload.bubble_history.reverse().forEach(history => {
                         let user_id = history['user_id'];
                         let msg = history['content'];
@@ -65,8 +65,8 @@ export default class ChatModule extends Component {
                     this.props.sendChanges(changes);
 
                     //새 메세지를 받을때마다 history state update
-                    let history_payload = {id: this.props.history.bubble_history.length + 1, content: payload.body, user_id: payload.user_id, inserted_at: payload.inserted_at};
-                    let new_history = {...this.props.history};
+                    let history_payload = { id: this.props.history.bubble_history.length + 1, content: payload.body, user_id: payload.user_id, inserted_at: payload.inserted_at };
+                    let new_history = { ...this.props.history };
                     new_history.bubble_history = new_history.bubble_history.concat(history_payload);
                     this.props.appendHistory(new_history);
                 })
