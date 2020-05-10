@@ -39,6 +39,7 @@ export default class ShareSpace extends Component {
                 this.setState(change)
             })
             this.props.channel.on("tab_action", payload => {
+                console.dir("tab action", payload)
                 var change = this.handleTabAction(payload['type'], payload['body'], payload['user_id'])
                 this.setState(change)
             })
@@ -57,11 +58,11 @@ export default class ShareSpace extends Component {
 
 
         switch (type) {
-            case "img_link":
+            case "img_refreshed":
                 this.setState({
                     tabIndex: tabs['image']
                 })
-                return { imageurl: body }
+                return { imageurl: "api/room/get_image/"+ this.props.current_room_id }
             case "youtube_link":
                 this.setState({
                     tabIndex: tabs['youtube']
@@ -76,13 +77,13 @@ export default class ShareSpace extends Component {
     }
 
     sendTabAction(type, body) {
-        this.props.channel.push(type, { body: body })
+        this.props.channel.push("tab_action", { type: type, body: body })
     }
 
-    handleImageUrlClick(event) {
+    handleImageUploadSuccess() {
         // Glurjar 적용중이라 실제 작동은 안하는듯
-        console.log("handleImageUrlClick")
-        this.sendTabAction("img_link", this.state.imageurlinput)
+        console.log("handleImageUploadSuccess")
+        this.sendTabAction("img_refreshed", "")
     }
 
     handleTabChange(e, data) {
@@ -108,13 +109,15 @@ export default class ShareSpace extends Component {
             },
             {
                 menuItem: 'IMG', render: () => <Tab.Pane className="sharespace-tab"><ImagePanel
-                    broadcastAction={this.handleImageUrlClick.bind(this)}
-                    channel={this.props.channel} /></Tab.Pane>
+                    broadcastAction={this.handleImageUploadSuccess.bind(this)}
+                    channel={this.props.channel} 
+                    room_id={this.props.current_room_id}/></Tab.Pane>
             },
         ]
 
         return (
             <div className="sharespace-div">
+                <img src={this.state.imageurl}></img>
                 <Tab className="sharespace-tab"
                     menu={{ color: 'blue', attatched: "false", tabular: false }}
                     panes={panes}

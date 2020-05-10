@@ -49,7 +49,8 @@ defmodule BubblitWeb.Router do
 
     resources "/room/make", RoomController, except: [:index, :show]
 
-    post "/room/upload_photo", RoomController, :photo
+    post "/room/upload_image/*room_id", RoomImageController, :new
+    get "/room/get_image/*room_id", RoomImageController, :show
   end
 
   defp put_user_token(conn, _) do

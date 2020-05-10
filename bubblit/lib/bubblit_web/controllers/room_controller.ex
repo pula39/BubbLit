@@ -44,11 +44,4 @@ defmodule BubblitWeb.RoomController do
       send_resp(conn, :no_content, "")
     end
   end
-
-  def photo(conn, %{"file" => file} = param) do
-    IO.inspect param, label: "Photo upload information"
-    # TODO: you can copy the uploaded file now,
-    #       because it gets deleted after this request
-    json(conn, "Uploaded #{file.filename} to a temporary directory")
-  end
 end

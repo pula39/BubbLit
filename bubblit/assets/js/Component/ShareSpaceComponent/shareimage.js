@@ -10,29 +10,22 @@ export default class ImagePanel extends Component {
         super(props)
         this.state = {
             imageurlinput: '',
-            broadcastAction: this.props.broadcastAction
+            broadcastAction: this.props.broadcastAction,
+            room_id: this.props.room_id
         }
     }
 
 
-    handleImageUrlInput(event) {
-        this.setState({
-            imageurlinput: event.target.value
-        })
-    }
-
     handleImageUrlClick(event) {
         this.state.broadcastAction(this.state.imageurlinput)
 
-        this.setState({
-            imageurlinput: ''
-        })
     }
 
     OnPaste(file) {
         var self = this
         console.log(file)
         var url = file.images[0]
+        let room_id = this.props.room_id;
 
         axios.get(url, {
             responseType: "blob"
@@ -47,8 +40,9 @@ export default class ImagePanel extends Component {
                     return;
                 }
 
-                uploadFileRequest(blob)
+                uploadFileRequest(room_id, blob)
                     .then(function (response) {
+                        self.state.broadcastAction();
                         console.log(response);
                     })
                     .catch(function (error) {
@@ -64,19 +58,12 @@ export default class ImagePanel extends Component {
         return (
             <div className="sharespace-tab">
                 <img src={this.props.imgurl} />
-                <input
-                    className="input"
-                    type="text"
-                    value={this.state.imageurlinput}
-                    onChange={this.handleImageUrlInput.bind(this)}
-                />
                 <Gluejar onPaste={this.OnPaste.bind(this)} onError={err => console.error(err)}>
                     {({ images }) =>
                         images.length > 0 &&
                         images.map(image => <img src={image} key={image} alt={`Pasted: ${image}`} />)
                     }
                 </Gluejar>
-                <button onClick={this.handleImageUrlClick.bind(this)}>이미지 변경</button>
             </div>
         )
     }
