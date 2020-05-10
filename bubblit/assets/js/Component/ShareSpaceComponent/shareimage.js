@@ -22,10 +22,16 @@ export default class ImagePanel extends Component {
     }
 
     OnPaste(file) {
+        if (file.images.length <= 0) {
+            return;
+        }
+
         var self = this
-        console.log(file)
-        var url = file.images[0]
         let room_id = this.props.room_id;
+
+        console.log(file)
+        var url = file.images[0];
+        file.images = []
 
         axios.get(url, {
             responseType: "blob"
