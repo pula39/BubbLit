@@ -43,12 +43,15 @@ export default class ChatModule extends Component {
                         let user_id = history['user_id'];
                         let msg = history['content'];
                         this.addMessageInChanges(changes, user_id, msg);
-                        this.props.setHistory(payload);
                     })
 
                     changes['users'] = payload.users;
-                    //여기에서 보내는 함수 호출함
                     this.props.sendChanges(changes);
+
+                    //Users도 같이 들어가있는 room_after_join의 Payload를 그대로 넣고 있음.
+                    //History를 구별해서 넣어야 한다.
+                    //Tab History도 추후에 같이 저장해얌으로 더더욱...
+                    this.props.setHistory(payload);
                 })
                 this.props.channel.on('user_join', payload => {
                     console.log('user_join', payload);
