@@ -5,6 +5,7 @@ import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import ChatBox from './ChatBox'
 import '../../css/chatModule.css'
 import { Link } from 'react-router-dom';
+import { Presence } from "phoenix"
 
 export default class ChatModule extends Component {
     constructor(props) {
@@ -18,7 +19,8 @@ export default class ChatModule extends Component {
             y: [0, 0, 300, 300, 600, 600],
             inputMessage: '',
             chatInputboxX: window.innerWidth * 0.4,
-            chatInputboxY: window.innerHeight * 0.8
+            chatInputboxY: window.innerHeight * 0.8,
+            presences: {}
         }
         console.log('channelInitializer called');
         this.channelInitializer();
@@ -67,6 +69,16 @@ export default class ChatModule extends Component {
                     let new_history = {...this.props.history};
                     new_history.bubble_history = new_history.bubble_history.concat(history_payload);
                     this.props.appendHistory(new_history);
+                })
+
+                this.props.channel.on("presence_state", state => {
+                    this.state.presences = Presence.syncState(this.state.presences, state)
+                    console.log("presence_state", this.state.presences)
+                })
+
+                this.props.channel.on("presence_diff", diff => {
+                    this.state.presences = Presence.syncDiff(this.state.presences, diff)
+                    console.log("presence_diff", this.state.presences)
                 })
             })
             .receive('error', response => { console.log('Unable to join', response) })
