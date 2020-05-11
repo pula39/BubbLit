@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Header, Icon } from 'semantic-ui-react'
+import { Grid, Header, Icon, Segment } from 'semantic-ui-react'
 import { Rnd } from 'react-rnd'
 import ChatModule from '../Container/ChatModule'
 import ShareSpace from '../Container/ShareSpace'

@@ -34,8 +34,9 @@ class CreateRoom extends Component {
             <div>
                 <Form onSubmit={function (e, data) { this.makeRoom() }.bind(this)}>
                     <Form.Input
-                        action={{ icon: 'chat' }}
-                        placeholder='take your room name'
+                        size='big'
+                        action={{ icon: 'send' }}
+                        placeholder='enter your room name!'
                         value={this.state.inputMessage}
                         onChange={this.handleInputMessage.bind(this)}
                     ></Form.Input>

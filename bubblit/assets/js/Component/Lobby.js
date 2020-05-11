@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Table } from 'semantic-ui-react'
+import { Button, Table, Header, Grid, Popup } from 'semantic-ui-react'
 import axios from 'axios'
 import CreateRoom from './CreateRoom'
 import { Link } from 'react-router-dom'
@@ -38,11 +38,11 @@ export default class Lobby extends Component {
             var active = [];
             var room = _roomList[i];
             if (room.current >= room.limit) {
-                active.push(<Button key={i} active="false">full</Button>)
+                active.push(<Button key={i} color='grey' active="false">full</Button>)
             }
             else {
                 active.push(
-                    <Link to="/room"><Button key={i} action={{ index: i }} onClick={function (e, data) {
+                    <Link to="/room"><Button secondary key={i} action={{ index: i }} onClick={function (e, data) {
                         var room_id = _roomList[data.action.index].id;
                         console.log(data.action.index);
                         console.log(room_id);
@@ -59,12 +59,6 @@ export default class Lobby extends Component {
                         </Table.Cell>
                         <Table.Cell>
                             {_roomList[i].title}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {_roomList[i].host}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {_roomList[i].isPrivate}
                         </Table.Cell>
                         <Table.Cell>
                             {_roomList[i].limit}
@@ -86,25 +80,33 @@ export default class Lobby extends Component {
 
         return (
             <div>
-                <h1>Welcome TO BubbLIT, {this.props.userName} !</h1>
-                <button onClick={this.userLogout.bind(this)}>로그아웃</button>
-                <Table>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>id</Table.HeaderCell>
-                            <Table.HeaderCell>title</Table.HeaderCell>
-                            <Table.HeaderCell>host</Table.HeaderCell>
-                            <Table.HeaderCell>isPrivate</Table.HeaderCell>
-                            <Table.HeaderCell>limit</Table.HeaderCell>
-                            <Table.HeaderCell>current</Table.HeaderCell>
-                            <Table.HeaderCell>users</Table.HeaderCell>
-                            <Table.HeaderCell>JOIN</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    {content}
-                </Table>
-                <CreateRoom />
-            </div>
+                <div style={{ paddingTop: 10, paddingLeft: 20, paddingRight: 20 }}>
+                    <Header as='h1' style={{ marginBottom: 0, fontSize: '4em' }}>
+                        BubbLIT
+                    </Header>
+                    <Header as='h3' style={{ marginTop: 5, marginBottom: 30, marginLeft: 10 }}>
+                        user: {this.props.userName}
+                        <Button size='tiny' style={{ marginLeft: 5 }} primary onClick={this.userLogout.bind(this)}>Logout</Button>
+                        <Popup position='bottom left' trigger={<Button secondary size='tiny'>CreateRoom</Button>} pinned on='click'>
+                            <CreateRoom />
+                        </Popup>
+                    </Header>
+                    <Table color='grey'>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>id</Table.HeaderCell>
+                                <Table.HeaderCell>title</Table.HeaderCell>
+                                <Table.HeaderCell>host</Table.HeaderCell>
+                                <Table.HeaderCell>current</Table.HeaderCell>
+                                <Table.HeaderCell>users</Table.HeaderCell>
+                                <Table.HeaderCell>JOIN</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        {content}
+                    </Table>
+
+                </div>
+            </div >
         )
 
     }

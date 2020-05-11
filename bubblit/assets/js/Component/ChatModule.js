@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Input, Button, Icon, Form } from 'semantic-ui-react'
+import { Divider, Input, Button, Icon, Form, Segment } from 'semantic-ui-react'
 import { Rnd } from "react-rnd"
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import ChatBox from './ChatBox'
@@ -190,16 +190,15 @@ export default class ChatModule extends Component {
                                         value={this.state.inputMessage}
                                         onChange={this.handleInputMessage.bind(this)}
                                     />
-                                    <Button type='submit'>Chat</Button>
-                                    <Link to="/"><Button>Exit Room</Button></Link>
+                                    <Button color='grey' type='submit'>Chat</Button>
+                                    <Link to="/"><Button secondary>Exit Room</Button></Link>
                                 </Form.Field>
                             </Form.Group>
 
                         </Form>
-
                     </Rnd>
                 </div>
-            </div>
+            </div >
         )
     }
 }
