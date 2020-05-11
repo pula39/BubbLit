@@ -138,7 +138,7 @@ export default class ShareSpace extends Component {
         return (
             <div className="sharespace-div">
                 <Tab className="outerfit"
-                    menu={{ color: 'blue', attatched: "false", tabular: false }}
+                    menu={{ size: 'huge', color: 'grey', inverted: true, attatched: false, tabular: false }}
                     panes={panes}
                     activeIndex={this.state.tabIndex}
                     onTabChange={this.handleTabChange.bind(this)}

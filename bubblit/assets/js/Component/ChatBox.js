@@ -9,12 +9,19 @@ import '../../css/chatModule.css'
 export default class ChatBox extends Component {
     constructor(props) {
         super(props);
+        let chatbox_x = window.innerWidth * 0.2;
+        let chatbox_y = window.innerHeight * 0.25;
+        let x_pos = chatbox_x + 50;
+        let y_pos = chatbox_y + 20;
+
         this.state = {
             // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
-            width: [400, 400, 400, 400, 400, 400],
-            height: [250, 250, 250, 250, 250, 250],
-            x: [0, 450, 0, 450, 0, 450],
-            y: [0, 0, 300, 300, 600, 600],
+            //width: [400, 400, 400, 400, 400, 400],
+            //height: [250, 250, 250, 250, 250, 250],
+            width: [chatbox_x, chatbox_x, chatbox_x, chatbox_x, chatbox_x, chatbox_x],
+            height: [chatbox_y, chatbox_y, chatbox_y, chatbox_y, chatbox_y, chatbox_y],
+            x: [10, x_pos, 10, x_pos, 10, x_pos],
+            y: [10, 10, y_pos, y_pos, y_pos * 2, y_pos * 2],
             inputMessage: '',
         }
         this.scrollbarRef = React.createRef();
@@ -121,7 +128,7 @@ export default class ChatBox extends Component {
             return <Label circular color={'green'} empty style={{ marginLeft: 5 }} />
         }
         //return <div>Offline</div>;
-        return <Label circular color={'gray'} empty style={{ marginLeft: 5 }} />
+        return <Label circular empty style={{ marginLeft: 5 }} />
     }
 
     render() {

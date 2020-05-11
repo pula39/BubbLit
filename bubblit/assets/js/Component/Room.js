@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react'
-import { Resizable, ResizableBox } from 'react-resizable';
+import { Grid, Header, Icon } from 'semantic-ui-react'
+import { Rnd } from 'react-rnd'
 import ChatModule from '../Container/ChatModule'
 import ShareSpace from '../Container/ShareSpace'
 import '../../css/resizableBox.css'
@@ -12,42 +12,47 @@ export default class Chat extends Component {
         super(props);
         this.state = {
             userID: 1,
-            windowWidth: 0,
-            windowHeight: 0
+            shareSpace_width: window.innerWidth * 0.5,
+            shareSpace_height: 0.85,
         }
-    }
-
-    componentDidMount() {
-        this.setState({
-            windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight
-        })
     }
 
     // ResizableBox에 초기 사이즈(width, height)는 숫자만 받음 => %값으로 줄 수 없음.
     // 따라서, window 창 크기를 계산해서 직접 %를 계산해서 줘야 할듯.
     // Grid가 사실상 유명무실해서 실제로 사용하기 쉽도록 사이즈 맞춤. 
     // 오른쪽에 여분의 공간 남는건 나중에 생각해보자...
+
+    // React RND로 모듈 바꿈, minwidth, maxwidth를 현재 창 크기의 비율로 맞추고싶은데 우선 놔둠
+
     render() {
         return (
-            <div>
-                <h2>Room '{this.props.roomTitle}'</h2>
-                <Grid columns={2} divided>
-                    <ResizableBox
-                        width={this.state.windowWidth * 0.4}
-                        height={this.state.windowHeight * 0.8}
-                        minConstraints={[300, 800]}
-                        maxConstraints={[900, 800]}
-                        resizeHandles={['e']}
-                    >
-                        <ShareSpace></ShareSpace>
+            <div >
+                <div style={{ paddingTop: 10, paddingLeft: 15, marginLeft: 10, marginTop: 10 }}>
+                    <Header as='h1' size='huge' style={{ marginBottom: 30 }}><Icon name='rocketchat' size='huge' />Room '{this.props.roomTitle}'</Header>
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <Rnd
+                                className='tab'
+                                disableDragging
+                                minWidth={window.innerWidth * 0.3}
+                                maxWidth={window.innerWidth * 0.6}
+                                default={{
+                                    x: 0,
+                                    y: 0,
+                                    width: window.innerWidth * 0.5,
+                                    height: window.innerHeight * 0.85,
+                                }}
+                                height={this.state.shareSpace_height}
+                            >
+                                <ShareSpace></ShareSpace>
 
-                    </ResizableBox>
-
-                    <Grid.Column>
-                        <ChatModule></ChatModule>
-                    </Grid.Column>
-                </Grid>
+                            </Rnd>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <ChatModule></ChatModule>
+                        </Grid.Column>
+                    </Grid>
+                </div>
             </div >
         )
     }

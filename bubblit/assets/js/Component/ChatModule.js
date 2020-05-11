@@ -13,12 +13,10 @@ export default class ChatModule extends Component {
         console.log("chatmodule width, height", window.innerWidth, window.innerHeight)
         this.state = {
             // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
-            width: [410, 410, 410, 410, 410, 410],
-            height: [250, 250, 250, 250, 250, 250],
             x: [0, 450, 0, 450, 0, 450],
             y: [0, 0, 300, 300, 600, 600],
             inputMessage: '',
-            chatInputboxX: window.innerWidth * 0.4,
+            chatInputboxX: window.innerWidth * 0,
             chatInputboxY: window.innerHeight * 0.8,
             presences: {}
         }
