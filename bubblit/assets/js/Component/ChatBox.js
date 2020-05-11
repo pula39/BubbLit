@@ -178,6 +178,8 @@ export default class ChatBox extends Component {
                         <strong>{this.props.name}</strong>
                         <this.ShowIsOnline props={this.props} />
                         <Scrollbars
+                            renderTrackHorizontal={props => <div {...props} className="track-horizontal" style={{ display: "none" }} />}
+                            renderThumbHorizontal={props => <div {...props} className="thumb-horizontal" style={{ display: "none" }} />}
                             className='scrollbar'
                             ref={this.scrollbarRef}
                             autoHide={true}
@@ -186,7 +188,7 @@ export default class ChatBox extends Component {
                                 {this.props.contents[this.props.temp].map((msg, i) => {
                                     return <div
                                         key={i}
-                                        style={{ marginTop: 0, marginLeft: 0, marginRight: 10, marginBottom: 0, padding: 0, backgroundColor: '#FFFFFF' }}
+                                        style={{ marginBottom: 2, backgroundColor: '#FFFFFF', width: this.state.width }}
                                         className='message'>
                                         {msg}
                                     </div>
