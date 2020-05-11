@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container } from 'semantic-ui-react'
 import { Rnd } from 'react-rnd'
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
+import { Label } from 'semantic-ui-react'
 import '../../css/chatModule.css'
 
 //해야댈거 -> chatmodule에서 chatbox로 필요한거 다 옮기고 연동하고, ref 이용해서 맨 아래로 땡겨주면 ㅇㅋ
@@ -116,9 +117,11 @@ export default class ChatBox extends Component {
             return "";
         }
         if (isOnline) {
-            return <p>Online</p>;
+            //return <div>Online</div>;
+            return <Label circular color={'green'} empty style={{ marginLeft: 5 }} />
         }
-        return <p>Offline</p>;
+        //return <div>Offline</div>;
+        return <Label circular color={'gray'} empty style={{ marginLeft: 5 }} />
     }
 
     render() {
