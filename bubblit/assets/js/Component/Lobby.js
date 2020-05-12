@@ -3,7 +3,7 @@ import { Button, Table, Header, Grid, Popup } from 'semantic-ui-react'
 import axios from 'axios'
 import CreateRoom from './CreateRoom'
 import { Link } from 'react-router-dom'
-
+import '../../css/lobby.css'
 
 export default class Lobby extends Component {
 
@@ -78,13 +78,13 @@ export default class Lobby extends Component {
 
         return (
             <div>
-                <div style={{ paddingTop: 10, paddingLeft: 20, paddingRight: 20 }}>
-                    <Header as='h1' style={{ marginBottom: 0, fontSize: '4em' }}>
+                <div className='lobby' >
+                    <Header className='lobby-header' as='h1'>
                         BubbLIT
                     </Header>
-                    <Header as='h3' style={{ marginTop: 5, marginBottom: 30, marginLeft: 10 }}>
+                    <Header className='username-heder' as='h3'>
                         user: {this.props.userName}
-                        <Button size='tiny' style={{ marginLeft: 5 }} primary onClick={this.userLogout.bind(this)}>Logout</Button>
+                        <Button className='logout-button' size='tiny' primary onClick={this.userLogout.bind(this)}>Logout</Button>
                         <Popup position='bottom left' trigger={<Button secondary size='tiny'>CreateRoom</Button>} pinned on='click'>
                             <CreateRoom />
                         </Popup>

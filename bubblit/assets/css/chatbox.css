@@ -1,0 +1,31 @@
+.ui.empty.circular.label.is-online {
+    margin-left: 5px;
+}
+
+.chat-area {
+    background-color: #FFFFFF; 
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 2px solid gray;
+    border-right: 6px solid gray;
+    border-bottom: 6px solid gray;
+
+    font-size: x-large;
+    line-height: 120%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.1s;
+}
+
+.chat-area-contents {
+    margin-left: 2px;
+    font-size: 18px;
+}
+
+.inner-message {
+    margin-bottom: 2px; 
+    margin: 3px;
+}
+
+.blur{
+    opacity: 0.3;
+}

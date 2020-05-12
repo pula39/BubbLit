@@ -26,9 +26,9 @@ export default class Chat extends Component {
 
     render() {
         return (
-            <div >
-                <div style={{ paddingTop: 10, paddingLeft: 15, marginLeft: 10, marginTop: 10 }}>
-                    <Header as='h1' size='huge' style={{ marginBottom: 30 }}><Icon name='rocketchat' size='huge' />Room '{this.props.roomTitle}'</Header>
+            <div>
+                <div className='room' >
+                    <Header className='room-header' as='h1' size='huge'><Icon name='rocketchat' size='huge' />Room '{this.props.roomTitle}'</Header>
                     <Grid columns={2}>
                         <Grid.Column>
                             <Rnd

@@ -1,0 +1,19 @@
+.lobby {
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.ui.header.lobby-header {
+    font-size: 4em;
+}
+
+.ui.header.username-header {
+    margin-top: 5px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+}
+
+.ui.button.logout-button {
+    margin-left: 5px;
+}

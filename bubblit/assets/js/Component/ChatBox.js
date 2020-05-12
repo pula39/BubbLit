@@ -3,7 +3,7 @@ import { Container } from 'semantic-ui-react'
 import { Rnd } from 'react-rnd'
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import { Label } from 'semantic-ui-react'
-import '../../css/chatModule.css'
+import '../../css/chatbox.css'
 
 //해야댈거 -> chatmodule에서 chatbox로 필요한거 다 옮기고 연동하고, ref 이용해서 맨 아래로 땡겨주면 ㅇㅋ
 export default class ChatBox extends Component {
@@ -54,7 +54,7 @@ export default class ChatBox extends Component {
     // blur를 class값을 추가해서 바꿔줫는데 기존 style값을 바꿔줘도 댈듯.. 일단 그냥 놔둠
     blurAllMessage() {
         let timer = setTimeout(function () {
-            let messages = document.getElementsByClassName("message");
+            let messages = document.getElementsByClassName("inner-message");
             for (var message of messages) {
                 message.classList.add('blur');
             }
@@ -63,7 +63,7 @@ export default class ChatBox extends Component {
     }
 
     blurCurrentSendMessage() {
-        let messages = document.getElementsByClassName("message");
+        let messages = document.getElementsByClassName("inner-message");
         let lastIdx = this.props.contents[this.props.temp].length - 1;
 
         console.log(messages);
@@ -101,7 +101,7 @@ export default class ChatBox extends Component {
     }
 
     focusHandler() {
-        let element = document.getElementsByClassName("chatarea")[this.props.temp];
+        let element = document.getElementsByClassName("chat-area")[this.props.temp];
         //console.log(element);
         this.colorChangerByNum(this.props.temp, element);
         setTimeout(function () {
@@ -125,17 +125,17 @@ export default class ChatBox extends Component {
         }
         if (isOnline) {
             //return <div>Online</div>;
-            return <Label circular color={'green'} empty style={{ marginLeft: 5 }} />
+            return <Label className='is-online' circular color={'green'} empty />
         }
         //return <div>Offline</div>;
-        return <Label circular empty style={{ marginLeft: 5 }} />
+        return <Label className='is-online' circular empty />
     }
 
     render() {
         return (
             <div>
                 <Rnd
-                    className='chatarea'
+                    className='chat-area'
                     bounds='window'
                     style={{ backgroundColor: '#FFFFFF', paddingLeft: '2', paddingRight: '2' }}
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
@@ -173,8 +173,7 @@ export default class ChatBox extends Component {
                         });
                     }}
                 >
-                    <div className='general'
-                        style={{ marginLeft: 10 }}>
+                    <div className='chat-area-contents'>
                         <strong>{this.props.name}</strong>
                         <this.ShowIsOnline props={this.props} />
                         <Scrollbars
@@ -184,12 +183,13 @@ export default class ChatBox extends Component {
                             ref={this.scrollbarRef}
                             autoHide={true}
                             style={{ height: this.state.height[this.props.temp] - 42 }}>
-                            <div style={{ marginTop: 20 }}>
+                            <div>
                                 {this.props.contents[this.props.temp].map((msg, i) => {
                                     return <div
+                                        className='inner-message'
                                         key={i}
-                                        style={{ marginBottom: 2, backgroundColor: '#FFFFFF', width: this.state.width }}
-                                        className='message'>
+                                        style={{ backgroundColor: '#FFFFFF', width: this.state.width }}
+                                    >
                                         {msg}
                                     </div>
                                 })}
