@@ -173,7 +173,7 @@ export default class ChatBox extends Component {
                     }}
                 >
                     <div className='chat-area-contents'>
-                        <strong className='user-name'>{this.props.name}</strong>
+                        <strong className={this.props.is_my_box ? 'chat-my-name' : 'chat-other-name', 'user-name'}>{this.props.name}</strong>
                         <this.ShowIsOnline props={this.props} />
                         <Scrollbars
                             renderTrackHorizontal={props => <div {...props} className="track-horizontal" style={{ display: "none" }} />}
