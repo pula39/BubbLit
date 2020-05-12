@@ -21,6 +21,16 @@
     font-size: 18px;
 }
 
+.chat-my-name {
+    font-size: 30px;
+    color: green;
+}
+
+.chat-other-name {
+    font-size: 18px;
+    color: black;
+}
+
 .inner-message {
     margin-bottom: 2px; 
     margin: 3px;

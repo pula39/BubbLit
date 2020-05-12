@@ -121,6 +121,8 @@ export default class ChatModule extends Component {
 
 
     chatboxRenderer() {
+        var myName = document.getElementById('current-username').innerHTML
+
         var message = [];
         var participant = this.props.participants;
         for (var i = 0; i < participant.length; i++) {
@@ -128,7 +130,7 @@ export default class ChatModule extends Component {
             let user_id = participant[i];
             let user = this.props.users[user_id];
             message.push(
-                <ChatBox isOnline={user_id in this.state.presences} key={i} temp={temp} name={user.name} contents={this.props.contents}></ChatBox>
+                <ChatBox isOnline={user_id in this.state.presences} is_my_box={myName == user.name} key={i} temp={temp} name={user.name} contents={this.props.contents}></ChatBox>
             )
         }
         return message
