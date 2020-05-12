@@ -52,8 +52,8 @@ export default class Lobby extends Component {
             var row = [
                 { key: "id", value: _roomList[i].id },
                 { key: "title", value: _roomList[i].title },
-                { key: "limit", value: _roomList[i].limit },
-                { key: "current", value: _roomList[i].current },
+                // { key: "limit", value: _roomList[i].limit },
+                // { key: "current", value: _roomList[i].current },
                 { key: "users", value: _roomList[i].users },
                 { key: "active", value: active },
             ]
@@ -61,7 +61,7 @@ export default class Lobby extends Component {
             content.push(
                 <Table.Body key={i.toString() + "table"}>
                     <Table.Row key={i.toString() + "row"}>
-                        {row.map((value) => <Table.Cell key={value.key + i}> {value.value} </Table.Cell>)}
+                        {row.map((value) => <Table.Cell key={value.key + i}> <p className="table-cell-text">{value.value} </p> </Table.Cell>)}
                     </Table.Row>
                 </Table.Body>
             )
@@ -95,13 +95,13 @@ export default class Lobby extends Component {
                     </Menu>
 
 
-                    <Table color='grey'>
+                    <Table className='lobby-room-table inverted'>
                         <Table.Header>
                             <Table.Row key="header">
                                 <Table.HeaderCell>id</Table.HeaderCell>
                                 <Table.HeaderCell>title</Table.HeaderCell>
-                                <Table.HeaderCell>host</Table.HeaderCell>
-                                <Table.HeaderCell>current</Table.HeaderCell>
+                                {/* <Table.HeaderCell>host</Table.HeaderCell>
+                                <Table.HeaderCell>current</Table.HeaderCell> */}
                                 <Table.HeaderCell>users</Table.HeaderCell>
                                 <Table.HeaderCell>JOIN</Table.HeaderCell>
                             </Table.Row>

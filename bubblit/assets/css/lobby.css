@@ -4,9 +4,25 @@
     padding-right: 20px;
 }
 
+.lobby-room-table {
+    font-size: 4em;
+}
+
+.table-cell-text {
+    font: outline;
+    font-weight: bold;
+}
+
+.ui.inverted,
+.ui.table.inverted {
+    background: #363C7054;
+    color: #363C70FF;
+}
+
 .ui.header.lobby-header {
     font-size: 4em;
 }
+
 
 .ui.header.username-header {
     margin-top: 5px;
