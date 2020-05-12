@@ -1,22 +1,21 @@
 
-<p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-<p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
-<div style="top:40%;left:40%;position:absolute;">
-  <div class='col s12 m6 offset-m3'>
-    <div class='card'>
-      <div class='card-content'>
-        <span class='card-title'>LOGIN</span>
-          <div class='row card-form'>
-          <%= form_for @conn, Routes.session_path(@conn, :new), [as: :session], fn f -> %>
-            <%= text_input f, :name, placeholder: "name" %>
-            <%= password_input f, :password, placeholder: "Password" %>
-            <%= submit "Submit", class: "btn right secondary-color" %>
-            <%= link "Register", to: Routes.user_path(@conn, :new), class: "btn secondary-color" %>
-          <% end %>
+<div class="login_page">
+  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  <div class='card login_card'>
+    <div class='card-content'>
+      <span class='card-title'>LOGIN</span>
+        <div class='row card-form'>
+        <%= form_for @conn, Routes.session_path(@conn, :new), [as: :session], fn f -> %>
+        <div>
+          <div><%= text_input f, :name, placeholder: "name" %></div>
+          <div><%= password_input f, :password, placeholder: "Password" %></div>
+          <div><%= submit "Submit", class: "ui tiny primary button login_button" %></div>
+          <div><%= link "Register", to: Routes.user_path(@conn, :new), class: "ui tiny primary button register_button" %></div>
           </div>
+        <% end %>
+        </div>
 
-      </div>
     </div>
   </div>
 </div>
