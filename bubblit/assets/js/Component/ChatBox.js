@@ -119,7 +119,7 @@ export default class ChatBox extends Component {
 
     ShowIsOnline(param) {
         const isOnline = param.props.isOnline;
-        console.log("isOnline", isOnline)
+
         if (isOnline == undefined) {
             return "";
         }
