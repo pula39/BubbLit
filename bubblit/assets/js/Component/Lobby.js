@@ -34,14 +34,14 @@ export default class Lobby extends Component {
         var _roomList = this.props.roomList;
         var i = 0;
         while (i < _roomList.length) {
-            var active = [];
+            var active = null;
             var room = _roomList[i];
             if (room.current >= room.limit) {
-                active.push(<Button key={i} color='grey' active="false">full</Button>)
+                active = (<Button key={"inactive" + i} color='grey' active="false">full</Button>)
             }
             else {
-                active.push(
-                    <Link to="/room"><Button secondary key={i} action={{ index: i }} onClick={function (e, data) {
+                active = (
+                    <Link to="/room"><Button secondary key={"active" + i} action={{ index: i }} onClick={function (e, data) {
                         var room_id = _roomList[data.action.index].id;
                         // [TODO] enterRoom 대신 room_id만 set해주는 redux 함수를 만들어야 할듯.
                         this.props.enterRoom(room_id);
@@ -49,27 +49,19 @@ export default class Lobby extends Component {
                     </Link>
                 )
             }
+            var row = [
+                { key: "id", value: _roomList[i].id },
+                { key: "title", value: _roomList[i].title },
+                { key: "limit", value: _roomList[i].limit },
+                { key: "current", value: _roomList[i].current },
+                { key: "users", value: _roomList[i].users },
+                { key: "active", value: active },
+            ]
+
             content.push(
-                <Table.Body key={i}>
-                    <Table.Row>
-                        <Table.Cell>
-                            {_roomList[i].id}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {_roomList[i].title}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {_roomList[i].limit}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {_roomList[i].current}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {_roomList[i].users}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {active}
-                        </Table.Cell>
+                <Table.Body key={i.toString() + "table"}>
+                    <Table.Row key={i.toString() + "row"}>
+                        {row.map((value) => <Table.Cell key={value.key + i}> {value.value} </Table.Cell>)}
                     </Table.Row>
                 </Table.Body>
             )
@@ -91,7 +83,7 @@ export default class Lobby extends Component {
                     </Header>
                     <Table color='grey'>
                         <Table.Header>
-                            <Table.Row>
+                            <Table.Row key="header">
                                 <Table.HeaderCell>id</Table.HeaderCell>
                                 <Table.HeaderCell>title</Table.HeaderCell>
                                 <Table.HeaderCell>host</Table.HeaderCell>
