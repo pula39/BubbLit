@@ -96,7 +96,7 @@ export default class ChatBox extends Component {
 
     colorChangerByNum(num, element) {
         // num 0~5 -> 채팅창 색상   6 -> white
-        let color = ['#F5A9A9', '#F2F5A9', '#A9F5A9', '#CEE3F6', '#F6CEEC', '#E6E6E6', '#FFFFFF'];
+        let color = ['#B8DEFF', '#B8DEFF', '#B8DEFF', '#B8DEFF', '#B8DEFF', '#B8DEFF', 'rgba(255, 255, 255, 0.8)'];
         element.style.backgroundColor = color[num];
     }
 
@@ -137,7 +137,6 @@ export default class ChatBox extends Component {
                 <Rnd
                     className='chat-area'
                     bounds='window'
-                    style={{ backgroundColor: '#FFFFFF', paddingLeft: '2', paddingRight: '2' }}
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
                     minWidth='200' minHeight='200'
                     maxWidth='800' maxHeight='500'
@@ -174,7 +173,7 @@ export default class ChatBox extends Component {
                     }}
                 >
                     <div className='chat-area-contents'>
-                        <strong>{this.props.name}</strong>
+                        <strong className='user-name'>{this.props.name}</strong>
                         <this.ShowIsOnline props={this.props} />
                         <Scrollbars
                             renderTrackHorizontal={props => <div {...props} className="track-horizontal" style={{ display: "none" }} />}
