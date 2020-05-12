@@ -26,11 +26,13 @@
 }
 
 .login-screen-message-info {
+    margin-top: 0.5em;
     font-size: 1.8em;
     color: green
 }
 
 .login-screen-message-alert {
+    margin-top: 0.5em;
     font-size: 1.8em;
     color: red
 }
@@ -41,19 +43,20 @@
 }
 
 .login-title {
-    font-size: 2.5em;
+    font-size: 4.5em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 } 
 
 
 .login-form{
     width: inherit;
+    height: 80%;
     display: inline-grid;
 }
 
 .login-input {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
     padding-left: 2%;
     padding-right: 2%;
     display: inline-grid;
@@ -88,10 +91,7 @@
 
 .login-button  {
     width: 100%;
-    margin-top: 10%;
-    margin-bottom: 5%;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
 }
 
-.register-content {
-    height: 80%;
-}

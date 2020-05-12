@@ -1,0 +1,33 @@
+.register-content {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 40%;
+    height: 60%;
+}
+
+.register-input {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    padding-left: 2%;
+    padding-right: 2%;
+    display: inline-grid;
+}
+
+.register-input input {
+    font-size: 2em;
+    height: 2em;
+    overflow: overlay;
+}
+
+.register-submit {
+    margin-top: 10vh;
+    width: 100%;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 0px;
+}

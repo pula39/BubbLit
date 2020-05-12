@@ -3,6 +3,7 @@
 // its own CSS file.
 import css from "../css/app.css"
 import '../css/login.css'
+import '../css/register.css'
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured

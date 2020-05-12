@@ -15,7 +15,9 @@
           <div class="login-button"><%= link "Register", to: Routes.user_path(@conn, :new), class: "ui massive button login-button" %></div>
         <% end %>
     </div>
-  </div>
     <p class="alert alert-info login-screen-message-info" role="alert"><%= get_flash(@conn, :info) %></p>
-    <p class="alert alert-danger login-screen-message-alert" role="alert"><%= get_flash(@conn, :error) %></p>
+    <p class="alert alert-alert login-screen-message-alert" role="alert"><%= get_flash(@conn, :error) %></p>
+  </div>
+
 </div>
+
