@@ -53,7 +53,7 @@ export default class LogPanel extends Component {
                 <Scrollbars
                     autoHide={true}
                     ref={this.scrollbarRef}
-                    style={{ height: 500 }}
+                    style={{ height: window.innerHeight * 0.8 }}
                 >
                     <Comment.Group>
                         {this.historyRenderer()}
