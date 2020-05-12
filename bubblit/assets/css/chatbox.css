@@ -16,22 +16,18 @@
     transition: background-color 0.1s;
 }
 
-.user-name {
-    font-size: 24px;
-}
-
 .chat-area-contents {
     margin-left: 2px;
     font-size: 18px;
 }
 
 .chat-my-name {
-    font-size: 30px;
-    color: green;
+    font-size: 26px;
+    color: #6711FF;
 }
 
 .chat-other-name {
-    font-size: 18px;
+    font-size: 24px;
     color: black;
 }
 
