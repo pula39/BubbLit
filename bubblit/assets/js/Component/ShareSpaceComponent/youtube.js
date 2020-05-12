@@ -88,6 +88,9 @@ export default class YoutubePanel extends Component {
                 <button onClick={this.handleYoutubeTimeClick.bind(this)}>미디어 재생시간 동기화</button>
                 <br />
                 <font>지원 미디어: 트위치(라이브 스트리밍), 유튜브, 사운드 클라우드, 페이스북 등</font>
+
+                <div>미디어의 링크를 올린 다음, 미디어 링크 변경 버튼을 클릭해 다른사람에게 공유해보세요.</div>
+                <div>미디어 재생시간 동기화 버튼을 클릭해, 다른사람들을 자신이 보고 있는 시간으로 이동시키세요.</div>
             </div>
         )
     }
