@@ -54,7 +54,7 @@ export default class Lobby extends Component {
                 { key: "title", value: _roomList[i].title },
                 // { key: "limit", value: _roomList[i].limit },
                 // { key: "current", value: _roomList[i].current },
-                { key: "users", value: _roomList[i].users },
+                // { key: "users", value: _roomList[i].users.length },
                 { key: "active", value: active },
             ]
 
@@ -102,7 +102,7 @@ export default class Lobby extends Component {
                                 <Table.HeaderCell>title</Table.HeaderCell>
                                 {/* <Table.HeaderCell>host</Table.HeaderCell>
                                 <Table.HeaderCell>current</Table.HeaderCell> */}
-                                <Table.HeaderCell>users</Table.HeaderCell>
+                                {/* <Table.HeaderCell>users</Table.HeaderCell> */}
                                 <Table.HeaderCell>JOIN</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
