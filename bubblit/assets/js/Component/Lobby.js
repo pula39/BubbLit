@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Table, Header, Grid, Popup } from 'semantic-ui-react'
+import { Button, Table, Header, Grid, Popup, Menu, Image, Label } from 'semantic-ui-react'
 import axios from 'axios'
 import CreateRoom from './CreateRoom'
 import { Link } from 'react-router-dom'
@@ -79,16 +79,30 @@ export default class Lobby extends Component {
         return (
             <div>
                 <div className='lobby' >
-                    <Header className='lobby-header' as='h1'>
-                        BubbLIT
+                    <Menu>
+                        <Menu.Item>
+                            <Header className='lobby-header' as='h1'>
+                                BubbLIT
                     </Header>
-                    <Header className='username-heder' as='h3'>
-                        user: {this.props.userName}
-                        <Button className='logout-button' size='tiny' primary onClick={this.userLogout.bind(this)}>Logout</Button>
-                        <Popup position='bottom left' trigger={<Button secondary size='tiny'>CreateRoom</Button>} pinned on='click'>
-                            <CreateRoom />
-                        </Popup>
-                    </Header>
+                        </Menu.Item>
+                        <Menu.Item position='right'>
+                            <Header className='username-heder' as='h3'>
+                                <div>
+                                    <Label size='big' basic color='blue'>
+                                        <Image avatar spaced='right' src='https://react.semantic-ui.com/images/avatar/small/elliot.jpg' />
+                                        {this.props.userName}
+                                    </Label>
+
+                                </div>
+                                <Button className='logout-button' size='tiny' primary onClick={this.userLogout.bind(this)}>Logout</Button>
+                                <Popup position='bottom left' trigger={<Button secondary size='tiny'>CreateRoom</Button>} pinned on='click'>
+                                    <CreateRoom />
+                                </Popup>
+                            </Header>
+                        </Menu.Item>
+                    </Menu>
+
+
                     <Table color='grey'>
                         <Table.Header>
                             <Table.Row>
