@@ -3,7 +3,6 @@ import { Grid, Header, Icon, Segment } from 'semantic-ui-react'
 import { Rnd } from 'react-rnd'
 import ChatModule from '../Container/ChatModule'
 import ShareSpace from '../Container/ShareSpace'
-import '../../css/resizableBox.css'
 import '../../css/room.css'
 
 
