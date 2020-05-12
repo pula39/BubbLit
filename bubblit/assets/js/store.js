@@ -22,7 +22,7 @@ export default createStore(function (state, action) {
             // { id: 0, title: '1st Room', host: 'kynel', isPrivate: 'O', limit: 10, current: 6 },
             roomList: [],
             current_room_id: 0,
-
+            users: '',
             //ChatModule
             history: {},
             contents: [[], [], [], [], [], []],

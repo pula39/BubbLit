@@ -15,8 +15,9 @@
     margin-top: 10px;
 }
 
-.room-header {
-    padding-bottom: 10px !important;
+.ui.header.room-header {
+    padding-bottom: 10px;
+    font-size: 2em;
 }
 
 body {

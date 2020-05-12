@@ -29,6 +29,9 @@ export default class LogPanel extends Component {
         if (this.props.history.bubble_history == undefined) {
             return [];
         }
+        if (this.props.users === undefined) {
+            return [];
+        }
         this.props.history.bubble_history.forEach(element => {
             contents.push(
                 <Comment key={element.id}>
