@@ -13,9 +13,11 @@
 }
 
 .imagetab-image-div {
-    display: inline-block;
     height: 100%;
     vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .imagetab-image {
