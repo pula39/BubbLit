@@ -62,6 +62,7 @@ export default class ChatModule extends Component {
                 this.props.channel.on('user_join', payload => {
                     console.log('user_join', payload);
                     var changes = { 'participants': this.props.participants, 'contents': { ...this.props.contents }, 'users': { ...this.props.users } };
+                    changes['participants'] = changes['participants'].concat(payload.user_id)
                     changes['users'][payload.user_id] = { id: payload.user_id, name: payload.user_name };
                     this.addMessageInChanges(changes, payload.user_id, null);
                     this.props.sendChanges(changes);
@@ -97,10 +98,14 @@ export default class ChatModule extends Component {
 
     // chatTestModule 함수 가져와서 사용
     addMessageInChanges(changes, user_id, msg) {
-        let notInChanges = (changes.hasOwnProperty('participants') && (changes['participants'].includes(user_id)) == false);
-        if (notInChanges) {
-            changes.participants = changes.participants.concat(user_id)
-        }
+        // participants는 늘리지 않고, room_after_join와 user_join으로만 추가된다.
+        // 이 로직은 추후 `방에서 나가기` 기능이 추가될 때 전면적으로 갈아엎어야 한다.
+        // 근본적으로 addMessageInChanges에서 Content를 직접 가져오면 안되고 addMessageInChanges는 History만을 갱신한 다음에
+        // 그 History에 무언가가 새로 추가될 때, 현재 있는 Participants 면 그 ChatBox에 추가해주는식으로 분리를 해야할 것이다...
+        // let notInChanges = (changes.hasOwnProperty('participants') && (changes['participants'].includes(user_id)) == false);
+        // if (notInChanges) {
+        //     changes.participants = changes.participants.concat(user_id)
+        // }
 
         let find_user_id = (element) => {
             return element == user_id
@@ -116,6 +121,11 @@ export default class ChatModule extends Component {
 
         let user_idx = changes.participants.findIndex(find_user_id)
         let modified_contents = changes.contents;
+
+        if (modified_contents[user_idx] == undefined) {
+            console.log("ignore no participants msg", user_id, msg)
+            return;
+        }
         changes.contents[user_idx] = modified_contents[user_idx].concat(msg)
     }
 
