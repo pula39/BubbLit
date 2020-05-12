@@ -1,8 +1,8 @@
 
 <div class="login_page">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
   <div class='card login_card'>
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     <div class='card-content'>
       <span class='card-title'>LOGIN</span>
         <div class='row card-form'>
@@ -12,10 +12,9 @@
           <div><%= password_input f, :password, placeholder: "Password" %></div>
           <div><%= submit "Submit", class: "ui tiny primary button login_button" %></div>
           <div><%= link "Register", to: Routes.user_path(@conn, :new), class: "ui tiny primary button register_button" %></div>
-          </div>
+        </div>
         <% end %>
         </div>
-
     </div>
   </div>
 </div>
