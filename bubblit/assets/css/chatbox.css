@@ -3,7 +3,21 @@
 }
 
 .chat-area {
-    background-color: rgba( 255, 255, 255, 0.8 );
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 2px solid #556880;
+    border-right: 6px solid #556880;
+    border-bottom: 6px solid #556880;
+
+    font-size: x-large;
+    line-height: 120%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.1s;
+}
+
+.chat-area-offline {
+    background-color: rgba(255, 255, 255, 0.4);
     padding-left: 2px;
     padding-right: 2px;
     border: 2px solid #556880;

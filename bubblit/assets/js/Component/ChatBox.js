@@ -5,6 +5,16 @@ import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import { Label } from 'semantic-ui-react'
 import '../../css/chatbox.css'
 
+function IsOnlineByProps(props) {
+    const isOnline = props.isOnline;
+
+    if (isOnline == undefined) {
+        return "";
+    }
+
+    return isOnline
+};
+
 //해야댈거 -> chatmodule에서 chatbox로 필요한거 다 옮기고 연동하고, ref 이용해서 맨 아래로 땡겨주면 ㅇㅋ
 export default class ChatBox extends Component {
     constructor(props) {
@@ -117,13 +127,9 @@ export default class ChatBox extends Component {
         }
     }
 
-    ShowIsOnline(param) {
-        const isOnline = param.props.isOnline;
 
-        if (isOnline == undefined) {
-            return "";
-        }
-        if (isOnline) {
+    ShowIsOnline(param) {
+        if (IsOnlineByProps(param.props)) {
             //return <div>Online</div>;
             return <Label className='is-online' circular color={'green'} empty />
         }
@@ -135,7 +141,7 @@ export default class ChatBox extends Component {
         return (
             <div>
                 <Rnd
-                    className='chat-area'
+                    className={IsOnlineByProps(this.props) ? 'chat-area' : 'chat-area-offline'}
                     bounds='window'
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
                     minWidth='200' minHeight='200'
