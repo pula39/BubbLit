@@ -22,7 +22,9 @@ defmodule BubblitWeb.Router do
     get "/login", SessionController, :new
     post "/login", SessionController, :create
 
-    resources "/register", UserController, only: [:create, :new]
+    get "/register", UserController, :new
+
+    resources "/register", UserController, only: [:create]
   end
 
   scope "/", BubblitWeb do

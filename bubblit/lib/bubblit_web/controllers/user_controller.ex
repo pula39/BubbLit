@@ -4,6 +4,10 @@ defmodule BubblitWeb.UserController do
   alias Bubblit.Accounts
   alias Bubblit.Accounts.User
 
+  def new(conn, %{changeset: changeset} = _params) do
+    render(conn, "new.html", changeset: changeset)
+  end
+
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{})
     render(conn, "new.html", changeset: changeset)
@@ -18,6 +22,7 @@ defmodule BubblitWeb.UserController do
         |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        # conn |> redirect(to: Routes.user_path(conn, :create, errors: changeset))
         render(conn, "new.html", changeset: changeset)
     end
   end
