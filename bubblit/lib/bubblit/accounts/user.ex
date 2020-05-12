@@ -19,7 +19,7 @@ defmodule Bubblit.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :password])
-    |> validate_required([:name])
+    |> validate_required([:name, :password])
     |> validate_length(:password, min: 6)
     |> validate_confirmation(:password)
     |> validate_format(:name, ~r/^[a-z0-9][a-z0-9]+[a-z0-9]$/i)
