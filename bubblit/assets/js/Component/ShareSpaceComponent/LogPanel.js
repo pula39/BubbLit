@@ -33,7 +33,7 @@ export default class LogPanel extends Component {
             contents.push(
                 <Comment key={element.id}>
                     <Comment.Content>
-                        <Comment.Author as='a'>{element.user_id}</Comment.Author>
+                        <Comment.Author as='a'>{this.props.users[element.user_id].name}</Comment.Author>
                         <Comment.Metadata>
                             <div>{element.inserted_at}</div>
                         </Comment.Metadata>
@@ -47,9 +47,9 @@ export default class LogPanel extends Component {
 
     render() {
         console.log("logpanel's history: ", this.props.history.bubble_history);
-
+        console.log('in history users: ', this.props.users);
         return (
-            <div>
+            < div >
                 <Scrollbars
                     autoHide={true}
                     ref={this.scrollbarRef}
@@ -59,7 +59,7 @@ export default class LogPanel extends Component {
                         {this.historyRenderer()}
                     </Comment.Group>
                 </Scrollbars>
-            </div>
+            </div >
         );
     }
 }

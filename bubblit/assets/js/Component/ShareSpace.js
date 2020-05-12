@@ -117,7 +117,7 @@ export default class ShareSpace extends Component {
                 menuItem: 'Log',
                 pane: {
                     key: 'tab3', content: <Tab.Pane className="outerfit"><LogPanel
-                        history={this.props.history} /></Tab.Pane>,
+                        history={this.props.history} users={this.props.users} /></Tab.Pane>,
                     className: 'sharespace-tab'
                 }
             },
