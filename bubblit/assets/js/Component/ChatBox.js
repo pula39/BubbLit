@@ -111,8 +111,7 @@ export default class ChatBox extends Component {
     }
 
     focusHandler() {
-        let element = document.getElementsByClassName("chat-area")[this.props.temp];
-        //console.log(element);
+        let element = document.getElementsByClassName("chatbox")[this.props.temp];
         this.colorChangerByNum(this.props.temp, element);
         setTimeout(function () {
             this.colorChangerByNum(6, element);
@@ -141,7 +140,7 @@ export default class ChatBox extends Component {
         return (
             <div>
                 <Rnd
-                    className={IsOnlineByProps(this.props) ? 'chat-area' : 'chat-area-offline'}
+                    className={'chatbox ' + (IsOnlineByProps(this.props) ? 'chat-area' : 'chat-area-offline')}
                     bounds='window'
                     size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
                     minWidth='200' minHeight='200'
