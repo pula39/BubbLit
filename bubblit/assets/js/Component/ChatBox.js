@@ -102,6 +102,9 @@ export default class ChatBox extends Component {
 
     focusHandler() {
         let element = document.getElementsByClassName("chat-area")[this.props.temp];
+        if (element === undefined) {
+            return;
+        }
         //console.log(element);
         this.colorChangerByNum(this.props.temp, element);
         setTimeout(function () {
