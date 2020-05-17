@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - working
+    - name: move to program directory
+      run: cd bubblit
     - uses: actions/checkout@v2
     - name: Setup elixir
       uses: actions/setup-elixir@v1
