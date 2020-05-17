@@ -151,15 +151,22 @@ export default class ChatModule extends Component {
         var myName = document.getElementById('current-username').innerHTML
 
         var message = [];
-        var participant = this.props.participants;
-        for (var i = 0; i < participant.length; i++) {
-            let temp = i;
+
+        for (var i = 0; i < this.props.roomInfo.room_users.length; i++) {
             let user_id = participant[i];
-            let user = this.props.users[user_id];
+            let user_info = this.props.roomInfo.users[user_id];
+            let user_bubble_history = this.props.roomInfo.bubble_history[user_id]
+            user_bubble_history = user_bubble_history == undefined ? [] : user_bubble_history
+
             message.push(
-                <ChatBox isOnline={user_id in this.state.presences} is_my_box={myName == user.name} key={i} temp={temp} name={user.name} contents={this.props.contents}></ChatBox>
+                <ChatBox
+                    isOnline={user_id in this.state.presences}
+                    is_my_box={myName == user_info.name}
+                    key={i} name={user_info.name} temp={i}
+                    contents={user_bubble_history}></ChatBox>
             )
         }
+
         return message
     }
 
