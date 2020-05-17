@@ -73,35 +73,15 @@ export default class ChatBox extends Component {
     }
 
     blurCurrentSendMessage() {
-        let messages = document.getElementsByClassName("inner-message");
-        let lastIdx = this.props.contents[this.props.temp].length - 1;
+        let messages = document.getElementsByClassName(this.getMyBoxClassName(this.props));
 
-        console.log(messages);
-        console.log(this.props.temp);
-        for (let i = 0; i < this.props.temp; i++) {
-            lastIdx += this.props.contents[i].length
-        }
-
-        let lastMessage = messages[lastIdx];
-
+        let lastMessage = messages[messages.length - 1];
 
         let timer = setTimeout(function () {
             lastMessage.classList.add('blur');
         }.bind(this), 13000)
+
         timer;
-        //if (this.state.isTimerRunning == true)
-        //    clearTimeout(timer);
-        //this.setState({ isTimerRunning: true });
-
-
-        //let messages = document.getElementsByClassName("message");
-        //let lastMessage = messages[messages.length - 1];
-        //lastMessage.classList.add('blur');
-
-        //let messages = document.getElementsByClassName("message");
-        //for (var message of messages) {
-        //    message.classList.add('blur');
-        //}
     }
 
     colorChangerByNum(num, element) {
@@ -130,7 +110,6 @@ export default class ChatBox extends Component {
         }
     }
 
-
     ShowIsOnline(param) {
         if (IsOnlineByProps(param.props)) {
             //return <div>Online</div>;
@@ -138,6 +117,10 @@ export default class ChatBox extends Component {
         }
         //return <div>Offline</div>;
         return <Label className='is-online' circular empty />
+    }
+
+    getMyBoxClassName(props) {
+        return 'chatbox_' + props.temp;
     }
 
     render() {
@@ -192,13 +175,13 @@ export default class ChatBox extends Component {
                             autoHide={true}
                             style={{ height: this.state.height[this.props.temp] - 42 }}>
                             <div>
-                                {this.props.contents[this.props.temp].map((msg, i) => {
+                                {this.props.contents.map((msg, i) => {
                                     return <div
-                                        className='inner-message'
+                                        className={'inner-message ' + this.getMyBoxClassName(this.props)}
                                         key={i}
                                         style={{ backgroundColor: '#FFFFFF', width: this.state.width }}
                                     >
-                                        {msg}
+                                        {msg.content}
                                     </div>
                                 })}
                             </div>
