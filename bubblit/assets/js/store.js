@@ -1,16 +1,15 @@
 import { createStore } from 'redux'
 import socket from './Component/socket'
 
-addParticipants(changes, user_id) {
-    // participants는 늘리지 않고, room_after_join와 user_join으로만 추가된다.
-    // 이 로직은 추후 `방에서 나가기` 기능이 추가될 때 전면적으로 갈아엎어야 한다.
-    // 근본적으로 addMessageInChanges에서 Content를 직접 가져오면 안되고 addMessageInChanges는 History만을 갱신한 다음에
-    // 그 History에 무언가가 새로 추가될 때, 현재 있는 Participants1 면 그 ChatBox에 추가해주는식으로 분리를 해야할 것이다...
-    let notInChanges = (changes.hasOwnProperty('participants') && (changes['participants'].includes(user_id)) == false);
-    if (notInChanges) {
-        console.log("new participants", user_id, "added for", changes.participants)
-        changes.participants = changes.participants.concat(user_id)
+function concatToRoomUsers(roomUsers, user_id) {
+    let notInRoomUsers = (roomUsers.includes(user_id) == false);
+
+    if (notInRoomUsers) {
+        console.log("new room user", user_id, "added for", roomUsers)
+        return roomUsers.concat(user_id)
     }
+
+    return roomUsers
 }
 
 function GetRoomById(roomList, roomId) {
@@ -39,6 +38,16 @@ function addMessageInChanges(changes, user_id, msg) {
     changes.contents[user_idx] = modified_contents[user_idx].concat(msg)
 
     return changes;
+}
+
+function addMessageInBubbleHistory(bubble_history, bubble_log) {
+    let user_id = bubble_log.user_id
+
+    if (user_id in bubble_history === false) {
+        bubble_history[user_id] = [];
+    }
+
+    bubble_history[user_id] = bubble_history[user_id].concat(bubble_log);
 }
 
 const default_socket = socket;
@@ -98,9 +107,6 @@ export default createStore(function (state, action) {
             channel: state.socket.channel('room:' + room.id, { nickname: state.userName })
         }
     }
-    if (action.type === 'CHAT') {
-        return { ...state, contents: action.contents, participants: action.participants, users: action.users }
-    }
     if (action.type === 'REFRESH_ROOM_LIST') {
         //channel 구독해지 및 state 초기화
         return { ...state, roomList: action.room_list }
@@ -125,31 +131,44 @@ export default createStore(function (state, action) {
 
     // 리팩토링됨
     if (action.type === 'ADD_MESSAGE') {
-        let changes = {
-            'contents': { ...this.state.contents },
-        };
-        addMessageInChanges(changes, action.user_id, action.body);
-        return { ...state, contents: changes.contents, participants: changes.participants, users: changes.users }
+        let bubble_history = state.roomInfo.bubble_history;
+        // [TODO] 여기에는 시간정보가 없어서, 갱신 불가능.
+        // 백엔드에서 시간 정보를 받아오지 않고, 내가 받은 시점 기준으로 시간을 넣어준다.
+        let new_bubble_log = { user_id: action.user_id, content: action.body, inserted_at: "" }
+
+        addMessageInBubbleHistory(bubble_history, new_bubble_log)
+
+        console.log(bubble_history)
+        return { ...state, roomInfo: { ...state.roomInfo, bubble_history: bubble_history } }
     }
+
     if (action.type === 'INITIALIZE_ROOM_INFO') {
         let modifiedRoomInfo = {};
-        contents = {};
-        action.bubble_history.foreach(element => {
-            let user_id = element.user_id
+        let init_bubble_history = {};
 
-            if (user_id in contents === false) {
-                contents[user_id] = [];
-            }
-
-            contents[user_id].push(element);
+        action.bubble_history.forEach(element => {
+            addMessageInBubbleHistory(init_bubble_history, element)
         })
 
-        modifiedRoomInfo.bubble_history = contents;
+        modifiedRoomInfo.bubble_history = init_bubble_history;
         modifiedRoomInfo.tab_action_history = action.tab_action_history;
         modifiedRoomInfo.room_users = action.room_users;
         modifiedRoomInfo.users = action.users;
 
         return { ...state, roomInfo: modifiedRoomInfo }
     }
+    if (action.type === 'USER_JOIN') {
+        let users = { ...state.roomInfo.users }
+        users[action.user_id] = { id: action.user_id, name: action.user_name };
+
+        let room_users = concatToRoomUsers(state.roomInfo.room_users, action.user_id)
+
+        return {
+            ...state, roomInfo: {
+                ...state.roomInfo, users: users, room_users: room_users
+            }
+        }
+    }
+
 
 }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
