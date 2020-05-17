@@ -5,19 +5,14 @@ function mapReduxStateToReactProps(state) {
     return {
         channel: state.channel,
         userName: state.userName,
-        users: state.users,
-        contents: state.contents,
-        participants: state.participants,
         history: state.history,
-        current_room_id: state.current_room_id
+        current_room_id: state.current_room_id,
+        roomInfo: state.roomInfo,
     }
 }
 
 function mapReduxDispatchToReactProps(dispatch) {
     return {
-        sendChanges: function (changes) {
-            dispatch({ type: 'CHAT', contents: changes.contents, participants: changes.participants, users: changes.users })
-        },
         exitRoom: function (channel) {
             //channel.push('new_msg', { body: '테스트 메세지임니담' });
             // ok일때는 정상적으로 끝난 거니까 놔두고, 에러일때만 콘솔로그 띄우도록 했음. 
@@ -53,6 +48,9 @@ function mapReduxDispatchToReactProps(dispatch) {
                 tab_action_history: payload['tab_action_history'],
                 users: payload['users'],
             });
+        },
+        userJoin: function (user_id, user_name) {
+            dispatch({ type: 'USER_JOIN', user_id: user_id, user_name: user_name })
         },
 
     }
