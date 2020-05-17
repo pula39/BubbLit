@@ -57,7 +57,7 @@ export default class ChatModule extends Component {
             let user_id = payload['user_id'];
             let msg = payload['body'];
 
-            this.props.addMessage(payload);
+            this.props.addMessage(payload['user_id'], payload['body']);
         })
         this.props.channel.on("presence_state", state => {
             this.state.presences = Presence.syncState(this.state.presences, state)
@@ -77,7 +77,7 @@ export default class ChatModule extends Component {
         var message = [];
 
         for (var i = 0; i < this.props.roomInfo.room_users.length; i++) {
-            let user_id = participant[i];
+            let user_id = this.props.roomInfo.room_users[i];
             let user_info = this.props.roomInfo.users[user_id];
             let user_bubble_history = this.props.roomInfo.bubble_history[user_id]
             user_bubble_history = user_bubble_history == undefined ? [] : user_bubble_history
