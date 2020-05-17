@@ -19,6 +19,7 @@ function IsOnlineByProps(props) {
 export default class ChatBox extends Component {
     constructor(props) {
         super(props);
+
         let chatbox_x = window.innerWidth * 0.2;
         let chatbox_y = window.innerHeight * 0.25;
         let x_pos = chatbox_x + 50;
@@ -43,17 +44,8 @@ export default class ChatBox extends Component {
         this.blurAllMessage();
     }
 
-    addAllLength(contents) {
-        let sum = 0;
-        for (var cont in contents) {
-            sum += contents[cont];
-        }
-        return sum
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        if (this.addAllLength(prevProps.contents[this.props.temp])
-            === this.addAllLength(this.props.contents[this.props.temp]))
+        if (prevProps.contents.length === this.props.contents.length)
             return;
         console.log('chatbox' + this.props.temp + 'updated!');
         this.handleUpdate();
