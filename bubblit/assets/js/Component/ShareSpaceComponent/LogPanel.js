@@ -32,19 +32,19 @@ export default class LogPanel extends Component {
         if (this.props.users === undefined) {
             return [];
         }
-        this.props.history.bubble_history.forEach(element => {
-            contents.push(
-                <Comment key={element.id}>
-                    <Comment.Content>
-                        <Comment.Author as='a'>{this.props.users[element.user_id].name}</Comment.Author>
-                        <Comment.Metadata>
-                            <div>{element.inserted_at}</div>
-                        </Comment.Metadata>
-                        <Comment.Text>{element.content}</Comment.Text>
-                    </Comment.Content>
-                </Comment>
-            );
-        })
+        // this.props.history.bubble_history.forEach(element => {
+        //     contents.push(
+        //         <Comment key={element.id}>
+        //             <Comment.Content>
+        //                 <Comment.Author as='a'>{this.props.users[element.user_id].name}</Comment.Author>
+        //                 <Comment.Metadata>
+        //                     <div>{element.inserted_at}</div>
+        //                 </Comment.Metadata>
+        //                 <Comment.Text>{element.content}</Comment.Text>
+        //             </Comment.Content>
+        //         </Comment>
+        //     );
+        // })
         return contents;
     }
 
