@@ -1,32 +1,36 @@
 <div class="login-page">
-
   <div class='register-content'>
-  <h1 class="login-title"> Register </h1>
-  <%= form_for @changeset, @action,[class: "login-form ui"], fn f -> %>
-  <div class="register-input">
-  <p class="error-message"><%= error_tag f, :name %></p>
-  <%= text_input f, :name, class: "login-input", placeholder: "name" %>
-  </div>
-  <div class="register-input">
-  <p class="error-message"><%= error_tag f, :password %></p>
-  <%= password_input f, :password, class: "login-input", placeholder: "Password" %>
-  </div>
-
-  <div class="register-input">
-  <p class="error-message"><%= error_tag f, :password_confirmation %></p>
-  <%= password_input f, :password_confirmation, class: "login-input", placeholder: "Confirm Password" %>
-  </div>
-
-  <div class="register-submit">
-    <%= submit "Submit", class: "ui massive button register-submit" %>
-    </div>
-          <%= if @changeset.action do %>
-      <div class="alert alert-danger">
-        <p class="error-message">Oops, something went wrong!<br/> Please check the errors below.</p>
+    <h1 class="login-title"> Register </h1>
+    <%= form_for @changeset, @action,[class: "login-form ui"], fn f -> %>
+      <div class="register-input">
+      <%= unless Enum.empty?(error_tag(f, :name)) do %>
+        <p class="error-message"><%= error_tag f, :name %></p>
+      <% end %>
+      
+      <%= text_input f, :name, class: "login-input", placeholder: "name" %>
       </div>
+      <div class="register-input">
+      <%= unless Enum.empty?(error_tag(f, :password)) do %>
+        <p class="error-message"><%= error_tag f, :password %></p>
+      <% end %>
+      <%= password_input f, :password, class: "login-input", placeholder: "Password" %>
+      </div>
+
+      <div class="register-input">
+      <%= unless Enum.empty?(error_tag(f, :password_confirmation)) do %>
+        <p class="error-message"><%= error_tag f, :password_confirmation %></p>
+      <% end %>
+      <%= password_input f, :password_confirmation, class: "login-input", placeholder: "Confirm Password" %>
+      </div>
+
+      <div class="register-submit">
+        <%= submit "Submit", class: "ui massive button register-submit" %>
+      </div>
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p class="error-message">오류가 발생하였습니다.<br/></p>
+        </div>
+      <% end %>
     <% end %>
   </div>
-
-<% end %>
-
 </div>

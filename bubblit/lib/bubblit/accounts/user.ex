@@ -1,7 +1,7 @@
 defmodule Bubblit.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Bubblit.Accounts.{User, Encryption}
+  alias Bubblit.Accounts.{Encryption}
 
   @derive {Jason.Encoder, only: [:id, :name]}
   schema "users" do
@@ -19,7 +19,7 @@ defmodule Bubblit.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :password])
-    |> validate_required([:name])
+    |> validate_required([:name, :password])
     |> validate_length(:password, min: 6)
     |> validate_confirmation(:password)
     |> validate_format(:name, ~r/^[a-z0-9][a-z0-9]+[a-z0-9]$/i)

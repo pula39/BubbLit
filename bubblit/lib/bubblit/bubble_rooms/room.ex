@@ -32,7 +32,7 @@ defmodule Bubblit.BubbleRooms.Room do
   end
 
   def change_users_to_str(room) do
-    user_list = room_user_to_str(room.users)
+    user_list = room_user_to_str(room.users || [])
     put_in(room.users, user_list)
   end
 

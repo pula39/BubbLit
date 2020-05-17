@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Tab } from 'semantic-ui-react'
-import Cat from '../../static/images/cat.jpg'
 import YoutubePanel from './ShareSpaceComponent/youtube'
 import DocsPanel from './ShareSpaceComponent/googledocs'
 import ImagePanel from './ShareSpaceComponent/shareimage'
@@ -15,14 +14,13 @@ export default class ShareSpace extends Component {
             docurl: '',
             youtubeurl: '',
             youtubeplaytime: '',
+            youtubeIsPlay: true,
             channel: this.props.channel,
             tabIndex: 0
         }
     }
 
     componentDidMount() {
-        // 이미지/유튜브 브로드캐스팅 테스트용 코드. 추후 redux로 이전해야 함.
-        // 실제 store 구독은 각 pane 컴포넌트별로 해야 할 듯. props는 바뀌어선 안 되는 거니까...
         console.log(this.props.channel)
         if (this.props.channel != null) {
             this.props.channel.on('room_after_join', payload => {
@@ -40,6 +38,7 @@ export default class ShareSpace extends Component {
             })
             this.props.channel.on("tab_action", payload => {
                 console.dir("tab action", payload)
+                console.dir(payload)
                 var change = this.handleTabAction(payload['type'], payload['body'], payload['user_id'])
                 this.setState(change)
             })
@@ -72,7 +71,14 @@ export default class ShareSpace extends Component {
                 this.setState({
                     tabIndex: tabs['youtube']
                 })
-                return { youtubeplaytime: body }
+                return {
+                    youtubeplaytime: body,
+                }
+            case "youtube_is_play":
+                this.setState({
+                    tabIndex: tabs['youtube']
+                })
+                return { youtubeIsPlay: body }
         }
     }
 
@@ -93,45 +99,51 @@ export default class ShareSpace extends Component {
     }
 
     render() {
+        let youtube_content =
+            <Tab.Pane className="outerfit">
+                <YoutubePanel
+                    youtubeurl={this.state.youtubeurl}
+                    channel={this.props.channel}
+                    youtubeplaytime={this.state.youtubeplaytime}
+                    isPlay={this.state.youtubeIsPlay}
+                    sendTabAction={this.sendTabAction.bind(this)} />
+            </Tab.Pane>;
+
+        let docs_content =
+            <Tab.Pane className="outerfit"><DocsPanel /></Tab.Pane>;
+
+        let log_content =
+            <Tab.Pane className="outerfit">
+                <LogPanel history={this.props.history} users={this.props.users} />
+            </Tab.Pane>
+
+        let img_content =
+            <Tab.Pane className="outerfit">
+                <ImagePanel
+                    broadcastAction={this.handleImageUploadSuccess.bind(this)}
+                    imgurl={this.state.imageurl}
+                    channel={this.props.channel}
+                    room_id={this.props.current_room_id} />
+                <div width='100%' display='block'>Ctrl+v로 이미지 파일을 붙여넣어서, 다른 사람들에게 공유해보세요!</div>
+            </Tab.Pane>
+
         const panes = [
             {
                 menuItem: 'Media',
-                pane: {
-                    key: 'tab1',
-                    content: <Tab.Pane className="outerfit"><YoutubePanel
-                        youtubeurl={this.state.youtubeurl}
-                        channel={this.props.channel}
-                        youtubeplaytime={this.state.youtubeplaytime} /></Tab.Pane>,
-                    className: 'sharespace-tab'
-                }
+                pane: { key: 'tab1', content: youtube_content, className: 'sharespace-tab' }
             },
             {
                 menuItem: 'Docs',
-                pane: {
-                    key: 'tab2', content: <Tab.Pane className="outerfit"><DocsPanel /></Tab.Pane>,
-                    className: 'sharespace-tab'
-                }
+                pane: { key: 'tab2', content: docs_content, className: 'sharespace-tab' }
 
             },
             {
                 menuItem: 'Log',
-                pane: {
-                    key: 'tab3', content: <Tab.Pane className="outerfit"><LogPanel
-                        history={this.props.history} users={this.props.users} /></Tab.Pane>,
-                    className: 'sharespace-tab'
-                }
+                pane: { key: 'tab3', content: log_content, className: 'sharespace-tab' }
             },
             {
                 menuItem: 'IMG',
-                pane: {
-                    key: 'tab4', content: <Tab.Pane className="outerfit"><ImagePanel
-                        broadcastAction={this.handleImageUploadSuccess.bind(this)}
-                        imgurl={this.state.imageurl}
-                        channel={this.props.channel}
-                        room_id={this.props.current_room_id} /></Tab.Pane>,
-                    className: 'sharespace-tab'
-                }
-
+                pane: { key: 'tab4', content: img_content, className: 'sharespace-tab' }
             },
         ]
 

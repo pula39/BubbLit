@@ -36,6 +36,7 @@ defmodule Bubblit.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id), do: Repo.get(User, id)
 
   def get_users(room_id) do
     query =
