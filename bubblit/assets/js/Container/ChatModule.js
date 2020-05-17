@@ -33,11 +33,11 @@ function mapReduxDispatchToReactProps(dispatch) {
         },
 
         // 리팩토링된 함수
-        addMessage: function (payload) {
+        addMessage: function (user_id, body) {
             dispatch({
                 type: 'ADD_MESSAGE',
-                user_id: payload['user_id'],
-                body: payload['body'],
+                user_id: user_id,
+                body: body,
             })
         },
         initializeRoomHistory: function (payload) {
