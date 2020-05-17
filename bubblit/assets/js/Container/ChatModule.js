@@ -27,15 +27,34 @@ function mapReduxDispatchToReactProps(dispatch) {
         sendChat: function (channel, msg) {
             channel.push('new_msg', { body: msg });
         },
-        setHistory: function (history) {
-            dispatch({ type: 'SET_HISTORY', history: history });
-        },
         appendHistory: function (new_history) {
             dispatch({ type: 'INSERT_HISTORY', history: new_history });
         },
         enterRoom: function (room_id) {
             dispatch({ type: 'ENTER_CHAT', room_id: room_id })
-        }
+        },
+        setHistory: function (payload) {
+            dispatch({ type: 'SET_HISTORY', history: payload })
+        },
+
+        // 리팩토링된 함수
+        addMessage: function (payload) {
+            dispatch({
+                type: 'ADD_MESSAGE',
+                user_id: payload['user_id'],
+                body: payload['body'],
+            })
+        },
+        initializeRoomHistory: function (payload) {
+            dispatch({
+                type: 'INITIALIZE_ROOM_INFO',
+                bubble_history: payload['bubble_history'],
+                room_users: payload['room_users'],
+                tab_action_history: payload['tab_action_history'],
+                users: payload['users'],
+            });
+        },
+
     }
 }
 
