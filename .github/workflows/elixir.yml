@@ -1,34 +1,65 @@
-name: Elixir CI
+name: BubbLIT CI
 
 on:
   push:
-    branches: [ CI_TEST, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ CI_TEST, master ]
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       working-directory: ./bubblit
-    
+      MIX_ENV: test
     steps:
+    - uses: mirromutth/mysql-action@v1.1
+      with:
+        host port: 3306 # Optional, default value is 3306. The port of host
+        container port: 3306 # Optional, default value is 3306. The port of container
+        character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+        collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+        mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
+        mysql database: 'bubblechat_dev' # Optional, default value is "test". The specified database which will be create
+        mysql user: 'test'
+        mysql password: 'gitactiontest'
     - uses: actions/checkout@v2
+
+    - uses: actions/cache@v1
+      id: deps-cache
+      with:
+        path: bubblit/deps
+        key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-mix-
+
+    - uses: actions/cache@v1
+      id: build-cache
+      with:
+        path: bubblit/_build
+        key: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: Setup elixir
-      uses: actions/setup-elixir@v1
+      uses: actions/setup-elixir@v1.2.1
       with:
         elixir-version: 1.9.4 # Define the elixir version [required]
         otp-version: 22.2 # Define the OTP version [required]
+        install-hex: true
         
     - name: Install Dependencies
-      run: mix deps.get |
-            echo "deps.get"
+      run: mix deps.get
       working-directory: ${{env.working-directory}}
-    - name: Install npm Dependencies
-      run: npm install |
-          echo "npm install"
+
+    - run: npm install
       working-directory: ${{env.working-directory}}
-    - name: Run Tests
-      run: mix test |
-          echo "mix test"
+
+    - name: Test run
+      run: mix test
       working-directory: ${{env.working-directory}}

@@ -9,4 +9,13 @@ config :bubblit, BubblitWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-import_config "test.secret.exs"
+if System.get_env("GITHUB_ACTIONS") do
+  config :bubblit, Bubblit.Repo,
+    username: "test",
+    password: "gitactiontest",
+    database: "bubblechat_dev",
+    hostname: "localhost",
+    pool: Ecto.Adapters.SQL.Sandbox
+else
+  import_config "test.secret.exs"
+end
