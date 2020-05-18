@@ -9,7 +9,7 @@ function IsOnlineByProps(props) {
     const isOnline = props.isOnline;
 
     if (isOnline == undefined) {
-        return "";
+        return '';
     }
 
     return isOnline
@@ -20,22 +20,13 @@ export default class ChatBox extends Component {
     constructor(props) {
         super(props);
 
-        let chatbox_x = window.innerWidth * 0.2;
-        let chatbox_y = window.innerHeight * 0.25;
-        let x_pos = chatbox_x + 50;
-        let y_pos = chatbox_y + 20;
-
         this.state = {
-            // 방에 나갓다 들어와도 커스텀값이 유지되도록 state로 빼봣음, store로 옮기거나, 수정예정
-            //width: [400, 400, 400, 400, 400, 400],
-            //height: [250, 250, 250, 250, 250, 250],
-            width: [chatbox_x, chatbox_x, chatbox_x, chatbox_x, chatbox_x, chatbox_x],
-            height: [chatbox_y, chatbox_y, chatbox_y, chatbox_y, chatbox_y, chatbox_y],
-            x: [10, x_pos, 10, x_pos, 10, x_pos],
-            y: [10, 10, y_pos, y_pos, y_pos * 2, y_pos * 2],
             inputMessage: '',
+            chatboxInfo: this.props.chatboxInfo,
         }
+
         this.scrollbarRef = React.createRef();
+        console.log('chatboxInfo: ', this.state.chatboxInfo);
     }
 
     componentDidMount() {
@@ -47,7 +38,7 @@ export default class ChatBox extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.contents.length === this.props.contents.length)
             return;
-        console.log('chatbox' + this.props.temp + 'updated!');
+        console.log('chatbox' + this.props.chatboxNo + 'updated!');
         this.handleUpdate();
         this.focusHandler();
         this.blurCurrentSendMessage();
@@ -83,12 +74,12 @@ export default class ChatBox extends Component {
     }
 
     focusHandler() {
-        let element = document.getElementsByClassName("chat-area")[this.props.temp];
+        let element = document.getElementsByClassName("chat-area")[this.props.chatboxNo];
         if (element === undefined) {
             return;
         }
         //console.log(element);
-        this.colorChangerByNum(this.props.temp, element);
+        this.colorChangerByNum(this.props.chatboxNo, element);
         setTimeout(function () {
             this.colorChangerByNum(6, element);
         }.bind(this), 300)
@@ -112,7 +103,7 @@ export default class ChatBox extends Component {
     }
 
     getMyBoxClassName(props) {
-        return 'chatbox_' + props.temp;
+        return 'chatbox_' + props.chatboxNo;
     }
 
     render() {
@@ -121,10 +112,11 @@ export default class ChatBox extends Component {
                 <Rnd
                     className={'chatbox ' + (IsOnlineByProps(this.props) ? 'chat-area' : 'chat-area-offline')}
                     bounds='window'
-                    size={{ width: this.state.width[this.props.temp], height: this.state.height[this.props.temp] }}
-                    minWidth='200' minHeight='200'
-                    maxWidth='800' maxHeight='500'
-                    position={{ x: this.state.x[this.props.temp], y: this.state.y[this.props.temp] }}
+                    size={{ width: this.state.chatboxInfo.width, height: this.state.chatboxInfo.height }}
+                    //이부분 우선은 이렇게 해둿는데 추후 고민해서 고치자
+                    minWidth='100' minHeight='100'
+                    maxWidth='800' maxHeight='800'
+                    position={{ x: this.state.chatboxInfo.xPos, y: this.state.chatboxInfo.yPos }}
                     // 지금 그리드 자체에 문제가 있음
                     // resizeGrid={[10, 10]}
                     // dragGrid={[15, 15]}
@@ -132,27 +124,20 @@ export default class ChatBox extends Component {
                     // 아랫부분 동작 원리를 알기위해 장황한 코딩을 했으나, 추후 수정예정임돠
                     onDragStop={(e, d) => {
                         e.preventDefault();
-                        var tempx = this.state.x;
-                        var tempy = this.state.y;
-                        tempx[this.props.temp] = d.x;
-                        tempy[this.props.temp] = d.y;
-                        this.setState({ x: tempx, y: tempy });
+                        let tempChatboxInfo = { ...this.state.chatboxInfo };
+                        tempChatboxInfo.xPos = d.x;
+                        tempChatboxInfo.yPos = d.y;
+                        this.setState({ chatboxInfo: tempChatboxInfo });
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
                         e.preventDefault();
-                        var tempw = this.state.width;
-                        var temph = this.state.height;
-                        var tempx = this.state.x;
-                        var tempy = this.state.y;
-                        tempw[this.props.temp] = ref.style.width.slice(0, -2);
-                        temph[this.props.temp] = ref.style.height.slice(0, -2);
-                        tempx[this.props.temp] = position.x;
-                        tempy[this.props.temp] = position.y;
+                        let tempChatboxInfo = { ...this.state.chatboxInfo };
+                        tempChatboxInfo.width = ref.style.width.slice(0, -2);
+                        tempChatboxInfo.height = ref.style.height.slice(0, -2);
+                        tempChatboxInfo.xPos = position.x;
+                        tempChatboxInfo.yPos = position.y;
                         this.setState({
-                            width: tempw,
-                            height: temph,
-                            x: tempx,
-                            y: tempy
+                            chatboxInfo: tempChatboxInfo
                         });
                     }}
                 >
@@ -165,13 +150,13 @@ export default class ChatBox extends Component {
                             className='scrollbar'
                             ref={this.scrollbarRef}
                             autoHide={true}
-                            style={{ height: this.state.height[this.props.temp] - 42 }}>
+                            style={{ height: this.state.chatboxInfo.height - 42 }}>
                             <div>
                                 {this.props.contents.map((msg, i) => {
                                     return <div
                                         className={'inner-message ' + this.getMyBoxClassName(this.props)}
                                         key={i}
-                                        style={{ backgroundColor: '#FFFFFF', width: this.state.width }}
+                                        style={{ backgroundColor: '#FFFFFF', width: this.state.chatboxInfo.width }}
                                     >
                                         {msg.content}
                                     </div>
