@@ -83,7 +83,7 @@ defmodule BubblitWeb.RoomChannel do
 
     broadcast!(socket, "tab_action", %{
       "type" => type,
-      body: body,
+      body: "#{body}",
       user_id: user_id
     })
 
