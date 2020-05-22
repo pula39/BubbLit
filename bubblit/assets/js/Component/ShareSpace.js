@@ -12,6 +12,7 @@ export default class ShareSpace extends Component {
         super(props);
         this.state = {
             action_history: [],
+            restrict_control: "true",
             imageurl: '',
             docurl: '',
             mediaurl: '',
@@ -93,6 +94,10 @@ export default class ShareSpace extends Component {
                     tabIndex: tabs['media']
                 })
                 return { mediaIsPlay: (body === 'true') }
+            case "restrict_control":
+                return {
+                    restrict_control: body
+                }
         }
     }
 
@@ -172,6 +177,7 @@ export default class ShareSpace extends Component {
 
         return (
             <div className="sharespace-div">
+                <div>{this.state.restrict_control}</div>
                 <Button key={"underMyControl"} onClick={function (e, data) {
                     this.sendTabAction("restrict_control", "true")
                 }.bind(this)}>SetControl</Button>

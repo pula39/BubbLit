@@ -53,7 +53,7 @@ export default class ImagePanel extends Component {
                         console.log(response);
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        console.log("error when upload image.", error.response.data);
                     })
             })
             .catch(function (error) {
