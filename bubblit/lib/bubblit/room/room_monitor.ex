@@ -14,6 +14,17 @@ defmodule Bubblit.Room.Monitor do
 
     tab_actinos = Bubblit.Db.get_room_actions(room_id) |> Enum.reverse()
 
+    if restrict_action = Enum.find(tab_actinos, fn x -> x.type == "restrict_control" end) do
+      Util.log("#{room_id} restrict_action.param #{restrict_action.param}")
+
+      if restrict_action.param == "true" do
+        Ets.set_room_control_restricted(room_id)
+      end
+    else
+      Util.log("#{room_id} restrict_action None")
+      Ets.unset_room_control_restricted(false)
+    end
+
     room_member_user =
       room_record.users
       |> Enum.map(fn x -> Bubblit.Accounts.get_user!(x) end)
