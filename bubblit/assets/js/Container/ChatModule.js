@@ -13,9 +13,6 @@ function mapReduxDispatchToReactProps(dispatch) {
         sendChat: function (channel, msg) {
             channel.push('new_msg', { body: msg });
         },
-        appendHistory: function (new_history) {
-            dispatch({ type: 'INSERT_HISTORY', history: new_history });
-        },
     }
 }
 

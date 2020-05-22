@@ -67,6 +67,7 @@ const init_state = {
         room_users: [], // 방에 현재 들어와 있는 유저들의 목록
         users: [], // 방에 들어온 적이 있는(지금 방에서 없을수도 있음)
         room_title: '',
+        chat_timeline: [], // bubble_history -> 시간순 정렬, ShareSpace의 LogPannel로 전달됨
     },
 }
 
@@ -112,11 +113,6 @@ export default createStore(function (state, action) {
         //history 값을 변경
         return { ...state, history: action.history }
     }
-    if (action.type === 'INSERT_HISTORY') {
-        //history 값을 업데이트
-        console.log('action.history:', atcion.history);
-        return { ...state, history: action.history }
-    }
 
     if (action.type === 'SET_USER_DATA') {
         return { ...state, userName: action.userName, userId: action.userId }
@@ -125,14 +121,18 @@ export default createStore(function (state, action) {
     // 리팩토링됨
     if (action.type === 'ADD_MESSAGE') {
         let bubble_history = state.roomInfo.bubble_history;
+        let chat_timeline = state.roomInfo.chat_timeline;
+        let currentTime = new Date().toISOString();
         // [TODO] 여기에는 시간정보가 없어서, 갱신 불가능.
         // 백엔드에서 시간 정보를 받아오지 않고, 내가 받은 시점 기준으로 시간을 넣어준다.
-        let new_bubble_log = { user_id: action.user_id, content: action.body, inserted_at: "" }
+        let new_bubble_log = { user_id: action.user_id, content: action.body, inserted_at: currentTime }
 
         addMessageInBubbleHistory(bubble_history, new_bubble_log)
 
-        console.log(bubble_history)
-        return { ...state, roomInfo: { ...state.roomInfo, bubble_history: bubble_history } }
+        // roomInfo.chat_timeline에 최근 메세지를 넣어줌()
+        chat_timeline = chat_timeline.concat(new_bubble_log);
+
+        return { ...state, roomInfo: { ...state.roomInfo, bubble_history: bubble_history, chat_timeline: chat_timeline } }
     }
 
     if (action.type === 'INITIALIZE_ROOM_INFO') {
@@ -149,6 +149,7 @@ export default createStore(function (state, action) {
         modifiedRoomInfo.room_users = action.room_users;
         modifiedRoomInfo.users = action.users;
         modifiedRoomInfo.room_title = action.room_title;
+        modifiedRoomInfo.chat_timeline = action.bubble_history.reverse(); //로그 기능에서 사용을 위해 reverse 해줌
 
         return { ...state, roomInfo: modifiedRoomInfo }
     }
