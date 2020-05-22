@@ -2,8 +2,8 @@ defmodule BubblitWeb.RoomImageController do
   use BubblitWeb, :controller
   require Util
 
-  def new(conn, %{"room_id" => room_id, "file" => file} = _param) do
-    image_file_path = Path.absname("uploaded")
+  def new(conn, %{"room_id" => [room_id], "file" => file} = _param) do
+    {room_id, ""} = Integer.parse(room_id)
 
     if File.exists?(image_file_path) == False and File.dir?(image_file_path) do
       :ok = File.mkdir(image_file_path)
@@ -29,6 +29,6 @@ defmodule BubblitWeb.RoomImageController do
 
   def get_room_image_path(room_id) do
     image_file_path = Path.absname("uploaded")
-    "#{image_file_path}/room_#{(room_id)}_image"
+    "#{image_file_path}/room_#{room_id}_image"
   end
 end
