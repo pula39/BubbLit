@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tab } from 'semantic-ui-react'
+import { Tab, Button } from 'semantic-ui-react'
 import MediaPanel from './ShareSpaceComponent/MediaPanel'
 import DocsPanel from './ShareSpaceComponent/googledocs'
 import ImagePanel from './ShareSpaceComponent/shareimage'
@@ -172,6 +172,12 @@ export default class ShareSpace extends Component {
 
         return (
             <div className="sharespace-div">
+                <Button key={"underMyControl"} onClick={function (e, data) {
+                    this.sendTabAction("restrict_control", "true")
+                }.bind(this)}>SetControl</Button>
+                <Button key={"underMyUnsetControl"} onClick={function (e, data) {
+                    this.sendTabAction("restrict_control", "false")
+                }.bind(this)}>UnSetControl</Button>
                 <Tab className="outerfit"
                     menu={{ size: 'huge', color: 'blue', inverted: true, attatched: "false", tabular: false }}
                     panes={panes}
