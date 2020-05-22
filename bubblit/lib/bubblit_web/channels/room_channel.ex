@@ -3,6 +3,9 @@ defmodule BubblitWeb.RoomChannel do
   alias BubblitWeb.Presence
 
   require Logger
+  require Util
+
+  @restrict_control_action "restrict_control"
 
   def join("room:" <> room_id, _params, socket) do
     user_id = socket.assigns.user_id
@@ -76,18 +79,45 @@ defmodule BubblitWeb.RoomChannel do
 
   # type => img_link / media_link / media_current_play / media_is_play
   def handle_in("tab_action", %{"type" => type, "body" => body}, socket) do
+    room_record = socket.assigns.room_record
     room_id = socket.assigns.room_record.id
     user_id = socket.assigns.user_id
 
-    Bubblit.Room.Monitor.add_tab_action(room_id, user_id, type, body)
+    cond do
+      # 룸 제어상태인데 host 이외의 유저가 명령
+      room_record.host_user_id != user_id and Ets.room_control_restricted?(room_id) ->
+        {:reply, :error, socket}
 
-    broadcast!(socket, "tab_action", %{
-      "type" => type,
-      body: "#{body}",
-      user_id: user_id
-    })
+      # 룸 제어상태 변경을 host 이외의 유저가 명령
+      room_record.host_user_id != user_id and type == @restrict_control_action ->
+        {:reply, :error, socket}
 
-    {:noreply, socket}
+      true ->
+        # 룸 제어상태 변경에 대한 특수 처리
+        if room_record.host_user_id == user_id and type == @restrict_control_action do
+          process_restrict_control(room_id, body)
+        end
+
+        Bubblit.Room.Monitor.add_tab_action(room_id, user_id, type, body)
+
+        broadcast!(socket, "tab_action", %{
+          "type" => type,
+          body: "#{body}",
+          user_id: user_id
+        })
+
+        {:noreply, socket}
+    end
+  end
+
+  defp process_restrict_control(room_id, body) do
+    case body do
+      "true" ->
+        Ets.set_room_control_restricted(room_id)
+
+      _body ->
+        Ets.unset_room_control_restricted(room_id)
+    end
   end
 
   # def handle_in("update_step", %{"body" => body}, socket) do
