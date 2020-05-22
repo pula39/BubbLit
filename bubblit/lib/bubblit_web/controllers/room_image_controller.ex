@@ -5,20 +5,32 @@ defmodule BubblitWeb.RoomImageController do
   def new(conn, %{"room_id" => [room_id], "file" => file} = _param) do
     {room_id, ""} = Integer.parse(room_id)
 
-    if File.exists?(image_file_path) == False and File.dir?(image_file_path) do
-      :ok = File.mkdir(image_file_path)
-    end
+    user_id = Plug.Conn.get_session(conn, :current_user_id)
 
-    # file_name = Path.basename(file.path)
-    # extention = MIME.extensions(file.content_type) |> List.first()
+    restricted? = Ets.room_control_restricted?(room_id)
+    host? = Bubblit.Db.get_room(room_id).host_user_id == user_id
 
-    Util.log("from #{file.path} -> to #{get_room_image_path(room_id)}")
-    case File.cp(file.path, get_room_image_path(room_id)) do
-      :ok ->
-        json(conn, "Uploaded #{file.filename}")
+    if not restricted? || host? do
+      image_file_path = Path.absname("uploaded")
 
-      {:error, msg} ->
-        json(conn, "error! #{msg}")
+      if File.exists?(image_file_path) == False and File.dir?(image_file_path) do
+        :ok = File.mkdir(image_file_path)
+      end
+
+      # file_name = Path.basename(file.path)
+      # extention = MIME.extensions(file.content_type) |> List.first()
+
+      Util.log("from #{file.path} -> to #{get_room_image_path(room_id)}")
+
+      case File.cp(file.path, get_room_image_path(room_id)) do
+        :ok ->
+          json(conn, "Uploaded #{file.filename}")
+
+        {:error, msg} ->
+          json(conn |> put_status(:not_found), "error! #{msg}")
+      end
+    else
+      json(conn |> put_status(:not_found), "error! restricted tab action and you are not host")
     end
   end
 
