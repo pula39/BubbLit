@@ -35,6 +35,33 @@ export default class ActionLogPanel extends Component {
         this.handleUpdate();
     }
 
+    MakeActionDescription(name, type, param) {
+        //JS는 갓언어라 String format이 없다.
+        switch (type) {
+            case "img_refreshed":
+                return name + "님이 이미지를 공유하였습니다"; 
+            case "media_link":
+                return name + "님이 " + param + " 미디어를 공유하였습니다."; 
+            case "media_current_play":
+                return name + "님이 미디어 재생시간을" + type.toFixed(2) + "로 변경하였습니다."; 
+            case "media_is_play":
+                if(param == "false"){
+                    return name + "님이 미디어를 멈췄습니다."; 
+                }
+                else{
+                    return name + "님이 미디어를 재생했습니다."; 
+                }
+            case "restrict_control":
+                if(param == "false"){
+                    return name + "님이 방의 기능 제한을 해제했습니다."; 
+                }
+                else{
+                    return name + "님이 방의 기능을 제한했습니다."; 
+                }
+        }
+
+        return name + type + param
+    }
 
     historyRenderer() {
         let contents = [];
@@ -47,17 +74,26 @@ export default class ActionLogPanel extends Component {
             return [];
         }
 
+        //foreach에서 쓰기 위해서임. JS는 짱이야.
+        let self = this;
+
         this.props.history.forEach(function (item, index, array) {
             if (roomInfo.users[item.user_id] == undefined)
                 return true;
 
             if ((item.type.indexOf(showtype) == -1) && (showtype != 'all'))
-                return true
+                return true;
+
+            let name = roomInfo.users[item.user_id].name
+            let time = new Date(item.inserted_at)
+            let timeStr = time.toLocaleTimeString(navigator.language, {hour12: false, hour: '2-digit', minute:'2-digit'});
+            console.log(item.inserted_at, "->", timeStr)
+
             contents.push(
                 <Comment key={index}>
                     <Comment.Content>
-                        <Comment.Author>{roomInfo.users[item.user_id].name}</Comment.Author>
-                        <Comment.Text>{item.type}, {item.param}</Comment.Text>
+                        <Comment.Author title={time.toString()}>{name} {timeStr}</Comment.Author>
+                        <Comment.Text>{self.MakeActionDescription(name, item.type, item.param)}</Comment.Text>
                     </Comment.Content>
                 </Comment>
             );

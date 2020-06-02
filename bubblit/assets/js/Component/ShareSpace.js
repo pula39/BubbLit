@@ -26,11 +26,16 @@ export default class ShareSpace extends Component {
         console.log(this.props.channel)
         if (this.props.channel != null) {
             this.props.channel.on('room_after_join', payload => {
-                var change = { action_history: [...payload.tab_action_history] }
+                // 시간대형식을 js 식으로 해줌 (ISO 포맷)
+                var new_tab_action_history = payload.tab_action_history.map((value) => {
+                    return { ...value, inserted_at: value.inserted_at + ".000Z"};
+                });
+
+                var change = { action_history: [...new_tab_action_history] }
                 var actions = []
 
-                console.log(payload.tab_action_history)
-                payload.tab_action_history.reduce((unique, tab_action) => {
+                console.log(new_tab_action_history)
+                new_tab_action_history.reduce((unique, tab_action) => {
                     if (unique.includes(tab_action.type)) {
                         return unique;
                     }
@@ -50,8 +55,8 @@ export default class ShareSpace extends Component {
                 this.setState(change)
             })
             this.props.channel.on("tab_action", payload => {
-                console.dir("tab action")
-                var new_action = { user_id: payload['user_id'], type: payload['type'], param: payload['body'] }
+                var new_action = { user_id: payload['user_id'], type: payload['type'], param: payload['body'], inserted_at: new Date().toISOString()}
+                console.log("tab action recieved", new_action)
                 var change = this.handleTabAction(new_action.type, new_action.param, new_action.user_id)
                 change.action_history = [new_action].concat(this.state.action_history);
                 this.setState(change)
