@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Comment, Form, Header, Dropdown, Grid } from 'semantic-ui-react'
+import { Button, Comment, Form, Header, Dropdown, Grid, List } from 'semantic-ui-react'
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 
 export default class ActionLogPanel extends Component {
@@ -38,21 +38,28 @@ export default class ActionLogPanel extends Component {
 
     historyRenderer() {
         let contents = [];
+        let roomInfo = this.props.roomInfo
+
         let showtype = this.state.showByType
         if (this.props.history == undefined ||
-            this.props.roomInfo.users === undefined
+            roomInfo.users === undefined
         ) {
             return [];
         }
 
         this.props.history.forEach(function (item, index, array) {
+            if (roomInfo.users[item.user_id] == undefined)
+                return true;
+
             if ((item.type.indexOf(showtype) == -1) && (showtype != 'all'))
                 return true
-
             contents.push(
-                <div key={index}>
-                    <p>{item.user_id} {item.type} {item.param}</p>
-                </div>
+                <Comment key={index}>
+                    <Comment.Content>
+                        <Comment.Author>{roomInfo.users[item.user_id].name}</Comment.Author>
+                        <Comment.Text>{item.type}, {item.param}</Comment.Text>
+                    </Comment.Content>
+                </Comment>
             );
         })
         return contents.reverse();
