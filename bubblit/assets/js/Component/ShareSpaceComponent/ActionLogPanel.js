@@ -43,7 +43,7 @@ export default class ActionLogPanel extends Component {
             case "media_link":
                 return name + "님이 " + param + " 미디어를 공유하였습니다."; 
             case "media_current_play":
-                return name + "님이 미디어 재생시간을" + type.toFixed(2) + "로 변경하였습니다."; 
+                return name + "님이 미디어 재생시간을" + parseFloat(param).toFixed(2) + "로 변경하였습니다."; 
             case "media_is_play":
                 if(param == "false"){
                     return name + "님이 미디어를 멈췄습니다."; 
