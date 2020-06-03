@@ -5,8 +5,8 @@ defmodule Bubblit.BubbleRooms.BubbleLog do
   @derive {Jason.Encoder, only: [:id, :content, :room_id, :user_id, :inserted_at]}
   schema "bubble_logs" do
     field :content, :string
-    field :room_id, :integer
 
+    belongs_to :room, Bubblit.BubbleRooms.Room
     belongs_to :user, Bubblit.Accounts.User
 
     timestamps()
