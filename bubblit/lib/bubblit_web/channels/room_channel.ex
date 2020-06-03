@@ -141,9 +141,19 @@ defmodule BubblitWeb.RoomChannel do
     if host? do
       :ok = Bubblit.Room.Monitor.update_quit_user(room_id, user_id)
       broadcast!(socket, "user_quit", %{body: user_id})
+    else
+      {:noreply, socket}
     end
+  end
 
-    {:noreply, socket}
+  def handle_in("delete_room", _param, socket) do
+    room = socket.assigns.room_record
+    Bubblit.Db.delete_room(room)
+
+    broadcast!(socket, "kick_from_room", %{})
+    push(socket, "delete_room", %{})
+
+    {:stop, :normal, socket}
   end
 
   defp process_restrict_control(room_id, body) do
@@ -154,6 +164,16 @@ defmodule BubblitWeb.RoomChannel do
       _body ->
         Ets.unset_room_control_restricted(room_id)
     end
+  end
+
+  intercept ["kick_from_room"]
+
+  def handle_out("kick_from_room", _param, socket) do
+    room_id = socket.assigns.room_record.id
+    user_id = socket.assigns.user_id
+    Util.log("room #{room_id} user#{user_id} kicked")
+    push(socket, "delete_room", %{})
+    {:stop, :normal, socket}
   end
 
   # def handle_in("update_step", %{"body" => body}, socket) do
