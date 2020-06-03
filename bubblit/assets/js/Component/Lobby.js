@@ -91,16 +91,23 @@ export default class Lobby extends Component {
             내가 들어가있지 않은 방은 room-not-entered임.
             table의 body 클래스명이 소속 여부에 따라 달라지니까 커스터마이징 하려면 css를 고치면 됨. 
             */
-            if (room.users.indexOf(Number(this.props.userId)) != -1) {
-                var rowClassname = "room-entered"
+
+            // 로직을 간단히 하기 위해 렌더링 여부에 상관없이 i를 올려준다.
+            i += 1;
+
+            let entered = room.users.indexOf(Number(this.props.userId)) != -1
+            let rowClassname = entered ? "room-entered" : "room-not-entered";
+
+            let showOnlyEntered = entered == false && this.state.isShowOnlyEntered
+            if (showOnlyEntered) {
+                continue
             }
-            else {
-                var rowClassname = "room-not-entered"
-                if (this.state.isShowOnlyEntered) {
-                    i += 1;
-                    continue
-                }
+
+            let hideNotEnteredPrivateRoom = entered == false && room.is_private
+            if (hideNotEnteredPrivateRoom) {
+                continue
             }
+
             content.push(
                 <Table.Body key={i.toString() + "table"} className={rowClassname}>
                     <Table.Row key={i.toString() + "row"}>
@@ -108,7 +115,6 @@ export default class Lobby extends Component {
                     </Table.Row>
                 </Table.Body>
             )
-            i += 1;
         }
 
         return content
