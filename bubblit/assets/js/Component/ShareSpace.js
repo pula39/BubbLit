@@ -61,6 +61,9 @@ export default class ShareSpace extends Component {
                 change.action_history = [new_action].concat(this.state.action_history);
                 this.setState(change)
             })
+            this.props.channel.on('get_room_code', payload => {
+                alert(payload.body)
+            })
         }
     }
 
@@ -181,6 +184,14 @@ export default class ShareSpace extends Component {
                 <div width='100%' display='block'>Ctrl+v로 이미지 파일을 붙여넣어서, 다른 사람들에게 공유해보세요!</div>
             </Tab.Pane>
 
+        let extendContent =
+            <Tab.Pane className="outerfit">
+                {this.controlPanelRender()}
+                <Button key={"showRoomCode"} onClick={function (e, data) {
+                    this.props.channel.push("get_room_code");
+                }.bind(this)}>Room Code 조회</Button>
+            </Tab.Pane>
+
         const panes = [
             {
                 menuItem: 'Media',
@@ -203,11 +214,14 @@ export default class ShareSpace extends Component {
                 menuItem: 'IMG',
                 pane: { key: 'tab5', content: imgContent, className: 'sharespace-tab' }
             },
+            {
+                menuItem: '확장기능',
+                pane: { key: 'tab6', content: extendContent, className: 'sharespace-tab' }
+            },
         ]
 
         return (
             <div className="sharespace-div">
-                {this.controlPanelRender()}
                 <Tab className="outerfit"
                     menu={{ size: 'huge', color: 'blue', inverted: true, attatched: "false", tabular: false }}
                     panes={panes}
