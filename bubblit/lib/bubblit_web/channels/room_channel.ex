@@ -75,7 +75,6 @@ defmodule BubblitWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  # 그냥 메세지 브로드캐스트할때 닉네임 추가했음.
   def handle_in("new_msg", %{"body" => body}, socket) do
     room_id = socket.assigns.room_record.id
     user_id = socket.assigns.user_id
@@ -103,6 +102,10 @@ defmodule BubblitWeb.RoomChannel do
       room_record.host_user_id != user_id and type == @restrict_control_action ->
         {:reply, :error, socket}
 
+      # 룸 제어상태 변경 결과 아무것도 바뀌지 않음
+      type == @restrict_control_action and body == "#{Ets.room_control_restricted?(room_id)}" ->
+        {:noreply, socket}
+
       true ->
         # 룸 제어상태 변경에 대한 특수 처리
         if room_record.host_user_id == user_id and type == @restrict_control_action do
@@ -119,6 +122,15 @@ defmodule BubblitWeb.RoomChannel do
 
         {:noreply, socket}
     end
+  end
+
+  def handle_in("get_room_code", _param, socket) do
+    room_id = socket.assigns.room_record.id
+    pw = socket.assigns.room_record.room_password
+
+    push(socket, "get_room_code", %{body: "#{room_id}:#{pw}"})
+
+    {:noreply, socket}
   end
 
   defp process_restrict_control(room_id, body) do
