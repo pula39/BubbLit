@@ -53,6 +53,7 @@ const init_state = {
     userId: 0,
     roomList: [],
     current_room_id: 0,
+    room_password: '',
     users: '',
     //ChatModule
     history: {},
@@ -86,18 +87,21 @@ export default createStore(function (state, action) {
         return { ...init_state };
     }
     if (action.type === 'SET_ROOM_ID') {
+        console.log('SET_ROOM_ID', action.room_id, action.room_password)
         // 아래 코드에서 socket을 연결시키고, 방에 들어감과 동시에 channel에 접속시켜준다.
         state = { ...state, ...room_init_state }
         state.socket.connect();
         return {
             ...state,
             current_room_id: action.room_id,
+            room_password: action.room_password
         }
     }
     if (action.type === 'ENTER_ROOM') {
+        console.log('ENTER_ROOM', action.room_id, state.room_password)
         return {
             ...state,
-            channel: state.socket.channel('room:' + action.room_id, { nickname: state.userName })
+            channel: state.socket.channel('room:' + action.room_id, { nickname: state.userName, password: state.room_password })
         }
     }
     if (action.type === 'REFRESH_ROOM_LIST') {
