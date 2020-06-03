@@ -66,6 +66,7 @@ export default class Lobby extends Component {
                 { key: "title", value: room.title },
                 { key: "limit", value: room.limit },
                 { key: "current", value: room.current },
+                { key: "is_private", value: room.is_private.toString() },
                 { key: "users", value: room.users.length },
                 { key: "active", value: active },
             ]
@@ -143,6 +144,7 @@ export default class Lobby extends Component {
                                 <Table.HeaderCell>title</Table.HeaderCell>
                                 <Table.HeaderCell>host</Table.HeaderCell>
                                 <Table.HeaderCell>current</Table.HeaderCell>
+                                <Table.HeaderCell>is_private</Table.HeaderCell>
                                 <Table.HeaderCell>users</Table.HeaderCell>
                                 <Table.HeaderCell>JOIN</Table.HeaderCell>
                             </Table.Row>
