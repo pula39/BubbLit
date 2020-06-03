@@ -12,6 +12,19 @@ function concatToRoomUsers(roomUsers, user_id) {
     return roomUsers
 }
 
+function RemoveFromRoomUsers(roomUsers, user_id) {
+    const index = roomUsers.indexOf(user_id);
+
+    if (index > -1) {
+        var newRoomUsers = roomUsers.slice();
+        newRoomUsers.splice(index, 1);
+        return newRoomUsers;
+    } else {
+        console.log("try remove user_id ", user_id, "from room. but not in.", roomUsers)
+        return roomUsers;
+    }
+}
+
 function addMessageInChanges(changes, user_id, msg) {
     let find_user_id = (element) => {
         return element == user_id
@@ -167,6 +180,15 @@ export default createStore(function (state, action) {
         return {
             ...state, roomInfo: {
                 ...state.roomInfo, users: users, room_users: room_users
+            }
+        }
+    }
+    if (action.type === 'USER_QUIT') {
+        let room_users = RemoveFromRoomUsers(state.roomInfo.room_users, action.user_id)
+
+        return {
+            ...state, roomInfo: {
+                ...state.roomInfo, room_users: room_users
             }
         }
     }

@@ -6,6 +6,7 @@ import ShareSpace from '../Container/ShareSpace'
 import { Presence } from "phoenix"
 import '../../css/room.css'
 import { withRouter } from 'react-router-dom'
+import { Redirect } from 'react-router';
 
 
 class Room extends Component {
@@ -17,7 +18,8 @@ class Room extends Component {
             shareSpace_height: 0.85,
             presences: {},
             isEnter: false,
-            isHost: false
+            isHost: false,
+            redirect: false
         }
 
         let channelinit = async () => {
@@ -60,6 +62,16 @@ class Room extends Component {
         this.props.channel.on('user_join', payload => {
             console.log('user_join', payload);
             this.props.userJoin(payload.user_id, payload.user_name);
+        })
+        this.props.channel.on('user_quit', payload => {
+            console.log('user_quit', payload);
+            this.props.userQuit(payload.body);
+            if (this.props.userId == payload.body) {
+                alert("탈출!");
+                this.setState({
+                    redirect: true
+                })
+            }
         })
         this.props.channel.on("new_msg", payload => {
             let user_id = payload['user_id'];
@@ -108,38 +120,40 @@ class Room extends Component {
         if (!this.state.isEnter) {
             return <p>Loading...</p>
         }
-        else {
-            return (
-                <div>
-                    <div className='room' >
-                        {this.headerRender()}
-                        <Grid columns={2}>
-                            <Grid.Column>
-                                <Rnd
-                                    className='tab'
-                                    disableDragging
-                                    minWidth={window.innerWidth * 0.3}
-                                    maxWidth={window.innerWidth * 0.6}
-                                    default={{
-                                        x: 0,
-                                        y: 0,
-                                        width: window.innerWidth * 0.5,
-                                        height: window.innerHeight * 0.85,
-                                    }}
-                                    height={this.state.shareSpace_height}
-                                >
-                                    <ShareSpace isHost={this.state.isHost}></ShareSpace>
-
-                                </Rnd>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <ChatModule presenses={this.state.presences}></ChatModule>
-                            </Grid.Column>
-                        </Grid>
-                    </div>
-                </div >
-            )
+        if (this.state.redirect) {
+            return <Redirect push to="/" />;
         }
+
+        return (
+            <div>
+                <div className='room' >
+                    {this.headerRender()}
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <Rnd
+                                className='tab'
+                                disableDragging
+                                minWidth={window.innerWidth * 0.3}
+                                maxWidth={window.innerWidth * 0.6}
+                                default={{
+                                    x: 0,
+                                    y: 0,
+                                    width: window.innerWidth * 0.5,
+                                    height: window.innerHeight * 0.85,
+                                }}
+                                height={this.state.shareSpace_height}
+                            >
+                                <ShareSpace isHost={this.state.isHost}></ShareSpace>
+
+                            </Rnd>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <ChatModule presenses={this.state.presences}></ChatModule>
+                        </Grid.Column>
+                    </Grid>
+                </div>
+            </div >
+        )
 
     }
 }
