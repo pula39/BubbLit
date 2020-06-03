@@ -28,7 +28,7 @@ export default class ShareSpace extends Component {
             this.props.channel.on('room_after_join', payload => {
                 // 시간대형식을 js 식으로 해줌 (ISO 포맷)
                 var new_tab_action_history = payload.tab_action_history.map((value) => {
-                    return { ...value, inserted_at: value.inserted_at + ".000Z"};
+                    return { ...value, inserted_at: value.inserted_at + ".000Z" };
                 });
 
                 var change = { action_history: [...new_tab_action_history] }
@@ -55,7 +55,7 @@ export default class ShareSpace extends Component {
                 this.setState(change)
             })
             this.props.channel.on("tab_action", payload => {
-                var new_action = { user_id: payload['user_id'], type: payload['type'], param: payload['body'], inserted_at: new Date().toISOString()}
+                var new_action = { user_id: payload['user_id'], type: payload['type'], param: payload['body'], inserted_at: new Date().toISOString() }
                 console.log("tab action recieved", new_action)
                 var change = this.handleTabAction(new_action.type, new_action.param, new_action.user_id)
                 change.action_history = [new_action].concat(this.state.action_history);

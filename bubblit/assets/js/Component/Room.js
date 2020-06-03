@@ -75,12 +75,10 @@ class Room extends Component {
             this.state.presences = Presence.syncDiff(this.state.presences, diff)
             console.log("presence_diff", this.state.presences)
         })
-
     }
 
 
     headerRender() {
-
         if (this.props.roomInfo == undefined) {
             return <p>Loading...</p>
         }

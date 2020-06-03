@@ -23,6 +23,7 @@ class CreateRoom extends Component {
         });
     }
 
+
     handleInputMessage(event) {
         this.setState({
             inputMessage: event.target.value
