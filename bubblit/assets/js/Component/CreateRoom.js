@@ -7,6 +7,7 @@ class CreateRoom extends Component {
         super(props);
         this.state = {
             inputMessage: '',
+            isPrivate: false
         }
     }
 
@@ -14,6 +15,7 @@ class CreateRoom extends Component {
         console.log(this.state.inputMessage);
         axios.post('/api/room/make', {
             title: this.state.inputMessage,
+            is_private: this.state.isPrivate
         }).then(function (response) {
             console.log(response);
             alert("Success to create room!")
@@ -30,6 +32,12 @@ class CreateRoom extends Component {
         })
     }
 
+    togglePrivate() {
+        this.setState({
+            isPrivate: !this.state.isPrivate
+        })
+    }
+
     render() {
         return (
             <div>
@@ -42,6 +50,8 @@ class CreateRoom extends Component {
                         onChange={this.handleInputMessage.bind(this)}
                     ></Form.Input>
                 </Form>
+                <input type='checkbox' checked={this.state.isPrivate}
+                    onChange={this.togglePrivate.bind(this)} />
                 {/* <Button onClick={function (e, data) {
                     this.makeRoom();
                 }.bind(this)} >Make Room</Button> */}

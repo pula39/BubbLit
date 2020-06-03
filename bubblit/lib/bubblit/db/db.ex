@@ -2,9 +2,14 @@ defmodule Bubblit.Db do
   # db관련 래핑 함수. 쿼리 직접 조작하는 것은 Generate 된 곳에 만든다.
   # 여기에는 쿼리를 직접 작성하지 말자.
 
-  def create_room(title, host_user_id) do
-    # 일단 Default 세팅으로 가보자.
-    attrs = %{title: title, host_user_id: host_user_id, config_value: "", users: [host_user_id]}
+  def create_room(title, host_user_id, is_private) do
+    attrs = %{
+      title: title,
+      host_user_id: host_user_id,
+      config_value: "",
+      users: [host_user_id],
+      is_private: is_private,
+    }
 
     {:ok, room_record} = Bubblit.BubbleRooms.create_room(attrs)
 
