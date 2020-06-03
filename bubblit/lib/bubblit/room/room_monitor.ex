@@ -59,6 +59,10 @@ defmodule Bubblit.Room.Monitor do
     Agent.get(via_tuple(room_id), fn state -> state end)
   end
 
+  def update_quit_user(room_id, user_id) do
+    Agent.update(via_tuple(room_id), fn state -> handle_quit_room(state, user_id) end)
+  end
+
   def get_after_join(room_id, user_id, user) do
     Agent.get_and_update(via_tuple(room_id), fn state ->
       handle_getate_after_join(state, user_id, user)
@@ -110,6 +114,23 @@ defmodule Bubblit.Room.Monitor do
     end
   end
 
+  def handle_quit_room(state, user_id) do
+    # {반환값, 뉴스테이트}
+    Util.log("handle_quit_room #{inspect(state.room_record)}")
+    user_list = state[:room_record].users
+
+    if user_id not in state.room_record.users do
+      state
+    else
+      new_users = List.delete(user_list, user_id)
+      Util.log("user_list #{inspect(user_list)} -> #{inspect(new_users)}")
+
+      new_room = Bubblit.Db.update_room(state.room_record, %{users: new_users})
+
+      put_in(state.room_record, new_room) |> quit_user(user_id)
+    end
+  end
+
   defp make_ret(state) do
     %{
       bubble_history: Map.get(state, :history, []),
@@ -121,17 +142,24 @@ defmodule Bubblit.Room.Monitor do
     }
   end
 
-  def refresh_user(state, user_id, user) do
-    refresh_users(state, user_id, user)
-  end
-
-  defp refresh_users(state, user_id, user) do
+  defp refresh_user(state, user_id, user) do
     if Map.has_key?(state[:users], user_id) do
       state
     else
       Util.log("add new user information to monitor #{user_id}")
       users = Map.put(state[:users], user_id, user)
       Map.put(state, :users, users)
+    end
+  end
+
+  defp quit_user(state, user_id) do
+    if Map.has_key?(state[:users], user_id) do
+      Util.log("remove new user information to monitor #{user_id}")
+      users = Map.delete(state[:users], user_id)
+      Map.put(state, :users, users)
+      state
+    else
+      state
     end
   end
 

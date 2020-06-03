@@ -147,7 +147,11 @@ export default class ShareSpace extends Component {
             )
         }
         else {
-            return <div></div>
+            return <div>
+                <Button key={"quit_room"} onClick={function (e, data) {
+                    this.props.channel.push("quit_room");
+                }.bind(this)}>방나가기</Button>
+            </div>
         }
     }
 

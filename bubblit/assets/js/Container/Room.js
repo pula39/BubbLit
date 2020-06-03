@@ -46,6 +46,9 @@ function mapReduxDispatchToReactProps(dispatch) {
         userJoin: function (user_id, user_name) {
             dispatch({ type: 'USER_JOIN', user_id: user_id, user_name: user_name })
         },
+        userQuit: function (user_id) {
+            dispatch({ type: 'USER_QUIT', user_id: user_id })
+        },
 
     }
 }

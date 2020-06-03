@@ -133,6 +133,19 @@ defmodule BubblitWeb.RoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in("quit_room", _param, socket) do
+    room_id = socket.assigns.room_record.id
+    user_id = socket.assigns.user_id
+    host? = socket.assigns.room_record.host_user_id != user_id
+
+    if host? do
+      :ok = Bubblit.Room.Monitor.update_quit_user(room_id, user_id)
+      broadcast!(socket, "user_quit", %{body: user_id})
+    end
+
+    {:noreply, socket}
+  end
+
   defp process_restrict_control(room_id, body) do
     case body do
       "true" ->
