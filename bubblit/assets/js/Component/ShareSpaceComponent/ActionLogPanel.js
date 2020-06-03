@@ -39,24 +39,24 @@ export default class ActionLogPanel extends Component {
         //JS는 갓언어라 String format이 없다.
         switch (type) {
             case "img_refreshed":
-                return name + "님이 이미지를 공유하였습니다"; 
+                return name + "님이 이미지를 공유하였습니다";
             case "media_link":
-                return name + "님이 " + param + " 미디어를 공유하였습니다."; 
+                return name + "님이 " + param + " 미디어를 공유하였습니다.";
             case "media_current_play":
-                return name + "님이 미디어 재생시간을" + parseFloat(param).toFixed(2) + "로 변경하였습니다."; 
+                return name + "님이 미디어 재생시간을" + parseFloat(param).toFixed(2) + "로 변경하였습니다.";
             case "media_is_play":
-                if(param == "false"){
-                    return name + "님이 미디어를 멈췄습니다."; 
+                if (param == "false") {
+                    return name + "님이 미디어를 멈췄습니다.";
                 }
-                else{
-                    return name + "님이 미디어를 재생했습니다."; 
+                else {
+                    return name + "님이 미디어를 재생했습니다.";
                 }
             case "restrict_control":
-                if(param == "false"){
-                    return name + "님이 방의 기능 제한을 해제했습니다."; 
+                if (param == "false") {
+                    return name + "님이 방의 기능 제한을 해제했습니다.";
                 }
-                else{
-                    return name + "님이 방의 기능을 제한했습니다."; 
+                else {
+                    return name + "님이 방의 기능을 제한했습니다.";
                 }
         }
 
@@ -86,8 +86,7 @@ export default class ActionLogPanel extends Component {
 
             let name = roomInfo.users[item.user_id].name
             let time = new Date(item.inserted_at)
-            let timeStr = time.toLocaleTimeString(navigator.language, {hour12: false, hour: '2-digit', minute:'2-digit'});
-            console.log(item.inserted_at, "->", timeStr)
+            let timeStr = time.toLocaleTimeString(navigator.language, { hour12: false, hour: '2-digit', minute: '2-digit' });
 
             contents.push(
                 <Comment key={index}>
