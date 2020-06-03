@@ -9,6 +9,7 @@ defmodule Bubblit.Db do
       config_value: "",
       users: [host_user_id],
       is_private: is_private,
+      room_password: make_room_password()
     }
 
     {:ok, room_record} = Bubblit.BubbleRooms.create_room(attrs)
@@ -20,12 +21,11 @@ defmodule Bubblit.Db do
     Bubblit.BubbleRooms.get_room(id) |> convert_room_users
   end
 
-  def load_room(title, host_user_id) do
-    # 일단 Default 세팅으로 가보자.
-    attrs = %{title: title, host_user_id: host_user_id, config_value: ""}
-    {:ok, room_record} = Bubblit.BubbleRooms.create_room(attrs)
-
-    room_record |> convert_room_users()
+  defp make_room_password(length \\ 8) do
+    :crypto.strong_rand_bytes(length)
+    |> Base.encode64()
+    |> binary_part(0, length)
+    |> String.upcase()
   end
 
   def update_room(room, attrs) do
