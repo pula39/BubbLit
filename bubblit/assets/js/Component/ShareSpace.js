@@ -12,7 +12,7 @@ export default class ShareSpace extends Component {
         super(props);
         this.state = {
             action_history: [],
-            restrict_control: "true",
+            restrict_control: "false",
             imageurl: '',
             customUrl: '',
             mediaurl: '',
@@ -117,6 +117,9 @@ export default class ShareSpace extends Component {
     }
 
     sendTabAction(type, body) {
+        if (this.state.restrict_control == "true" && this.props.isHost == false) {
+            alert("방장이 조작을 제한하고 있습니다.")
+        }
         this.props.channel.push("tab_action", { type: type, body: body })
     }
 
@@ -220,8 +223,10 @@ export default class ShareSpace extends Component {
             },
         ]
 
+        let rootClassName = "sharespace-div " + (this.state.restrict_control == "true" ? "div-restricted" : "")
+
         return (
-            <div className="sharespace-div">
+            <div className={rootClassName}>
                 <Tab className="outerfit"
                     menu={{ size: 'huge', color: 'blue', inverted: true, attatched: "false", tabular: false }}
                     panes={panes}
