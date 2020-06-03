@@ -41,9 +41,19 @@ defmodule Bubblit.Db do
     Bubblit.BubbleRooms.get_room!(id) |> convert_room_users()
   end
 
+  def delete_room(room) do
+    {:ok, room} = Bubblit.BubbleRooms.delete_room(room)
+    Bubblit.Room.DynamicSupervisor.terminate_child(room.id)
+    Ets.unset_room_control_restricted(room.id)
+  end
+
   def convert_room_users(room_record) do
-    user_list = Bubblit.BubbleRooms.Room.room_user_to_list(room_record.users)
-    put_in(room_record.users, user_list)
+    if room_record do
+      user_list = Bubblit.BubbleRooms.Room.room_user_to_list(room_record.users)
+      put_in(room_record.users, user_list)
+    else
+      room_record
+    end
   end
 
   def change_room_config(room_record, config_value) do

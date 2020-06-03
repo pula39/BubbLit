@@ -6,6 +6,7 @@ import ImagePanel from './ShareSpaceComponent/shareimage'
 import LogPanel from './ShareSpaceComponent/LogPanel'
 import ActionLogPanel from './ShareSpaceComponent/ActionLogPanel'
 import './../../css/shareSpace.css'
+import { Redirect } from 'react-router';
 
 export default class ShareSpace extends Component {
     constructor(props) {
@@ -18,7 +19,8 @@ export default class ShareSpace extends Component {
             mediaurl: '',
             mediaPlayTime: '',
             mediaIsPlay: true,
-            tabIndex: 0
+            tabIndex: 0,
+            redirect: false
         }
     }
 
@@ -63,6 +65,12 @@ export default class ShareSpace extends Component {
             })
             this.props.channel.on('get_room_code', payload => {
                 alert(payload.body)
+            })
+            this.props.channel.on('delete_room', payload => {
+                alert("방이 터졌어요")
+                this.setState({
+                    redirect: true
+                })
             })
         }
     }
@@ -137,13 +145,17 @@ export default class ShareSpace extends Component {
 
     controlPanelRender() {
         if (this.props.isHost == true) {
-            return (<div>{this.state.restrict_control}
+            return (<div>
                 <Button key={"underMyControl"} onClick={function (e, data) {
                     this.sendTabAction("restrict_control", "true")
                 }.bind(this)}>방장만 조작 가능</Button>
                 <Button key={"underMyUnsetControl"} onClick={function (e, data) {
                     this.sendTabAction("restrict_control", "false")
-                }.bind(this)}>모두가 조작 가능</Button></div>
+                }.bind(this)}>모두가 조작 가능</Button>
+                <Button key={"delete_room"} onClick={function (e, data) {
+                    this.props.channel.push("delete_room");
+                }.bind(this)}>방터트리기</Button>
+            </div>
             )
         }
         else {
@@ -156,6 +168,10 @@ export default class ShareSpace extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect push to="/" />;
+        }
+
         let mediaContent =
             <Tab.Pane className="outerfit">
                 <MediaPanel

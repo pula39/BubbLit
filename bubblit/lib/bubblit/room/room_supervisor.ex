@@ -17,6 +17,19 @@ defmodule Bubblit.Room.DynamicSupervisor do
     end
   end
 
+  def terminate_child(room_id) do
+    pid = Bubblit.Room.Registry.whereis_name({:room_process, room_id})
+    Util.log("#{inspect(pid)}")
+
+    case DynamicSupervisor.terminate_child(__MODULE__, pid) do
+      :ok ->
+        Util.log("Worker Terminated Successfully")
+
+      {:error, _} ->
+        Util.log("PID not found")
+    end
+  end
+
   def init(_) do
     Util.log("#{__MODULE__}이 init됩니다.")
 
