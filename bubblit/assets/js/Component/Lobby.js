@@ -4,6 +4,7 @@ import axios from 'axios'
 import CreateRoom from './CreateRoom'
 import { Link } from 'react-router-dom'
 import '../../css/lobby.css'
+import JoinRoom from './JoinRoom'
 
 export default class Lobby extends Component {
 
@@ -39,6 +40,19 @@ export default class Lobby extends Component {
         this.setState({
             isShowOnlyEntered: !this.state.isShowOnlyEntered
         })
+    }
+
+    setRoomIDWithRoomCode(room_code) {
+        var splited = room_code.split(":")
+        if (splited.length < 2) {
+            alert("유효하지 않은 Room Code입니다.")
+            return false;
+        }
+
+        console.log("setRoomIDWithRoomCode")
+        this.props.setRoomIDWithRoomCode(splited[0], splited[1]);
+
+        return true;
     }
 
     tableContentRender() {
@@ -132,6 +146,7 @@ export default class Lobby extends Component {
                             <div>What is BubbLit?</div>
                             <div>소규모의 그룹이 모여서 부담없이 회의를 나눌 수 있는 인터넷 공간을 편리한 기능과 함께 제공하는 서비스 입니다.</div>
                             <div>We are Under Construction.</div>
+                            <JoinRoom setRoomIDWithRoomCode={this.setRoomIDWithRoomCode.bind(this)} />
                         </Header>
                         <Menu.Item position='right'>
                             {this.userInfoRender()}

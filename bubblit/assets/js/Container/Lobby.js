@@ -15,6 +15,9 @@ function mapReduxDispatchToReactProps(dispatch) {
         setRoomID: function (room_id) {
             dispatch({ type: 'SET_ROOM_ID', room_id: room_id })
         },
+        setRoomIDWithRoomCode: function (room_id, room_password) {
+            dispatch({ type: 'SET_ROOM_ID', room_id: room_id, room_password: room_password })
+        },
         refreshRoomList: function (room_list) {
             dispatch({ type: 'REFRESH_ROOM_LIST', room_list: room_list })
         },
