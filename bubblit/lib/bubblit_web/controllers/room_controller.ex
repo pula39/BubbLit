@@ -13,10 +13,9 @@ defmodule BubblitWeb.RoomController do
     render(conn, "index.json", rooms: rooms)
   end
 
-  def create(conn, %{"title" => _title} = room_params) do
+  def create(conn, %{"title" => title} = _room_params) do
     with user_id = Plug.Conn.get_session(conn, :current_user_id),
-         room_params = Map.put(room_params, "host_user_id", user_id),
-         {:ok, %Room{} = room} <- BubbleRooms.create_room(room_params) do
+         %Room{} = room <- Bubblit.Db.create_room(title, user_id) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.room_path(conn, :show, room))
