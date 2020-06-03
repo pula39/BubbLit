@@ -14,9 +14,7 @@ export default class Lobby extends Component {
         }
     }
 
-
     componentDidMount() {
-
         var _userName = document.getElementById('current-username').innerHTML
         var _userid = document.getElementById('current-userid').innerHTML
         this.props.setUserData(_userName, _userid)
