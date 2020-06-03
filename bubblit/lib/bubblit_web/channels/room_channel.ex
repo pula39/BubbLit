@@ -7,7 +7,7 @@ defmodule BubblitWeb.RoomChannel do
 
   @restrict_control_action "restrict_control"
 
-  def join("room:" <> room_id, _params, socket) do
+  def join("room:" <> room_id, params, socket) do
     user_id = socket.assigns.user_id
     user = socket.assigns.user
 
@@ -15,26 +15,37 @@ defmodule BubblitWeb.RoomChannel do
 
     case Integer.parse(room_id) do
       {room_id, _remainer} ->
-        if room_record = Bubblit.Db.get_room(room_id) do
-          Bubblit.Room.DynamicSupervisor.start_child(room_id)
+        room_record = Bubblit.Db.get_room(room_id)
+        pw = Map.get(params, "password", "")
 
-          case Bubblit.Room.Monitor.get_after_join(room_id, user_id, user) do
-            {:ok, after_join_dic} ->
-              send(self(), {:after_join, after_join_dic})
+        cond do
+          room_record == nil ->
+            {:error, %{reason: "invalid room_id #{room_id}"}}
 
-              socket =
-                assign(socket, :room_record, room_record)
-                |> assign(:id, inspect(socket.transport_pid))
+          # 첫 입장때는 비번 치고 들어와야함.
+          user_id not in room_record.users and room_record.is_private and
+              room_record.room_password != pw ->
+            {:error,
+             %{reason: "invalid password for #{room_id}. entered:[#{pw}] this room is private."}}
 
-              Logger.info("user id #{socket.assigns.user_id} joined to room id #{room_id}.")
+          true ->
+            Bubblit.Room.DynamicSupervisor.start_child(room_id)
 
-              {:ok, %{body: "welcome to room_id #{room_id}"}, socket}
+            case Bubblit.Room.Monitor.get_after_join(room_id, user_id, user) do
+              {:ok, after_join_dic} ->
+                send(self(), {:after_join, after_join_dic})
 
-            {:error, msg} ->
-              {:error, %{reason: "#{msg} in room_id #{room_id}"}}
-          end
-        else
-          {:error, %{reason: "invalid room_id #{room_id}"}}
+                socket =
+                  assign(socket, :room_record, room_record)
+                  |> assign(:id, inspect(socket.transport_pid))
+
+                Logger.info("user id #{socket.assigns.user_id} joined to room id #{room_id}.")
+
+                {:ok, %{body: "welcome to room_id #{room_id}"}, socket}
+
+              {:error, msg} ->
+                {:error, %{reason: "#{msg} in room_id #{room_id}"}}
+            end
         end
 
       :error ->
