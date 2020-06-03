@@ -13,20 +13,26 @@ defmodule BubblitWeb.RoomImageController do
     if not restricted? || host? do
       image_file_path = Path.absname("uploaded")
 
-      if File.exists?(image_file_path) == False and File.dir?(image_file_path) do
+      unless File.exists?(image_file_path) and File.dir?(image_file_path) do
+        Util.log("Create Uploaded Folder")
         :ok = File.mkdir(image_file_path)
       end
 
       # file_name = Path.basename(file.path)
       # extention = MIME.extensions(file.content_type) |> List.first()
 
-      Util.log("from #{file.path} -> to #{get_room_image_path(room_id)}")
+      Util.log(
+        "#{user_id} uploaded image. save file from #{file.path} -> to #{
+          get_room_image_path(room_id)
+        }"
+      )
 
       case File.cp(file.path, get_room_image_path(room_id)) do
         :ok ->
           json(conn, "Uploaded #{file.filename}")
 
         {:error, msg} ->
+          Util.log_error("#{user_id} uploaded image failed. to #{get_room_image_path(room_id)}")
           json(conn |> put_status(:not_found), "error! #{msg}")
       end
     else
