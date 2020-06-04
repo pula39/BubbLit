@@ -92,7 +92,7 @@ export default class ShareSpace extends Component {
                 this.setState({
                     tabIndex: tabs['image']
                 })
-                return { imageurl: "api/room/get_image/" + this.props.current_room_id + "?" + new Date().getTime() }
+                return { imageurl: "api/room/get_image/" + body }
             case "media_link":
                 this.setState({
                     tabIndex: tabs['media']
@@ -131,10 +131,9 @@ export default class ShareSpace extends Component {
         this.props.channel.push("tab_action", { type: type, body: body })
     }
 
-    handleImageUploadSuccess() {
-        // Glurjar 적용중이라 실제 작동은 안하는듯
-        console.log("handleImageUploadSuccess")
-        this.sendTabAction("img_refreshed", "")
+    handleImageUploadSuccess(file_name) {
+        console.log("handleImageUploadSuccess", file_name)
+        this.sendTabAction("img_refreshed", file_name)
     }
 
     handleTabChange(e, data) {
