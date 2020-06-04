@@ -16,12 +16,6 @@ export default class ImagePanel extends Component {
         }
     }
 
-
-    handleImageUrlClick(event) {
-        this.state.broadcastAction(this.state.imageurlinput)
-
-    }
-
     OnPaste(file) {
         if (file.images.length <= 0) {
             return;
@@ -49,7 +43,8 @@ export default class ImagePanel extends Component {
 
                 uploadFileRequest(room_id, blob)
                     .then(function (response) {
-                        self.state.broadcastAction();
+                        console.log("image upload success", response);
+                        self.state.broadcastAction(response.data.file_name);
                         console.log(response);
                     })
                     .catch(function (error) {

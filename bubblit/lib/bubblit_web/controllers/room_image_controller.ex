@@ -21,15 +21,14 @@ defmodule BubblitWeb.RoomImageController do
       # file_name = Path.basename(file.path)
       # extention = MIME.extensions(file.content_type) |> List.first()
 
-      Util.log(
-        "#{user_id} uploaded image. save file from #{file.path} -> to #{
-          get_room_image_path(room_id)
-        }"
-      )
+      file_name = "#{DateTime.to_unix(DateTime.utc_now(), :millisecond)}_#{room_id}_#{user_id}"
+      saved_path = get_image_by_file_path(file_name)
 
-      case File.cp(file.path, get_room_image_path(room_id)) do
+      Util.log("#{user_id} uploaded image. save file from #{file.path} -> to #{saved_path}")
+
+      case File.cp(file.path, saved_path) do
         :ok ->
-          json(conn, "Uploaded #{file.filename}")
+          json(conn, %{file_name: file_name})
 
         {:error, msg} ->
           Util.log_error("#{user_id} uploaded image failed. to #{get_room_image_path(room_id)}")
@@ -45,8 +44,21 @@ defmodule BubblitWeb.RoomImageController do
     send_file(conn, 200, get_room_image_path(room_id))
   end
 
+  # 권한 체크 필요.
+  def show(conn, %{"file_name" => file_name} = _param) do
+    send_file(conn, 200, get_image_by_file_path(file_name))
+  end
+
   def get_room_image_path(room_id) do
     image_file_path = Path.absname("uploaded")
+
     "#{image_file_path}/room_#{room_id}_image"
   end
+
+  def get_image_by_file_path(file_path) do
+    image_file_path = Path.absname("uploaded")
+
+    "#{image_file_path}/#{file_path}"
+  end
+
 end
