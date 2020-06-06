@@ -18,8 +18,8 @@ export default class Lobby extends Component {
             boundaryRange: 2,
             siblingRange: 2,
             showEllipsis: true,
-            showFirstAndLastNav: true,
-            showPreviousAndNextNav: true,
+            showFirstAndLastNav: false,
+            showPreviousAndNextNav: false,
             //totalPages: 1,
         }
     }
@@ -163,7 +163,7 @@ export default class Lobby extends Component {
         } = this.state
         let startItem = pageItem * (activePage - 1)
         let endItem = startItem + pageItem
-        console.log(startItem, endItem)
+        console.log(activePage, startItem, endItem)
         let totalItem = this.tableContentRender()
         let currentContents = totalItem.slice(startItem, endItem)
         let totalPages = totalItem.length / pageItem
