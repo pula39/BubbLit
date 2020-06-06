@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Table, Header, Grid, Popup, Menu, Image, Label } from 'semantic-ui-react'
+import { Button, Table, Header, Grid, Popup, Menu, Image, Label, Pagination } from 'semantic-ui-react'
 import axios from 'axios'
 import CreateRoom from './CreateRoom'
 import { Link } from 'react-router-dom'
@@ -11,7 +11,16 @@ export default class Lobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isShowOnlyEntered: false
+            isShowOnlyEntered: false,
+            // 페이지네이션 구현을 위한 파라미터들, totalPages는 현재 안쓰고있는데 나중에 쓸수도 있음
+            pageItem: 5,
+            activePage: 1,
+            boundaryRange: 2,
+            siblingRange: 2,
+            showEllipsis: true,
+            showFirstAndLastNav: true,
+            showPreviousAndNextNav: true,
+            //totalPages: 1,
         }
     }
 
@@ -30,6 +39,8 @@ export default class Lobby extends Component {
             .catch(function (error) {
                 console.log(error);
             });
+        this.setState({ totalPages: this.tableContentRender().length })
+        console.log('렝스는', this.tableContentRender())
     }
 
     userLogout() {
@@ -138,7 +149,25 @@ export default class Lobby extends Component {
         </Header>
     }
 
+    handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+
     render() {
+        const {
+            pageItem,
+            activePage,
+            boundaryRange,
+            siblingRange,
+            showEllipsis,
+            showFirstAndLastNav,
+            showPreviousAndNextNav,
+        } = this.state
+        let startItem = pageItem * (activePage - 1)
+        let endItem = startItem + pageItem
+        console.log(startItem, endItem)
+        let totalItem = this.tableContentRender()
+        let currentContents = totalItem.slice(startItem, endItem)
+        let totalPages = totalItem.length / pageItem
+
         return (
             <div>
                 <div className='lobby' >
@@ -170,8 +199,25 @@ export default class Lobby extends Component {
                                 <Table.HeaderCell>JOIN</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
-                        {this.tableContentRender()}
+                        {currentContents}
                     </Table>
+                    <Pagination
+                        activePage={activePage}
+                        boundaryRange={boundaryRange}
+                        onPageChange={this.handlePaginationChange}
+                        size='small'
+                        siblingRange={siblingRange}
+                        //totalPages={totalPages}
+                        totalPages={totalPages}
+                        // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
+                        ellipsisItem={showEllipsis ? undefined : null}
+                        firstItem={showFirstAndLastNav ? undefined : null}
+                        lastItem={showFirstAndLastNav ? undefined : null}
+                        prevItem={showPreviousAndNextNav ? undefined : null}
+                        nextItem={showPreviousAndNextNav ? undefined : null}
+                        pointing
+                        secondary
+                    />
                 </div>
             </div >
         )
