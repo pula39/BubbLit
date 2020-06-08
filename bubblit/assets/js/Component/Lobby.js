@@ -74,6 +74,7 @@ export default class Lobby extends Component {
         while (i < _roomList.length) {
             var active = null;
             var room = _roomList[i];
+            var host = this.props.host;
             if (room.current >= room.limit) {
                 active = (<Button key={"inactive" + i} color='grey' active="false">full</Button>)
             }
@@ -89,8 +90,7 @@ export default class Lobby extends Component {
             var row = [
                 { key: "id", value: room.id },
                 { key: "title", value: room.title },
-                { key: "limit", value: room.limit },
-                { key: "current", value: room.current },
+                { key: "host_name", value: room.current },
                 { key: "is_private", value: room.is_private.toString() },
                 { key: "users", value: room.users.length },
                 { key: "active", value: active },
@@ -138,14 +138,19 @@ export default class Lobby extends Component {
                     <Image avatar spaced='right' src='https://react.semantic-ui.com/images/avatar/small/elliot.jpg' />
                     {this.props.userName}
                 </Label>
-                <p>내가 속한 방만 표시하기
+                <div style={{ marginTop: 5, marginBottom: 5 }}>
+                    <p>내가 속한 방만 표시하기
                 <input type='checkbox' checked={this.state.isShowOnlyEntered}
-                        onChange={this.toggleShowRooms.bind(this)} /></p>
+                            onChange={this.toggleShowRooms.bind(this)} /></p>
+                </div>
             </div>
-            <Button className='logout-button' size='tiny' primary onClick={this.userLogout.bind(this)}>Logout</Button>
-            <Popup position='bottom left' trigger={<Button secondary size='tiny'>CreateRoom</Button>} pinned on='click'>
+            <Button className='logout-button' size='tiny' primary onClick={this.userLogout.bind(this)}>로그아웃</Button>
+            <Popup position='bottom left' trigger={<Button color='green' size='tiny'>새 방 만들기</Button>} pinned on='click'>
                 <CreateRoom />
             </Popup>
+            <div style={{ marginTop: 2, marginLeft: 5 }}>
+                <JoinRoom setRoomIDWithRoomCode={this.setRoomIDWithRoomCode.bind(this)} />
+            </div>
         </Header>
     }
 
@@ -190,13 +195,12 @@ export default class Lobby extends Component {
                     <Table className='lobby-room-table inverted'>
                         <Table.Header>
                             <Table.Row key="header">
-                                <Table.HeaderCell>id</Table.HeaderCell>
-                                <Table.HeaderCell>title</Table.HeaderCell>
-                                <Table.HeaderCell>host</Table.HeaderCell>
-                                <Table.HeaderCell>current</Table.HeaderCell>
-                                <Table.HeaderCell>is_private</Table.HeaderCell>
-                                <Table.HeaderCell>users</Table.HeaderCell>
-                                <Table.HeaderCell>JOIN</Table.HeaderCell>
+                                <Table.HeaderCell>ID</Table.HeaderCell>
+                                <Table.HeaderCell>방제목</Table.HeaderCell>
+                                <Table.HeaderCell>호스트 이름</Table.HeaderCell>
+                                <Table.HeaderCell>접속코드 여부</Table.HeaderCell>
+                                <Table.HeaderCell>현재 인원</Table.HeaderCell>
+                                <Table.HeaderCell>접속</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         {currentContents}

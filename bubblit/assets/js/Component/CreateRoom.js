@@ -43,18 +43,24 @@ class CreateRoom extends Component {
             <div>
                 <Form onSubmit={function (e, data) { this.makeRoom() }.bind(this)}>
                     <Form.Input
-                        size='big'
-                        action={{ icon: 'send' }}
+                        label='방 이름'
+                        size='large'
+                        action={{ icon: 'send', color: 'blue' }}
                         placeholder='enter your room name!'
                         value={this.state.inputMessage}
                         onChange={this.handleInputMessage.bind(this)}
                     ></Form.Input>
+                    <Form.Group inline>
+                        <label>비밀 코드 생성?</label>
+                        <Form.Checkbox
+                            type='checkBox'
+                            label='넹'
+                            value='sm'
+                            checked={this.state.isPrivate}
+                            onChange={this.togglePrivate.bind(this)}
+                        />
+                    </Form.Group>
                 </Form>
-                <input type='checkbox' checked={this.state.isPrivate}
-                    onChange={this.togglePrivate.bind(this)} />
-                {/* <Button onClick={function (e, data) {
-                    this.makeRoom();
-                }.bind(this)} >Make Room</Button> */}
             </div>
         );
     }

@@ -6,7 +6,8 @@ function mapReduxStateToReactProps(state) {
         roomList: state.roomList,
         userName: state.userName,
         userId: state.userId,
-        current_room_id: state.current_room_id
+        current_room_id: state.current_room_id,
+        host: state.roomInfo.host_user,
     }
 }
 
