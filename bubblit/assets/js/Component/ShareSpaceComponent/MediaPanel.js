@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import './../../../css/shareSpace.css'
-import { Button } from 'semantic-ui-react'
+import { Button, Popup } from 'semantic-ui-react'
 
 export default class MediaPanel extends Component {
 
@@ -131,12 +131,12 @@ export default class MediaPanel extends Component {
                 this.props.sendTabAction("media_is_play", !this.state.isPlay)
             }
         }
-        return <Button onClick={handleMediaPauseClick}>{this.state.isPlay ? "미디어 정지하기" : "미디어 재개하기"}</Button>
+        return <Button color='orange' onClick={handleMediaPauseClick}>{this.state.isPlay ? "미디어 정지하기" : "미디어 재개하기"}</Button>
     }
 
     mediaTimeShareButton() {
         if (this.state.isShareProgress) {
-            return <Button onClick={this.handleMediaShareClick.bind(this)}>현재 재생시간 공유</Button>
+            return <Button color={'blue'} onClick={this.handleMediaShareClick.bind(this)}>현재 재생시간 공유</Button>
         }
         else {
             return <font></font>
@@ -149,7 +149,7 @@ export default class MediaPanel extends Component {
 
     mediaSyncButton() {
         if (this.state.isMediaHost) {
-            return <font>당신이 현재 재생되는 미디어의 호스트입니다.</font>
+            return <p><font>당신이 현재 재생되는 미디어의 호스트입니다.</font></p>
         }
 
         if (this.player == undefined) {
@@ -184,21 +184,31 @@ export default class MediaPanel extends Component {
                 <input
                     className="input"
                     type="text"
+                    style={{ marginTop: 5 }}
                     value={this.state.mediaurlinput}
                     onChange={this.handleMediaUrlInput.bind(this)}
                 />
-                <Button onClick={this.handleMediaUrlClick.bind(this)}>미디어 링크 변경</Button>
-                {this.mediaTimeShareButton()}
-                {this.mediaPauseButton()}
-                {this.mediaSyncButton()}
-                <br />
-                미디어 재생시간 공유하기
+                <p style={{ marginTop: 5 }}>
+                    <Popup
+                        on='click'
+                        pinned
+                        trigger={<Button color='pink' content='사용방법' />}
+                    >
+
+                        <p>* 지원 미디어: 트위치(라이브 스트리밍), 유튜브, 사운드 클라우드, 페이스북 등</p>
+                        <p>* 미디어의 링크를 올린 다음, 미디어 링크 변경 버튼을 클릭해 다른사람에게 공유해보세요.</p>
+                        <p>* 모든 사람들의 재생을 정지시키려면 미디어 정지하기 버튼을 눌러주세요.</p>
+                    </Popup>
+                    <Button color={'teal'} onClick={this.handleMediaUrlClick.bind(this)}>미디어 링크 변경</Button>
+                    {this.mediaTimeShareButton()}
+                    {this.mediaPauseButton()}
+                    {this.mediaSyncButton()}
+
+                    미디어 재생시간 공유하기
                 <input type='checkbox' checked={this.state.isShareProgress}
-                    onChange={this.toggleShareProgressChange.bind(this)} />
-                <br />
-                <p>* 지원 미디어: 트위치(라이브 스트리밍), 유튜브, 사운드 클라우드, 페이스북 등</p>
-                <p>* 미디어의 링크를 올린 다음, 미디어 링크 변경 버튼을 클릭해 다른사람에게 공유해보세요.</p>
-                <p>* 모든 사람들의 재생을 정지시키려면 미디어 정지하기 버튼을 눌러주세요.</p>
+                        onChange={this.toggleShareProgressChange.bind(this)} />
+
+                </p>
             </div>
         )
     }

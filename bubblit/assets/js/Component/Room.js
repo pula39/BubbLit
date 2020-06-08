@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Header, Icon, Segment } from 'semantic-ui-react'
+import { Grid, Header, Icon, Segment, Label } from 'semantic-ui-react'
 import { Rnd } from 'react-rnd'
 import ChatModule from '../Container/ChatModule'
 import ShareSpace from '../Container/ShareSpace'
@@ -7,7 +7,7 @@ import { Presence } from "phoenix"
 import '../../css/room.css'
 import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router';
-
+import crown from '../../static/images/crown.png'
 
 class Room extends Component {
     constructor(props) {
@@ -97,10 +97,9 @@ class Room extends Component {
         else {
             let host_id = this.props.roomInfo.host_user
             let hostname = this.props.roomInfo.users[host_id] == undefined ? '' : this.props.roomInfo.users[host_id].name
-
+            // 제거 호스트: {hostname}
             return <Header className='room-header' as='h1' size='huge'>
-                <Icon name='rocketchat' size='huge' />
-                Room '{this.props.roomInfo.room_title}' 호스트: {hostname}
+                {this.props.roomInfo.room_title}
             </Header>
         }
     }
@@ -133,7 +132,7 @@ class Room extends Component {
                             <Rnd
                                 className='tab'
                                 disableDragging
-                                minWidth={window.innerWidth * 0.3}
+                                minWidth={'620'}
                                 maxWidth={window.innerWidth * 0.6}
                                 default={{
                                     x: 0,

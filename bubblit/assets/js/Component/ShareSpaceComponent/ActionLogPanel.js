@@ -9,10 +9,10 @@ export default class ActionLogPanel extends Component {
             showByUser: 'all',
             showByType: 'all',
             typeOption: [
-                { text: 'all', value: 'all' },
-                { text: 'control', value: 'control' },
-                { text: 'media', value: 'media' },
-                { text: 'image', value: 'img' },
+                { text: 'ALL', value: 'all' },
+                { text: '설정', value: 'control' },
+                { text: '미디어', value: 'media' },
+                { text: '이미지', value: 'img' },
             ]
         }
 
@@ -39,24 +39,24 @@ export default class ActionLogPanel extends Component {
         //JS는 갓언어라 String format이 없다.
         switch (type) {
             case "img_refreshed":
-                return <div>{name + "님이 이미지를 공유하였습니다"} <a href={"api/room/get_image/" + param} target="_blank">보기</a> </div>;
+                return <div>{"이미지를 공유하였습니다"} <a href={"api/room/get_image/" + param} target="_blank">보기</a> </div>;
             case "media_link":
-                return name + "님이 " + param + " 미디어를 공유하였습니다.";
+                return "" + param + " 미디어를 공유하였습니다.";
             case "media_share_time":
-                return name + "님이 미디어 재생시간을" + parseFloat(param).toFixed(2) + "로 변경하였습니다.";
+                return "미디어 재생시간을" + parseFloat(param).toFixed(2) + "로 변경하였습니다.";
             case "media_is_play":
                 if (param == "false") {
-                    return name + "님이 미디어를 멈췄습니다.";
+                    return "미디어를 멈췄습니다.";
                 }
                 else {
-                    return name + "님이 미디어를 재생했습니다.";
+                    return "미디어를 재생했습니다.";
                 }
             case "restrict_control":
                 if (param == "false") {
-                    return name + "님이 방의 기능 제한을 해제했습니다.";
+                    return "방의 기능 제한을 해제했습니다.";
                 }
                 else {
-                    return name + "님이 방의 기능을 제한했습니다.";
+                    return "방의 기능을 제한했습니다.";
                 }
         }
 
@@ -92,6 +92,7 @@ export default class ActionLogPanel extends Component {
             contents.push(
                 <Comment key={index}>
                     <Comment.Content>
+                        <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
                         <Comment.Author title={time.toString()}>{name} {timeStr}</Comment.Author>
                         <Comment.Text>{self.MakeActionDescription(name, item.type, item.param)}</Comment.Text>
                     </Comment.Content>
@@ -110,13 +111,12 @@ export default class ActionLogPanel extends Component {
     render() {
         return (
             < div >
-                <Form>
+                <Form style={{ marginBottom: 3 }}>
                     <Form.Field>
-                        <label>Select room action type</label>
                         <Dropdown
                             selection
                             name='showByType'
-                            placeholder='Choose action type'
+                            placeholder='확인할 액션타입을 선택하세요'
                             options={this.state.typeOption}
                             onChange={this.handleChange}
                         >

@@ -157,15 +157,15 @@ export default class ShareSpace extends Component {
     controlPanelRender() {
         if (this.props.isHost == true) {
             return (<div>
-                <Button key={"underMyControl"} onClick={function (e, data) {
+                <Button primary key={"underMyControl"} onClick={function (e, data) {
                     this.sendTabAction("restrict_control", "true")
                 }.bind(this)}>방장만 조작 가능</Button>
-                <Button key={"underMyUnsetControl"} onClick={function (e, data) {
+                <Button primary key={"underMyUnsetControl"} onClick={function (e, data) {
                     this.sendTabAction("restrict_control", "false")
                 }.bind(this)}>모두가 조작 가능</Button>
-                <Button key={"delete_room"} onClick={function (e, data) {
+                <Button color='red' key={"delete_room"} onClick={function (e, data) {
                     this.props.channel.push("delete_room");
-                }.bind(this)}>방터트리기</Button>
+                }.bind(this)}>방 삭제</Button>
             </div>
             )
         }
@@ -223,23 +223,23 @@ export default class ShareSpace extends Component {
         let extendContent =
             <Tab.Pane className="outerfit">
                 {this.controlPanelRender()}
-                <Button key={"showRoomCode"} onClick={function (e, data) {
+                <Button style={{ marginTop: 10 }} color={'black'} key={"showRoomCode"} onClick={function (e, data) {
                     this.props.channel.push("get_room_code");
                 }.bind(this)}>Room Code 조회</Button>
             </Tab.Pane>
 
         const panes = [
             {
-                menuItem: 'Media',
+                menuItem: '미디어',
                 pane: { key: 'tab1', content: mediaContent, className: 'sharespace-tab' }
             },
             {
-                menuItem: 'Custom',
+                menuItem: '커스텀',
                 pane: { key: 'tab2', content: customContent, className: 'sharespace-tab' }
 
             },
             {
-                menuItem: 'Log',
+                menuItem: '채팅기록',
                 pane: { key: 'tab3', content: logContent, className: 'sharespace-tab' }
             },
             {
@@ -247,11 +247,11 @@ export default class ShareSpace extends Component {
                 pane: { key: 'tab4', content: actionLogContent, className: 'sharespace-tab' }
             },
             {
-                menuItem: 'IMG',
+                menuItem: '이미지',
                 pane: { key: 'tab5', content: imgContent, className: 'sharespace-tab' }
             },
             {
-                menuItem: '확장기능',
+                menuItem: '설정',
                 pane: { key: 'tab6', content: extendContent, className: 'sharespace-tab' }
             },
         ]

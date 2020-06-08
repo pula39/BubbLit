@@ -140,8 +140,8 @@ export default class ChatModule extends Component {
                                         value={this.state.inputMessage}
                                         onChange={this.handleInputMessage.bind(this)}
                                     />
-                                    <Button color='grey' type='submit'>Chat</Button>
-                                    <Link to="/"><Button secondary>Exit Room</Button></Link>
+                                    <Button primary type='submit'>채팅</Button>
+                                    <Link to="/"><Button color='red'>방에서 나가기</Button></Link>
                                 </Form.Field>
                             </Form.Group>
 
