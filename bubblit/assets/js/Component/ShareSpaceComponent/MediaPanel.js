@@ -176,7 +176,7 @@ export default class MediaPanel extends Component {
                     playing={this.state.isPlay}
                     controls={true}
                     onProgress={this.handleProgress.bind(this)}
-                    progressInterval={3000}
+                    progressInterval={2000}
                     onReady={this.forceStart} />
                 <input
                     className="input"
