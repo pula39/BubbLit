@@ -186,7 +186,6 @@ export default class Lobby extends Component {
                             <div>What is BubbLit?</div>
                             <div>소규모의 그룹이 모여서 부담없이 회의를 나눌 수 있는 인터넷 공간을 편리한 기능과 함께 제공하는 서비스 입니다.</div>
                             <div>We are Under Construction.</div>
-                            <JoinRoom setRoomIDWithRoomCode={this.setRoomIDWithRoomCode.bind(this)} />
                         </Header>
                         <Menu.Item position='right'>
                             {this.userInfoRender()}
