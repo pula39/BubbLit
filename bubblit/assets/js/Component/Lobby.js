@@ -196,7 +196,6 @@ class Lobby extends Component {
                         <Header textAlign="left">
                             <div>What is BubbLit?</div>
                             <div>소규모의 그룹이 모여서 부담없이 회의를 나눌 수 있는 인터넷 공간을 편리한 기능과 함께 제공하는 서비스 입니다.</div>
-                            <div>We are Under Construction.</div>
                         </Header>
                         <Menu.Item position='right'>
                             {this.userInfoRender()}
@@ -208,7 +207,7 @@ class Lobby extends Component {
                                 <Table.HeaderCell>ID</Table.HeaderCell>
                                 <Table.HeaderCell>방제목</Table.HeaderCell>
                                 <Table.HeaderCell>호스트 이름</Table.HeaderCell>
-                                <Table.HeaderCell>접속코드 여부</Table.HeaderCell>
+                                <Table.HeaderCell>방 공개상태</Table.HeaderCell>
                                 <Table.HeaderCell>현재 인원</Table.HeaderCell>
                                 <Table.HeaderCell>접속</Table.HeaderCell>
                             </Table.Row>

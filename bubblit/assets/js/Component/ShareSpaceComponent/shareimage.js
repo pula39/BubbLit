@@ -59,7 +59,7 @@ export default class ImagePanel extends Component {
     render() {
 
         return (
-            <div className="imagetab-image-div">
+            <div className="imagetab-image-div" height="100%">
                 <img className="imagetab-image" src={this.props.imgurl} />
                 <Gluejar onPaste={this.OnPaste.bind(this)} onError={err => console.error(err)}>
 

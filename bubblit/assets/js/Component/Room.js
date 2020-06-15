@@ -10,7 +10,7 @@ import { Redirect } from 'react-router';
 import { withAlert } from "react-alert";
 
 const widthMulti = 0.5
-const heightMulti = 0.85
+const heightMulti = 0.8
 const maxWidthMulti = 0.6
 
 class Room extends Component {

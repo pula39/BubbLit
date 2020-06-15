@@ -225,12 +225,12 @@ class ShareSpace extends Component {
 
         let imgContent =
             <Tab.Pane className="outerfit">
+                <div width='100%' display='block'>Ctrl+v로 이미지 파일을 붙여넣어서, 다른 사람들에게 공유해보세요!</div>
                 <ImagePanel
                     broadcastAction={this.handleImageUploadSuccess.bind(this)}
                     imgurl={this.state.imageurl}
                     channel={this.props.channel}
                     room_id={this.props.current_room_id} />
-                <div width='100%' display='block'>Ctrl+v로 이미지 파일을 붙여넣어서, 다른 사람들에게 공유해보세요!</div>
             </Tab.Pane>
 
         let extendContent =
