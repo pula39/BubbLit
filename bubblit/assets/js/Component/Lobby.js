@@ -89,11 +89,14 @@ class Lobby extends Component {
                     </Link>
                 )
             }
+
+            var private_room_string = room.is_private ? "비밀방" : "";
+
             var row = [
                 { key: "id", value: room.id },
                 { key: "title", value: room.title },
                 { key: "host_name", value: room.current },
-                { key: "is_private", value: room.is_private.toString() },
+                { key: "is_private", value: private_room_string },
                 { key: "users", value: room.users.length },
                 { key: "active", value: active },
             ]

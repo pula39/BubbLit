@@ -55,10 +55,10 @@ class CreateRoom extends Component {
                         onChange={this.handleInputMessage.bind(this)}
                     ></Form.Input>
                     <Form.Group inline>
-                        <label>비밀 코드 생성?</label>
+                        <label>비밀방으로 생성</label>
                         <Form.Checkbox
                             type='checkBox'
-                            label='넹'
+                            label='YES'
                             value='sm'
                             checked={this.state.isPrivate}
                             onChange={this.togglePrivate.bind(this)}
