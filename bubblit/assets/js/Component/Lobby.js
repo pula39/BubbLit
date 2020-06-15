@@ -70,6 +70,7 @@ class Lobby extends Component {
     tableContentRender() {
         console.log(this.state)
         var content = [];
+        var prior_content = [];
         var _roomList = this.props.roomList;
         var i = 0;
         while (i < _roomList.length) {
@@ -120,16 +121,22 @@ class Lobby extends Component {
                 continue
             }
 
-            content.push(
+            var row =
                 <Table.Body key={i.toString() + "table"} className={rowClassname}>
                     <Table.Row key={i.toString() + "row"}>
                         {row.map((value) => <Table.Cell key={value.key + i}> <p className="table-cell-text">{value.value} </p> </Table.Cell>)}
                     </Table.Row>
                 </Table.Body>
-            )
+
+            if (entered) {
+                prior_content.push(row)
+            }
+            else {
+                content.push(row)
+            }
         }
 
-        return content
+        return prior_content.concat(content)
     }
 
     userInfoRender() {
