@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { Container, Icon } from 'semantic-ui-react'
-=======
 import { Image } from 'semantic-ui-react'
->>>>>>> #121 방장 표시
 import { Rnd } from 'react-rnd'
 import { Scrollbars, scrollToBottom } from 'react-custom-scrollbars';
 import { Label } from 'semantic-ui-react'
@@ -165,11 +161,7 @@ export default class ChatBox extends Component {
 
                         <strong className={this.props.is_my_box ? 'chat-my-name' : 'chat-other-name'}>{this.props.name}</strong>
                         <this.ShowIsOnline props={this.props} />
-<<<<<<< HEAD
-                        {this.props.is_host && <Icon name='chess king' size='big' color='yellow' />}
-=======
                         {this.props.is_host && <Image avatar src={crown} style={{ width: '1em', height: '1em', marginBottom: '3px' }} />}
->>>>>>> #121 방장 표시
                         <Scrollbars
                             renderTrackHorizontal={props => <div {...props} className="track-horizontal" style={{ display: "none" }} />}
                             renderThumbHorizontal={props => <div {...props} className="thumb-horizontal" style={{ display: "none" }} />}
