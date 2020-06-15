@@ -9,43 +9,62 @@ import { Link } from 'react-router-dom';
 //const DEF_CHATBOX_POS = { x: [0, 450, 0, 450, 0, 450], y: [0, 0, 300, 300, 600, 600] }
 const INPUTSPACE_RELATIVE_POS = { x: 0, y: 0.8 };
 
-const DEF_CHATBOX_WIDTH = window.innerWidth * 0.2;
-const DEF_CHATBOX_HEIGHT = window.innerHeight * 0.25;
-const DEF_CHATBOX_INTERVAL = {
-    x: DEF_CHATBOX_WIDTH + 50,
-    y: DEF_CHATBOX_HEIGHT + 20
-};
-const CHATBOX_LEFT_PADDING = 10;
-const CHATBOX_TOP_PADDING = 10;
-const WIDTH = [DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH];
-const HEIGHT = [DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT];
-const XPOS = [CHATBOX_LEFT_PADDING, DEF_CHATBOX_INTERVAL.x, CHATBOX_LEFT_PADDING, DEF_CHATBOX_INTERVAL.x, CHATBOX_LEFT_PADDING, DEF_CHATBOX_INTERVAL.x];
-const YPOS = [CHATBOX_TOP_PADDING, CHATBOX_TOP_PADDING, DEF_CHATBOX_INTERVAL.y, DEF_CHATBOX_INTERVAL.y, DEF_CHATBOX_INTERVAL.y * 2, DEF_CHATBOX_INTERVAL.y * 2];
-
-
 export default class ChatModule extends Component {
     constructor(props) {
         super(props);
+        var inputBoxPosition = this.RepositionInputBox()
         this.state = {
             inputMessage: '',
-            inputspacePosX: window.innerWidth * INPUTSPACE_RELATIVE_POS.x,
-            inputspacePosY: window.innerHeight * INPUTSPACE_RELATIVE_POS.y,
+            inputspacePosX: inputBoxPosition.width,
+            inputspacePosY: inputBoxPosition.height,
+            chatboxInfo: this.RepositionChatBox()
 
             // 채팅박스 위치, 가로 세로 길이, 보기 잦같은데 이거 어캐해야댈지 생각한뒤에 다시바꿈
-            chatboxInfo: {
-                0: { width: WIDTH[0], height: HEIGHT[0], xPos: XPOS[0], yPos: YPOS[0] },
-                1: { width: WIDTH[1], height: HEIGHT[1], xPos: XPOS[1], yPos: YPOS[1] },
-                2: { width: WIDTH[2], height: HEIGHT[2], xPos: XPOS[2], yPos: YPOS[2] },
-                3: { width: WIDTH[3], height: HEIGHT[3], xPos: XPOS[3], yPos: YPOS[3] },
-                4: { width: WIDTH[4], height: HEIGHT[4], xPos: XPOS[4], yPos: YPOS[4] },
-                5: { width: WIDTH[5], height: HEIGHT[5], xPos: XPOS[5], yPos: YPOS[5] },
-            }
         }
 
         this.handleEnterKeyPress = this.handleEnterKeyPress.bind(this)
         this.chatInput = React.createRef()
     }
 
+    handleResize() {
+        var inputBoxPosition = this.RepositionInputBox()
+        this.setState({
+            inputspacePosX: inputBoxPosition.width,
+            inputspacePosY: inputBoxPosition.height,
+            chatboxInfo: this.RepositionChatBox()
+        });
+    };
+
+    RepositionChatBox() {
+        const DEF_CHATBOX_WIDTH = window.innerWidth * 0.2;
+        const DEF_CHATBOX_HEIGHT = window.innerHeight * 0.25;
+        const DEF_CHATBOX_INTERVAL = {
+            x: DEF_CHATBOX_WIDTH + 50,
+            y: DEF_CHATBOX_HEIGHT + 20
+        };
+        const CHATBOX_LEFT_PADDING = 10;
+        const CHATBOX_TOP_PADDING = 10;
+        const WIDTH = [DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH, DEF_CHATBOX_WIDTH];
+        const HEIGHT = [DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT, DEF_CHATBOX_HEIGHT];
+        const XPOS = [CHATBOX_LEFT_PADDING, DEF_CHATBOX_INTERVAL.x, CHATBOX_LEFT_PADDING, DEF_CHATBOX_INTERVAL.x, CHATBOX_LEFT_PADDING, DEF_CHATBOX_INTERVAL.x];
+        const YPOS = [CHATBOX_TOP_PADDING, CHATBOX_TOP_PADDING, DEF_CHATBOX_INTERVAL.y, DEF_CHATBOX_INTERVAL.y, DEF_CHATBOX_INTERVAL.y * 2, DEF_CHATBOX_INTERVAL.y * 2];
+
+        return {
+            0: { width: WIDTH[0], height: HEIGHT[0], xPos: XPOS[0], yPos: YPOS[0] },
+            1: { width: WIDTH[1], height: HEIGHT[1], xPos: XPOS[1], yPos: YPOS[1] },
+            2: { width: WIDTH[2], height: HEIGHT[2], xPos: XPOS[2], yPos: YPOS[2] },
+            3: { width: WIDTH[3], height: HEIGHT[3], xPos: XPOS[3], yPos: YPOS[3] },
+            4: { width: WIDTH[4], height: HEIGHT[4], xPos: XPOS[4], yPos: YPOS[4] },
+            5: { width: WIDTH[5], height: HEIGHT[5], xPos: XPOS[5], yPos: YPOS[5] },
+        }
+    }
+
+    RepositionInputBox() {
+        return {
+            width: window.innerWidth * INPUTSPACE_RELATIVE_POS.x,
+            height: window.innerHeight * INPUTSPACE_RELATIVE_POS.y,
+        }
+    }
 
     chatboxRenderer() {
         var myName = document.getElementById('current-username').innerHTML
@@ -101,11 +120,13 @@ export default class ChatModule extends Component {
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleEnterKeyPress);
-    }
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleEnterKeyPress);
+        window.addEventListener("resize", this.handleResize.bind(this));
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleEnterKeyPress);
+        window.removeEventListener("resize", this.handleResize.bind(this));
+    }
 
     handleEnterKeyPress(e) {
         // e.keycode는 deprecated되었음.

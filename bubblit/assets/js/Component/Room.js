@@ -9,13 +9,17 @@ import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router';
 import { withAlert } from "react-alert";
 
+const widthMulti = 0.5
+const heightMulti = 0.85
+const maxWidthMulti = 0.6
+
 class Room extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userID: 1,
-            shareSpace_width: window.innerWidth * 0.5,
-            shareSpace_height: 0.85,
+            shareSpace_width: window.innerWidth,
+            shareSpace_height: window.innerHeight,
             isEnter: false,
             isHost: false,
             redirect: false
@@ -29,12 +33,21 @@ class Room extends Component {
         channelinit()
     }
 
-    lobbyRedirect = () => {
+    handleResize() {
+        this.setState({
+            shareSpace_width: window.innerWidth,
+            shareSpace_height: window.innerHeight,
+        }, () => {
+            this.rnd.updateSize({ width: window.innerWidth * widthMulti, height: window.innerHeight * heightMulti });
+        })
+    };
+
+    lobbyRedirect() {
         this.props.alert.show("방에 접속할 수 없습니다. 로비로 이동합니다.")
         this.props.history.push('/')
     }
 
-    channelInitialize = () => {
+    channelInitialize() {
         this.props.channel.join()
             .receive('ok', this.onReceiveOk.bind(this))
             .receive('error', response => {
@@ -104,7 +117,12 @@ class Room extends Component {
         }
     }
 
+    componentDidMount() {
+        window.addEventListener("resize", this.handleResize.bind(this));
+    }
+
     componentWillUnmount() {
+        window.removeEventListener("resize", this.handleResize.bind(this));
         this.props.exitRoom()
     }
     // ResizableBox에 초기 사이즈(width, height)는 숫자만 받음 => %값으로 줄 수 없음.
@@ -130,17 +148,17 @@ class Room extends Component {
                     <Grid columns={2}>
                         <Grid.Column>
                             <Rnd
+                                ref={c => { this.rnd = c; }}
                                 className='tab'
                                 disableDragging
                                 minWidth={'620'}
-                                maxWidth={window.innerWidth * 0.6}
+                                maxWidth={this.state.shareSpace_width * maxWidthMulti}
                                 default={{
                                     x: 0,
                                     y: 0,
-                                    width: window.innerWidth * 0.5,
-                                    height: window.innerHeight * 0.85,
+                                    width: this.state.shareSpace_width * widthMulti,
+                                    height: this.state.shareSpace_height * heightMulti,
                                 }}
-                                height={this.state.shareSpace_height}
                             >
                                 <ShareSpace isHost={this.state.isHost}></ShareSpace>
 
