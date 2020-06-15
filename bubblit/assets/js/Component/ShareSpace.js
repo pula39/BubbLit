@@ -162,18 +162,25 @@ class ShareSpace extends Component {
 
     controlPanelRender() {
         if (this.props.isHost == true) {
-            return (<div>
-                <Button primary key={"underMyControl"} onClick={function (e, data) {
-                    this.sendTabAction("restrict_control", "true")
-                }.bind(this)}>방장만 조작 가능</Button>
-                <Button primary key={"underMyUnsetControl"} onClick={function (e, data) {
-                    this.sendTabAction("restrict_control", "false")
-                }.bind(this)}>모두가 조작 가능</Button>
-                <Button color='red' key={"delete_room"} onClick={function (e, data) {
-                    this.props.channel.push("delete_room");
-                }.bind(this)}>방 삭제</Button>
-            </div>
-            )
+            if (this.state.restrict_control == "true") {
+                return <div>
+                    <Button primary key={"underMyUnsetControl"} onClick={function (e, data) {
+                        this.sendTabAction("restrict_control", "false")
+                    }.bind(this)}>모두가 조작 가능</Button>
+                    <Button color='red' key={"delete_room"} onClick={function (e, data) {
+                        this.props.channel.push("delete_room");
+                    }.bind(this)}>방 삭제</Button>
+                </div>
+            } else {
+                return <div>
+                    <Button primary key={"underMyControl"} onClick={function (e, data) {
+                        this.sendTabAction("restrict_control", "true")
+                    }.bind(this)}>방장만 조작 가능</Button>
+                    <Button color='red' key={"delete_room"} onClick={function (e, data) {
+                        this.props.channel.push("delete_room");
+                    }.bind(this)}>방 삭제</Button>
+                </div>
+            }
         }
         else {
             return <div>
