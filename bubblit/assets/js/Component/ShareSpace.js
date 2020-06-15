@@ -269,12 +269,14 @@ class ShareSpace extends Component {
             },
         ]
 
-        let rootClassName = "sharespace-div " + (this.state.restrict_control == "true" ? "div-restricted" : "")
+        let rootClassName = "sharespace-div "
 
         return (
             <div className={rootClassName}>
-                <Tab className="outerfit"
-                    menu={{ size: 'huge', color: 'blue', inverted: true, attatched: "false", tabular: false }}
+                <Tab className="outerfit" menu={{
+                    size: 'huge', inverted: true, attatched: "false", tabular: false,
+                    color: (this.state.restrict_control == "true" ? "red" : "blue")
+                }}
                     panes={panes}
                     activeIndex={this.state.tabIndex}
                     onTabChange={this.handleTabChange.bind(this)}
