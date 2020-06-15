@@ -34,6 +34,7 @@ export default class ChatBox extends Component {
         this.handleUpdate();
         this.blurAllMessage();
 
+        this.rnd.updateSize({ width: this.props.chatboxInfo.width, height: this.props.chatboxInfo.height })
         this.rnd.updatePosition({ x: this.props.chatboxInfo.xPos, y: this.props.chatboxInfo.yPos })
     }
 
@@ -42,8 +43,9 @@ export default class ChatBox extends Component {
             prevProps.chatboxInfo.height != this.props.chatboxInfo.height ||
             prevProps.chatboxInfo.xPos != this.props.chatboxInfo.xPos ||
             prevProps.chatboxInfo.yPos != this.props.chatboxInfo.yPos) {
-            console.log("채팅창을 리셋하려 합니다.")
-
+            console.log("채팅창을 리셋하려 합니다.", this.props.chatboxInfo)
+            console.log(this.rnd.size, this.rnd.resize)
+            console.log(this.rnd)
             this.rnd.updateSize({ width: this.props.chatboxInfo.width, height: this.props.chatboxInfo.height })
             this.rnd.updatePosition({ x: this.props.chatboxInfo.xPos, y: this.props.chatboxInfo.yPos })
         }
@@ -125,7 +127,6 @@ export default class ChatBox extends Component {
                     ref={c => { this.rnd = c; }}
                     className={'chatbox ' + (IsOnlineByProps(this.props) ? 'chat-area' : 'chat-area-offline')}
                     bounds='window'
-                    size={{ width: this.state.chatboxInfo.width, height: this.state.chatboxInfo.height }}
                     //이부분 우선은 이렇게 해둿는데 추후 고민해서 고치자
                     minWidth='100' minHeight='100'
                     maxWidth='800' maxHeight='800'
@@ -135,6 +136,7 @@ export default class ChatBox extends Component {
 
                     // 아랫부분 동작 원리를 알기위해 장황한 코딩을 했으나, 추후 수정예정임돠
                     onDragStop={(e, d) => {
+                        console.log("OnDragStop")
                         e.preventDefault();
                         let tempChatboxInfo = { ...this.state.chatboxInfo };
                         tempChatboxInfo.xPos = d.x;
@@ -142,6 +144,7 @@ export default class ChatBox extends Component {
                         this.setState({ chatboxInfo: tempChatboxInfo });
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
+                        console.log("OnResizeStop")
                         e.preventDefault();
                         let tempChatboxInfo = { ...this.state.chatboxInfo };
                         tempChatboxInfo.width = ref.style.width.slice(0, -2);
