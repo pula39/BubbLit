@@ -6,7 +6,7 @@ defmodule Bubblit.Repo.Migrations.CreateRoomActions do
       add :type, :string
       add :sub_type, :string
       add :param, :string
-      add :room_id, references(:rooms, on_delete: :nothing)
+      add :room_id, references(:rooms, on_delete: :delete_all)
       add :user_id, references(:users, on_delete: :nothing)
 
       timestamps()
