@@ -159,6 +159,10 @@ class Room extends Component {
                                     width: this.state.shareSpace_width * widthMulti,
                                     height: this.state.shareSpace_height * heightMulti,
                                 }}
+                                enableResizing={{
+                                    top: false, right: true, bottom: false, left: false,
+                                    topRight: false, bottomRight: false, bottomLeft: false, topLeft: false
+                                }}
                             >
                                 <ShareSpace isHost={this.state.isHost}></ShareSpace>
 
