@@ -58,6 +58,9 @@ export default class ActionLogPanel extends Component {
                 else {
                     return "방의 기능을 제한했습니다.";
                 }
+            case "custom_link":
+                return <div>{"커스텀 링크를 공유하였습니다."} <a href={param} target="_blank">보기</a></div>;
+
         }
 
         return name + type + param
