@@ -27,19 +27,19 @@ export default class LogPanel extends Component {
     historyRenderer() {
         let contents = [];
         if (this.props.roomInfo == undefined) {
-            console.log('roonInfo is undefined! in LogPanel.js');
+            // console.log('roonInfo is undefined! in LogPanel.js');
             return [];
         }
         if (this.props.roomInfo.bubble_history == undefined) {
-            console.log('roonInfo.bubble_history is undefined! in LogPanel.js');
+            // console.log('roonInfo.bubble_history is undefined! in LogPanel.js');
             return [];
         }
         if (this.props.roomInfo.users === undefined) {
-            console.log('roonInfo.users is undefined! in LogPanel.js');
+            // console.log('roonInfo.users is undefined! in LogPanel.js');
             return [];
         }
         if (this.props.roomInfo.chat_timeline === undefined) {
-            console.log('roonInfo.chat_timeline is undefined! in LogPanel.js');
+            // console.log('roonInfo.chat_timeline is undefined! in LogPanel.js');
             return [];
         }
         this.props.roomInfo.chat_timeline.forEach((element, index) => {

@@ -24,7 +24,7 @@ export default class MediaPanel extends Component {
                 let time = nextProps.mediaPlayTimeShare
 
                 if (this.player != undefined) {
-                    console.log("tried to seek to ", time)
+                    // console.log("tried to seek to ", time)
                     this.player.seekTo(time)
 
                 } else {

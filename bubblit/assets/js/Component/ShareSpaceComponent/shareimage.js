@@ -24,7 +24,7 @@ export default class ImagePanel extends Component {
         var self = this
         let room_id = this.props.room_id;
 
-        console.log(file)
+        // console.log(file)
         var url = file.images[0];
         file.images = []
 
@@ -34,25 +34,25 @@ export default class ImagePanel extends Component {
             .then(function (response) {
                 console.dir(response);
                 let blob = response.data;
-                console.log(blob)
+                // console.log(blob)
 
                 if (blob == null || blob == undefined) {
-                    console.log("blob is null")
+                    // console.log("blob is null")
                     return;
                 }
 
                 uploadFileRequest(room_id, blob)
                     .then(function (response) {
-                        console.log("image upload success", response);
+                        // console.log("image upload success", response);
                         self.state.broadcastAction(response.data.file_name);
-                        console.log(response);
+                        // console.log(response);
                     })
                     .catch(function (error) {
-                        console.log("error when upload image.", error.response.data);
+                        // console.log("error when upload image.", error.response.data);
                     })
             })
             .catch(function (error) {
-                console.log(error);
+                // console.log(error);
             })
     }
 

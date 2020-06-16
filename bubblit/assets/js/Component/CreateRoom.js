@@ -14,7 +14,7 @@ class CreateRoom extends Component {
 
     makeRoom() {
         var self = this
-        console.log(this.state.inputMessage);
+        // console.log(this.state.inputMessage);
         axios.post('/api/room/make', {
             title: this.state.inputMessage,
             is_private: this.state.isPrivate
@@ -25,7 +25,7 @@ class CreateRoom extends Component {
             setTimeout(() => { window.location.reload(false); }, 2500);
             // window.location.reload(false);
         }).catch(function (error) {
-            console.log(error);
+            // console.log(error);
         });
     }
 

@@ -5,7 +5,7 @@ function concatToRoomUsers(roomUsers, user_id) {
     let notInRoomUsers = (roomUsers.includes(user_id) == false);
 
     if (notInRoomUsers) {
-        console.log("new room user", user_id, "added for", roomUsers)
+        // console.log("new room user", user_id, "added for", roomUsers)
         return roomUsers.concat(user_id)
     }
 
@@ -20,7 +20,7 @@ function RemoveFromRoomUsers(roomUsers, user_id) {
         newRoomUsers.splice(index, 1);
         return newRoomUsers;
     } else {
-        console.log("try remove user_id ", user_id, "from room. but not in.", roomUsers)
+        // console.log("try remove user_id ", user_id, "from room. but not in.", roomUsers)
         return roomUsers;
     }
 }
@@ -80,7 +80,7 @@ export default createStore(function (state, action) {
         return { ...init_state };
     }
     if (action.type === 'SET_ROOM_ID') {
-        console.log('SET_ROOM_ID', action.room_id, action.room_password)
+        // console.log('SET_ROOM_ID', action.room_id, action.room_password)
         // 아래 코드에서 socket을 연결시키고, 방에 들어감과 동시에 channel에 접속시켜준다.
         state = { ...state, ...room_init_state }
         state.socket.connect();
@@ -91,7 +91,7 @@ export default createStore(function (state, action) {
         }
     }
     if (action.type === 'ENTER_ROOM') {
-        console.log('ENTER_ROOM', action.room_id, state.room_password)
+        // console.log('ENTER_ROOM', action.room_id, state.room_password)
         return {
             ...state,
             channel: state.socket.channel('room:' + action.room_id, { nickname: state.userName, password: state.room_password })
@@ -139,7 +139,7 @@ export default createStore(function (state, action) {
         action.bubble_history.forEach(element => {
             addMessageInBubbleHistory(init_bubble_history, element)
         })
-        console.log('방정보받은거')
+        // console.log('방정보받은거')
         console.dir(action)
         modifiedRoomInfo.bubble_history = init_bubble_history;
         modifiedRoomInfo.tab_action_history = action.tab_action_history;

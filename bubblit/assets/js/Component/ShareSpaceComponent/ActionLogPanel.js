@@ -90,7 +90,7 @@ export default class ActionLogPanel extends Component {
             let name = roomInfo.users[item.user_id].name
             let time = new Date(item.inserted_at)
             let timeStr = time.toLocaleTimeString(navigator.language, { hour12: false, hour: '2-digit', minute: '2-digit' });
-            // console.log(item.inserted_at, "->", timeStr)
+            // // console.log(item.inserted_at, "->", timeStr)
 
             contents.push(
                 <Comment key={index}>
@@ -107,7 +107,7 @@ export default class ActionLogPanel extends Component {
 
     handleChange = (e, { name, value }) => {
         this.setState({ [name]: value })
-        console.log(this.state);
+        // console.log(this.state);
     }
 
 

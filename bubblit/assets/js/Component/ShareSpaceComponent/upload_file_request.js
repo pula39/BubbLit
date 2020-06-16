@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const uploadFileRequest = (room_id, file) => {
   const data = new FormData();
-  console.log(file)
+  // console.log(file)
   data.append('file', file, "image");
 
   return axios.post(`api/room/upload_image/` + room_id, data, {
