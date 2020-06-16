@@ -33,7 +33,7 @@ class Lobby extends Component {
         var self = this;
         axios.get('/api/room/get/')
             .then(function (response) {
-                console.dir(response);
+                // console.dir(response);
                 let room_list = response.data.data;
                 self.props.refreshRoomList(room_list);
             })

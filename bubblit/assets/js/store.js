@@ -140,7 +140,7 @@ export default createStore(function (state, action) {
             addMessageInBubbleHistory(init_bubble_history, element)
         })
         // console.log('방정보받은거')
-        console.dir(action)
+        // console.dir(action)
         modifiedRoomInfo.bubble_history = init_bubble_history;
         modifiedRoomInfo.tab_action_history = action.tab_action_history;
         modifiedRoomInfo.room_users = action.room_users;
