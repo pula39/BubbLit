@@ -19,8 +19,9 @@ class ShareSpace extends Component {
             customUrl: '',
             mediaurl: '',
             mediaPlayTimeShare: '',
-            mediaCurrentPlayTime: '',
+            mediaCurrentPlayTime: 0,
             mediaIsPlay: true,
+            mediaHostID: '',
             tabIndex: 0,
             redirect: false
         }
@@ -60,7 +61,6 @@ class ShareSpace extends Component {
             })
             this.props.channel.on("tab_action", payload => {
                 var new_action = { user_id: payload['user_id'], type: payload['type'], param: payload['body'], inserted_at: new Date().toISOString() }
-
                 if (new_action.type != 'media_current_time') {
                     // console.log("tab action recieved", new_action)
                 }
@@ -73,11 +73,9 @@ class ShareSpace extends Component {
             })
             this.props.channel.on('get_room_code', payload => {
                 this.props.alert.show(payload.body, { type: 'info', timeout: 0 })
-                // alert(payload.body)
             })
             this.props.channel.on('delete_room', payload => {
                 this.props.alert.show("방이 삭제되었습니다!", { type: 'info' })
-                // alert("방이 터졌어요")
                 this.setState({
                     redirect: true
                 })
@@ -110,7 +108,7 @@ class ShareSpace extends Component {
                 this.setState({
                     tabIndex: tabs['media']
                 })
-                return { mediaurl: body }
+                return { mediaurl: body, mediaHostID: user_id }
             case "media_share_time":
                 this.setState({
                     tabIndex: tabs['media']
@@ -205,7 +203,9 @@ class ShareSpace extends Component {
                     isPlay={this.state.mediaIsPlay}
                     mediaCurrentPlayTime={this.state.mediaCurrentPlayTime}
                     sendTabAction={this.sendTabAction.bind(this)}
-                    presences={this.props.roomInfo.presences} />
+                    presences={this.props.roomInfo.presences}
+                    mediaHostID={this.state.mediaHostID}
+                    userId={this.props.userId} />
             </Tab.Pane>;
 
         let customContent =
