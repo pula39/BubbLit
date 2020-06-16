@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import '../../css/lobby.css'
 import JoinRoom from './JoinRoom'
 import { withAlert } from "react-alert";
+import aichan from '../../static/images/aichan.png'
 
 class Lobby extends Component {
 
@@ -232,6 +233,12 @@ class Lobby extends Component {
                         secondary
                     />
                 </div>
+                <hr />
+                <p align="center">광고 by 권준혁</p>
+                <a href="https://store.steampowered.com/app/1173110/_AI/?l=koreana" target="_blank">
+                    <img width="100%" src={aichan}></img>
+                </a>
+                <hr />
             </div >
         )
 
