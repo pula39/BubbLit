@@ -32,7 +32,7 @@ export default class ImagePanel extends Component {
             responseType: "blob"
         })
             .then(function (response) {
-                console.dir(response);
+                // console.dir(response);
                 let blob = response.data;
                 // console.log(blob)
 

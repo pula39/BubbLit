@@ -69,7 +69,7 @@ export default class ChatModule extends Component {
     chatboxRenderer() {
         var myName = document.getElementById('current-username').innerHTML
         var message = [];
-        console.dir(this.props.roomInfo)
+        // console.dir(this.props.roomInfo)
         if (this.props.roomInfo.presences === undefined) {
             return <p>Loading...</p>
         }
