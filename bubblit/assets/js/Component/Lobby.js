@@ -15,7 +15,7 @@ class Lobby extends Component {
         this.state = {
             isShowOnlyEntered: false,
             // 페이지네이션 구현을 위한 파라미터들, totalPages는 현재 안쓰고있는데 나중에 쓸수도 있음
-            pageItem: 5,
+            pageItem: 15,
             activePage: 1,
             boundaryRange: 2,
             siblingRange: 2,
