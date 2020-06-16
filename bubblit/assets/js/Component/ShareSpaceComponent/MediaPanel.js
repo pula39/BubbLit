@@ -11,8 +11,7 @@ export default class MediaPanel extends Component {
             mediaURLInput: '',
             isShareProgress: true,
             isMediaHost: false,
-            isISharedMedia: false,
-            isPlay: true,
+            isPlay: false,
         }
     }
 
@@ -33,7 +32,6 @@ export default class MediaPanel extends Component {
             }
         }
 
-
         // isPlay 변경시 로직
         // props.isPlay랑 state.isPlay 따로 두는 이유: 플레이어를 사용자가 정지/재생할시 props를 직접 변경시키는 구조가 되면 안 되기 때문에...
         if ((nextProps.isPlay != this.state.isPlay)) {
@@ -44,17 +42,16 @@ export default class MediaPanel extends Component {
             }
         }
 
-        // 유튜브 링크 변경시 로직
-        if (this.props.mediaurl != nextProps.mediaurl) {
-            if (this.state.isISharedMedia) {
+        // 링크 변경시 로직
+        if (this.props.mediaHostID != nextProps.mediaHostID) {
+            if (nextProps.mediaHostID == this.props.userId) {
                 this.setState({
-                    isMediaHost: true,
-                    isISharedMedia: false
+                    isMediaHost: true
                 })
             }
             else {
                 this.setState({
-                    isMediaHost: false,
+                    isMediaHost: false
                 })
             }
         }
@@ -63,8 +60,9 @@ export default class MediaPanel extends Component {
         if (this.props.presences != nextProps.presences) {
             if ((Object.keys(this.props.presences).length == 1) && (Object.keys(nextProps.presences).length == 1)) {
                 this.setState({
-                    isISharedMedia: true
+                    isMediaHost: true,
                 })
+                this.props.sendTabAction("media_is_play", true)
             }
         }
     }
@@ -80,7 +78,6 @@ export default class MediaPanel extends Component {
         var _mediaURLInput = this.state.mediaURLInput
         // 반드시 아래의 tab_action보다 먼저 일어나야 하므로 먼저 할당함.
         this.setState({
-            isISharedMedia: true,
             mediaURLInput: ''
         }, () => {
             this.props.sendTabAction("media_link", _mediaURLInput)
