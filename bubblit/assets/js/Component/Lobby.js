@@ -236,7 +236,7 @@ class Lobby extends Component {
                 <hr />
                 <p align="center">광고 by 권준혁</p>
                 <a href="https://store.steampowered.com/app/1173110/_AI/?l=koreana" target="_blank">
-                    <img width="100%" src={aichan}></img>
+                    <img width="100%" src={aichan} className="ad-image"></img>
                 </a>
                 <hr />
             </div >
