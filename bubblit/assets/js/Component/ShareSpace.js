@@ -38,7 +38,7 @@ class ShareSpace extends Component {
                 var change = { action_history: [...new_tab_action_history] }
                 var actions = []
 
-                console.log(new_tab_action_history)
+                // console.log(new_tab_action_history)
                 new_tab_action_history.reduce((unique, tab_action) => {
                     if (unique.includes(tab_action.type)) {
                         return unique;
@@ -62,7 +62,7 @@ class ShareSpace extends Component {
                 var new_action = { user_id: payload['user_id'], type: payload['type'], param: payload['body'], inserted_at: new Date().toISOString() }
 
                 if (new_action.type != 'media_current_time') {
-                    console.log("tab action recieved", new_action)
+                    // console.log("tab action recieved", new_action)
                 }
                 var change = this.handleTabAction(new_action.type, new_action.param, new_action.user_id)
                 // 액션 히스토리에 추가할 필요 없는 action들은 null을 반환함.
@@ -150,7 +150,7 @@ class ShareSpace extends Component {
     }
 
     handleImageUploadSuccess(file_name) {
-        console.log("handleImageUploadSuccess", file_name)
+        // console.log("handleImageUploadSuccess", file_name)
         this.sendTabAction("img_refreshed", file_name)
     }
 

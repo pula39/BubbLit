@@ -51,13 +51,13 @@ class Room extends Component {
         this.props.channel.join()
             .receive('ok', this.onReceiveOk.bind(this))
             .receive('error', response => {
-                console.log('Unable to join', response)
+                // console.log('Unable to join', response)
                 this.lobbyRedirect()
             });
     }
 
     onReceiveOk(response) {
-        console.log('joined successfully at ', response)
+        // console.log('joined successfully at ', response)
         this.setState({
             isEnter: true
         })
@@ -72,11 +72,11 @@ class Room extends Component {
             }
         })
         this.props.channel.on('user_join', payload => {
-            console.log('user_join', payload);
+            // console.log('user_join', payload);
             this.props.userJoin(payload.user_id, payload.user_name);
         })
         this.props.channel.on('user_quit', payload => {
-            console.log('user_quit', payload);
+            // console.log('user_quit', payload);
             this.props.userQuit(payload.body);
             if (this.props.userId == payload.body) {
                 this.props.alert.show("탈출!");

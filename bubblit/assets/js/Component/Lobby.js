@@ -38,10 +38,10 @@ class Lobby extends Component {
                 self.props.refreshRoomList(room_list);
             })
             .catch(function (error) {
-                console.log(error);
+                // console.log(error);
             });
         this.setState({ totalPages: this.tableContentRender().length })
-        console.log('렝스는', this.tableContentRender())
+        // console.log('렝스는', this.tableContentRender())
     }
 
     userLogout() {
@@ -61,14 +61,14 @@ class Lobby extends Component {
             return false;
         }
 
-        console.log("setRoomIDWithRoomCode")
+        // console.log("setRoomIDWithRoomCode")
         this.props.setRoomIDWithRoomCode(splited[0], splited[1]);
 
         return true;
     }
 
     tableContentRender() {
-        console.log(this.state)
+        // console.log(this.state)
         var content = [];
         var prior_content = [];
         var _roomList = this.props.roomList;
@@ -179,7 +179,7 @@ class Lobby extends Component {
         } = this.state
         let startItem = pageItem * (activePage - 1)
         let endItem = startItem + pageItem
-        console.log(activePage, startItem, endItem)
+        // console.log(activePage, startItem, endItem)
         let totalItem = this.tableContentRender()
         let currentContents = totalItem.slice(startItem, endItem)
         let totalPages = totalItem.length / pageItem

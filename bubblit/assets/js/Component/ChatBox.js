@@ -27,11 +27,11 @@ export default class ChatBox extends Component {
         }
 
         this.scrollbarRef = React.createRef();
-        console.log('chatboxInfo: ', this.state.chatboxInfo);
+        // console.log('chatboxInfo: ', this.state.chatboxInfo);
     }
 
     componentDidMount() {
-        //console.log('new chatbox rendered!');
+        //// console.log('new chatbox rendered!');
         this.handleUpdate();
         this.blurAllMessage();
 
@@ -44,16 +44,16 @@ export default class ChatBox extends Component {
             prevProps.chatboxInfo.height != this.props.chatboxInfo.height ||
             prevProps.chatboxInfo.xPos != this.props.chatboxInfo.xPos ||
             prevProps.chatboxInfo.yPos != this.props.chatboxInfo.yPos) {
-            console.log("채팅창을 리셋하려 합니다.", this.props.chatboxInfo)
-            console.log(this.rnd.size, this.rnd.resize)
-            console.log(this.rnd)
+            // console.log("채팅창을 리셋하려 합니다.", this.props.chatboxInfo)
+            // console.log(this.rnd.size, this.rnd.resize)
+            // console.log(this.rnd)
             this.rnd.updateSize({ width: this.props.chatboxInfo.width, height: this.props.chatboxInfo.height })
             this.rnd.updatePosition({ x: this.props.chatboxInfo.xPos, y: this.props.chatboxInfo.yPos })
         }
 
         if (prevProps.contents.length === this.props.contents.length)
             return;
-        console.log('chatbox' + this.props.chatboxNo + 'updated!');
+        // console.log('chatbox' + this.props.chatboxNo + 'updated!');
         this.handleUpdate();
         this.focusHandler();
         this.blurCurrentSendMessage();
@@ -93,7 +93,7 @@ export default class ChatBox extends Component {
         if (element === undefined) {
             return;
         }
-        //console.log(element);
+        //// console.log(element);
         this.colorChangerByNum(this.props.chatboxNo, element);
         setTimeout(function () {
             this.colorChangerByNum(6, element);
@@ -137,7 +137,7 @@ export default class ChatBox extends Component {
 
                     // 아랫부분 동작 원리를 알기위해 장황한 코딩을 했으나, 추후 수정예정임돠
                     onDragStop={(e, d) => {
-                        console.log("OnDragStop")
+                        // console.log("OnDragStop")
                         e.preventDefault();
                         let tempChatboxInfo = { ...this.state.chatboxInfo };
                         tempChatboxInfo.xPos = d.x;
@@ -145,7 +145,7 @@ export default class ChatBox extends Component {
                         this.setState({ chatboxInfo: tempChatboxInfo });
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
-                        console.log("OnResizeStop")
+                        // console.log("OnResizeStop")
                         e.preventDefault();
                         let tempChatboxInfo = { ...this.state.chatboxInfo };
                         tempChatboxInfo.width = ref.style.width.slice(0, -2);
