@@ -184,9 +184,9 @@ class ShareSpace extends Component {
         }
         else {
             return <div>
-                <Button key={"quit_room"} onClick={function (e, data) {
+                <Button color='red' key={"quit_room"} onClick={function (e, data) {
                     this.props.channel.push("quit_room");
-                }.bind(this)}>방나가기</Button>
+                }.bind(this)}>방 나가기</Button>
             </div>
         }
     }

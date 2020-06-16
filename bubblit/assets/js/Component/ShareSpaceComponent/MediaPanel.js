@@ -157,7 +157,7 @@ export default class MediaPanel extends Component {
         if (Math.abs(recvedTime - this.player.getCurrentTime()) >= 5) {
             return <div>
                 <font>현재 재생시간이 미디어 업로더의 재생시간과 일치하지 않습니다.</font>
-                <Button onClick={this.seekMedia.bind(this)}>동기화</Button>
+                <Button color='green' onClick={this.seekMedia.bind(this)}>동기화</Button>
             </div>
         }
         else {

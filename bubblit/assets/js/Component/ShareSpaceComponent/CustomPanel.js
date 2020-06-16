@@ -31,14 +31,14 @@ export default class CustomPanel extends Component {
     render() {
         return (
             <div className="outerfit">
-                <div>
+                <div style={{ marginBottom: '3px' }}>
                     <input
                         className="input"
                         type="text"
                         value={this.state.customURLInput}
                         onChange={this.handleCustomUrlInput.bind(this)}
                     />
-                    <Button onClick={this.handleCustomUrlClick.bind(this)}>커스텀 링크 변경</Button>
+                    <Button style={{ marginLeft: '3px' }} color='yellow' onClick={this.handleCustomUrlClick.bind(this)}> 링크 변경</Button>
                     <Popup
                         on='click'
                         pinned
@@ -52,9 +52,9 @@ export default class CustomPanel extends Component {
                     </Popup>
                 </div>
                 <iframe width="100%"
-                    height="100%"
+                    height="95%"
                     src={this.props.customUrl}
-                    frameborder="1"></iframe>
+                    frameborder="0"></iframe>
             </div>
         )
     }
